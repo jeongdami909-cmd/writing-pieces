@@ -10,17 +10,17 @@
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200"> 
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Cinzel:wght@400;600;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
 
         /* ==========================================
            기본 사이트 스타일 (문장 아카이브)
            ========================================== */
         :root { --bg: #000; --card-bg: #fff; --text: #1a1a1a; --accent: #d4af37; }
         html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        body { background: var(--bg); color: #fff; font-family: 'Noto Serif KR', 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
         
         header { padding: 40px 20px; text-align: center; position: relative; z-index: 10; }
-        h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); margin: 0; }
+        h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); margin: 0; font-family: 'serif'; }
         
         .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; position: relative; z-index: 10; }
         .category-menu button { background: #222; border: 1px solid #666; color: #ccc; padding: 12px 20px; cursor: pointer; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; }
@@ -41,453 +41,64 @@
         .tw-btn { border: 1px solid #1a1a1a; background: #000; color: #fff; padding: 14px; text-decoration: none; font-weight: bold; font-size: 0.8rem; cursor: pointer; text-align: center; }
 
         /* ==========================================
-           새로운 클래식 포스터 페이지 전용 스타일
+           스페셜 1: 키아누 리브스 스타일
            ========================================== */
         #keanu-poster-wrapper {
-            display: none; /* 기본은 숨김 */
-            --cream: #f2ead8;
-            --rust: #c0392b;
-            --gold: #b8860b;
-            --dark: #0e0c0a;
-            --mid: #2a2420;
-            --warm-gray: #8a7f74;
-            background: var(--dark);
-            font-family: 'DM Mono', monospace;
-            color: var(--cream);
-            width: 100%;
-            position: relative;
-            z-index: 1;
+            display: none; 
+            --cream: #f2ead8; --rust: #c0392b; --gold: #b8860b; --dark: #0e0c0a; --mid: #2a2420; --warm-gray: #8a7f74;
+            background: var(--dark); font-family: 'DM Mono', monospace; color: var(--cream);
+            width: 100%; position: relative; z-index: 1;
         }
-
-        #keanu-poster-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.035;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            background-size: 200px;
-        }
-
+        #keanu-poster-wrapper::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
         #keanu-poster-wrapper * { box-sizing: border-box; }
-
-        #keanu-poster-wrapper .poster {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 0 80px;
-            position: relative;
-            z-index: 1;
-        }
-
-        #keanu-poster-wrapper .top-band {
-            background: var(--rust);
-            padding: 10px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.62rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--cream);
-            opacity: 0;
-            animation: fadeDown 0.6s 0.1s forwards;
-        }
-
-        #keanu-poster-wrapper .hero {
-            position: relative;
-            padding: 60px 50px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 70vh;
-        }
-
-        #keanu-poster-wrapper .hero-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding-bottom: 50px;
-            opacity: 0;
-            animation: fadeUp 0.9s 0.3s forwards;
-        }
-
-        #keanu-poster-wrapper .label-small {
-            font-size: 0.65rem;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--rust);
-            margin-bottom: 18px;
-        }
-
-        #keanu-poster-wrapper .main-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(5rem, 12vw, 9.5rem);
-            line-height: 0.88;
-            letter-spacing: 0.03em;
-            color: var(--cream);
-            text-shadow: 6px 6px 0 var(--rust);
-            margin: 0;
-        }
-
-        #keanu-poster-wrapper .main-title span {
-            display: block;
-            color: var(--gold);
-            text-shadow: 4px 4px 0 var(--dark);
-        }
-
-        #keanu-poster-wrapper .hero-sub {
-            margin-top: 24px;
-            font-size: 0.72rem;
-            letter-spacing: 0.25em;
-            color: var(--warm-gray);
-            text-transform: uppercase;
-            line-height: 2;
-            max-width: 280px;
-        }
-
-        #keanu-poster-wrapper .hero-right {
-            opacity: 0;
-            animation: fadeUp 0.9s 0.5s forwards;
-        }
-
-        #keanu-poster-wrapper .portrait-frame {
-            width: 100%;
-            height: 100%;
-            min-height: 480px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #keanu-poster-wrapper .portrait-frame::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(135deg, rgba(192,57,43,0.25) 0%, transparent 50%),
-                linear-gradient(to bottom, transparent 60%, var(--dark) 100%);
-            z-index: 2;
-        }
-
-        #keanu-poster-wrapper .silhouette {
-            width: 100%;
-            height: 100%;
-            min-height: 480px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            background: radial-gradient(ellipse 60% 80% at 50% 30%, #2a2420 0%, var(--dark) 100%);
-        }
-
+        #keanu-poster-wrapper .poster { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 0 80px; position: relative; z-index: 1; }
+        #keanu-poster-wrapper .top-band { background: var(--rust); padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cream); opacity: 0; animation: fadeDown 0.6s 0.1s forwards; }
+        #keanu-poster-wrapper .hero { position: relative; padding: 60px 50px 0; display: grid; grid-template-columns: 1fr 1fr; min-height: 70vh; }
+        #keanu-poster-wrapper .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 50px; opacity: 0; animation: fadeUp 0.9s 0.3s forwards; }
+        #keanu-poster-wrapper .label-small { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--rust); margin-bottom: 18px; }
+        #keanu-poster-wrapper .main-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 12vw, 9.5rem); line-height: 0.88; letter-spacing: 0.03em; color: var(--cream); text-shadow: 6px 6px 0 var(--rust); margin: 0; }
+        #keanu-poster-wrapper .main-title span { display: block; color: var(--gold); text-shadow: 4px 4px 0 var(--dark); }
+        #keanu-poster-wrapper .hero-sub { margin-top: 24px; font-size: 0.72rem; letter-spacing: 0.25em; color: var(--warm-gray); text-transform: uppercase; line-height: 2; max-width: 280px; }
+        #keanu-poster-wrapper .hero-right { opacity: 0; animation: fadeUp 0.9s 0.5s forwards; }
+        #keanu-poster-wrapper .portrait-frame { width: 100%; height: 100%; min-height: 480px; position: relative; overflow: hidden; }
+        #keanu-poster-wrapper .portrait-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.25) 0%, transparent 50%), linear-gradient(to bottom, transparent 60%, var(--dark) 100%); z-index: 2; }
+        #keanu-poster-wrapper .silhouette { width: 100%; height: 100%; min-height: 480px; display: flex; align-items: flex-end; justify-content: center; background: radial-gradient(ellipse 60% 80% at 50% 30%, #2a2420 0%, var(--dark) 100%); }
         #keanu-poster-wrapper .figure { position: relative; width: 160px; height: 420px; }
-
-        #keanu-poster-wrapper .figure-head {
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 56px; height: 62px;
-            background: #3a3028;
-            border-radius: 50% 50% 42% 42%;
-            box-shadow: inset -6px -8px 18px rgba(0,0,0,0.5), 0 0 40px rgba(184,134,11,0.15);
-        }
-
-        #keanu-poster-wrapper .figure-neck {
-            position: absolute;
-            top: 58px; left: 50%;
-            transform: translateX(-50%);
-            width: 22px; height: 20px;
-            background: #2e2620;
-        }
-
-        #keanu-poster-wrapper .figure-coat {
-            position: absolute;
-            top: 70px; left: 50%;
-            transform: translateX(-50%);
-            width: 110px; height: 280px;
-            background: linear-gradient(170deg, #1c1814 0%, #0e0c0a 100%);
-            clip-path: polygon(18% 0%, 82% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%);
-            box-shadow: inset -10px 0 30px rgba(0,0,0,0.6);
-        }
-
-        #keanu-poster-wrapper .figure-coat::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 50px; height: 90px;
-            background: linear-gradient(180deg, #292420 0%, transparent 100%);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-        }
-
-        #keanu-poster-wrapper .figure-coat::after {
-            content: '';
-            position: absolute;
-            top: 48%; left: 0; right: 0;
-            height: 6px;
-            background: #2a2420;
-        }
-
-        #keanu-poster-wrapper .figure-legs {
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 80px; height: 95px;
-            display: flex;
-            gap: 8px;
-        }
-
-        #keanu-poster-wrapper .leg {
-            flex: 1;
-            background: linear-gradient(180deg, #181512 0%, #0e0c0a 100%);
-            border-radius: 0 0 4px 4px;
-        }
-
-        #keanu-poster-wrapper .figure::after {
-            content: '';
-            position: absolute;
-            bottom: -10px; left: 50%;
-            transform: translateX(-50%);
-            width: 120px; height: 20px;
-            background: radial-gradient(ellipse, rgba(0,0,0,0.7) 0%, transparent 80%);
-        }
-
-        #keanu-poster-wrapper .rim-light {
-            position: absolute;
-            top: 0; right: 0;
-            width: 2px; height: 100%;
-            background: linear-gradient(180deg, transparent, rgba(184,134,11,0.4), transparent);
-        }
-
-        #keanu-poster-wrapper .deco-rule {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 0 50px;
-            margin: 50px 0 0;
-            opacity: 0;
-            animation: fadeUp 0.7s 0.7s forwards;
-        }
-
-        #keanu-poster-wrapper .rule-line {
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        }
-
-        #keanu-poster-wrapper .rule-diamond {
-            width: 8px; height: 8px;
-            background: var(--rust);
-            transform: rotate(45deg);
-            flex-shrink: 0;
-        }
-
-        #keanu-poster-wrapper .rule-text {
-            font-size: 0.6rem;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: var(--gold);
-            white-space: nowrap;
-        }
-
-        #keanu-poster-wrapper .tagline-banner {
-            background: var(--rust);
-            margin: 20px 50px 0;
-            padding: 16px 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            opacity: 0;
-            animation: fadeUp 0.7s 0.85s forwards;
-        }
-
-        #keanu-poster-wrapper .tag-label {
-            font-size: 0.6rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(242,234,216,0.5);
-            white-space: nowrap;
-        }
-
-        #keanu-poster-wrapper .tag-text {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 1.05rem;
-            color: var(--cream);
-            line-height: 1.4;
-        }
-
-        #keanu-poster-wrapper .story-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            margin: 40px 50px 0;
-            background: rgba(184,134,11,0.15);
-            border: 1px solid rgba(184,134,11,0.15);
-            opacity: 0;
-            animation: fadeUp 0.8s 1s forwards;
-        }
-
-        #keanu-poster-wrapper .story-card {
-            background: var(--mid);
-            padding: 32px 28px;
-            position: relative;
-            overflow: hidden;
-            transition: background 0.3s;
-        }
-
+        #keanu-poster-wrapper .figure-head { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 56px; height: 62px; background: #3a3028; border-radius: 50% 50% 42% 42%; box-shadow: inset -6px -8px 18px rgba(0,0,0,0.5), 0 0 40px rgba(184,134,11,0.15); }
+        #keanu-poster-wrapper .figure-neck { position: absolute; top: 58px; left: 50%; transform: translateX(-50%); width: 22px; height: 20px; background: #2e2620; }
+        #keanu-poster-wrapper .figure-coat { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); width: 110px; height: 280px; background: linear-gradient(170deg, #1c1814 0%, #0e0c0a 100%); clip-path: polygon(18% 0%, 82% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%); box-shadow: inset -10px 0 30px rgba(0,0,0,0.6); }
+        #keanu-poster-wrapper .figure-coat::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 90px; background: linear-gradient(180deg, #292420 0%, transparent 100%); clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        #keanu-poster-wrapper .figure-coat::after { content: ''; position: absolute; top: 48%; left: 0; right: 0; height: 6px; background: #2a2420; }
+        #keanu-poster-wrapper .figure-legs { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 95px; display: flex; gap: 8px; }
+        #keanu-poster-wrapper .leg { flex: 1; background: linear-gradient(180deg, #181512 0%, #0e0c0a 100%); border-radius: 0 0 4px 4px; }
+        #keanu-poster-wrapper .figure::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 120px; height: 20px; background: radial-gradient(ellipse, rgba(0,0,0,0.7) 0%, transparent 80%); }
+        #keanu-poster-wrapper .rim-light { position: absolute; top: 0; right: 0; width: 2px; height: 100%; background: linear-gradient(180deg, transparent, rgba(184,134,11,0.4), transparent); }
+        #keanu-poster-wrapper .deco-rule { display: flex; align-items: center; gap: 16px; padding: 0 50px; margin: 50px 0 0; opacity: 0; animation: fadeUp 0.7s 0.7s forwards; }
+        #keanu-poster-wrapper .rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        #keanu-poster-wrapper .rule-diamond { width: 8px; height: 8px; background: var(--rust); transform: rotate(45deg); flex-shrink: 0; }
+        #keanu-poster-wrapper .rule-text { font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+        #keanu-poster-wrapper .tagline-banner { background: var(--rust); margin: 20px 50px 0; padding: 16px 30px; display: flex; align-items: center; gap: 20px; opacity: 0; animation: fadeUp 0.7s 0.85s forwards; }
+        #keanu-poster-wrapper .tag-label { font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(242,234,216,0.5); white-space: nowrap; }
+        #keanu-poster-wrapper .tag-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--cream); line-height: 1.4; }
+        #keanu-poster-wrapper .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 40px 50px 0; background: rgba(184,134,11,0.15); border: 1px solid rgba(184,134,11,0.15); opacity: 0; animation: fadeUp 0.8s 1s forwards; }
+        #keanu-poster-wrapper .story-card { background: var(--mid); padding: 32px 28px; position: relative; overflow: hidden; transition: background 0.3s; }
         #keanu-poster-wrapper .story-card:hover { background: #332e28; }
-
-        #keanu-poster-wrapper .story-card::before {
-            content: attr(data-num);
-            position: absolute;
-            top: -10px; right: 16px;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 5rem;
-            color: rgba(192,57,43,0.08);
-            line-height: 1;
-            pointer-events: none;
-        }
-
-        #keanu-poster-wrapper .card-icon {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: var(--rust);
-        }
-
-        #keanu-poster-wrapper .card-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 0.08em;
-            color: var(--cream);
-            margin-bottom: 12px;
-        }
-
-        #keanu-poster-wrapper .card-amount {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            color: var(--gold);
-            display: block;
-            margin-bottom: 10px;
-            letter-spacing: 0.05em;
-        }
-
-        #keanu-poster-wrapper .card-body {
-            font-size: 0.78rem;
-            line-height: 1.8;
-            color: #9e9188;
-            font-weight: 300;
-        }
-
-        #keanu-poster-wrapper .quote-section {
-            margin: 40px 50px 0;
-            padding: 50px 60px;
-            background: var(--dark);
-            border: 1px solid rgba(184,134,11,0.2);
-            border-left: 4px solid var(--rust);
-            position: relative;
-            opacity: 0;
-            animation: fadeUp 0.8s 1.2s forwards;
-        }
-
-        #keanu-poster-wrapper .quote-section::before {
-            content: '\201C';
-            position: absolute;
-            top: -20px; left: 40px;
-            font-family: 'Playfair Display', serif;
-            font-size: 8rem;
-            color: var(--rust);
-            opacity: 0.3;
-            line-height: 1;
-        }
-
-        #keanu-poster-wrapper .quote-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            line-height: 1.7;
-            color: var(--cream);
-            font-style: italic;
-        }
-
-        #keanu-poster-wrapper .quote-source {
-            margin-top: 20px;
-            font-size: 0.65rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--rust);
-        }
-
-        #keanu-poster-wrapper .bottom-strip {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 30px;
-            margin: 40px 50px 0;
-            padding-top: 30px;
-            border-top: 1px solid rgba(184,134,11,0.2);
-            opacity: 0;
-            animation: fadeUp 0.7s 1.4s forwards;
-        }
-
-        #keanu-poster-wrapper .hashtag-display {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            letter-spacing: 0.05em;
-            color: var(--rust);
-            text-shadow: 3px 3px 0 rgba(192,57,43,0.2);
-        }
-
-        #keanu-poster-wrapper .star-divider {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            color: var(--gold);
-            font-size: 0.8rem;
-        }
-
-        #keanu-poster-wrapper .year-text {
-            text-align: right;
-            font-size: 0.68rem;
-            letter-spacing: 0.25em;
-            color: var(--warm-gray);
-            line-height: 2;
-            text-transform: uppercase;
-        }
-
-        #keanu-poster-wrapper .final-band {
-            background: var(--mid);
-            margin: 40px 50px 0;
-            padding: 18px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 2px solid var(--rust);
-            opacity: 0;
-            animation: fadeUp 0.6s 1.6s forwards;
-        }
-
-        #keanu-poster-wrapper .fb-left {
-            font-size: 0.6rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: var(--warm-gray);
-        }
-
-        #keanu-poster-wrapper .fb-right {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 0.2em;
-            color: var(--gold);
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(28px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        #keanu-poster-wrapper .story-card::before { content: attr(data-num); position: absolute; top: -10px; right: 16px; font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(192,57,43,0.08); line-height: 1; pointer-events: none; }
+        #keanu-poster-wrapper .card-icon { font-size: 1.1rem; margin-bottom: 12px; color: var(--rust); }
+        #keanu-poster-wrapper .card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--cream); margin-bottom: 12px; }
+        #keanu-poster-wrapper .card-amount { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); display: block; margin-bottom: 10px; letter-spacing: 0.05em; }
+        #keanu-poster-wrapper .card-body { font-size: 0.78rem; line-height: 1.8; color: #9e9188; font-weight: 300; }
+        #keanu-poster-wrapper .quote-section { margin: 40px 50px 0; padding: 50px 60px; background: var(--dark); border: 1px solid rgba(184,134,11,0.2); border-left: 4px solid var(--rust); position: relative; opacity: 0; animation: fadeUp 0.8s 1.2s forwards; }
+        #keanu-poster-wrapper .quote-section::before { content: '\201C'; position: absolute; top: -20px; left: 40px; font-family: 'Playfair Display', serif; font-size: 8rem; color: var(--rust); opacity: 0.3; line-height: 1; }
+        #keanu-poster-wrapper .quote-text { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 2.5vw, 1.5rem); line-height: 1.7; color: var(--cream); font-style: italic; }
+        #keanu-poster-wrapper .quote-source { margin-top: 20px; font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--rust); }
+        #keanu-poster-wrapper .bottom-strip { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 30px; margin: 40px 50px 0; padding-top: 30px; border-top: 1px solid rgba(184,134,11,0.2); opacity: 0; animation: fadeUp 0.7s 1.4s forwards; }
+        #keanu-poster-wrapper .hashtag-display { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: 0.05em; color: var(--rust); text-shadow: 3px 3px 0 rgba(192,57,43,0.2); }
+        #keanu-poster-wrapper .star-divider { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--gold); font-size: 0.8rem; }
+        #keanu-poster-wrapper .year-text { text-align: right; font-size: 0.68rem; letter-spacing: 0.25em; color: var(--warm-gray); line-height: 2; text-transform: uppercase; }
+        #keanu-poster-wrapper .final-band { background: var(--mid); margin: 40px 50px 0; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--rust); opacity: 0; animation: fadeUp 0.6s 1.6s forwards; }
+        #keanu-poster-wrapper .fb-left { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--warm-gray); }
+        #keanu-poster-wrapper .fb-right { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gold); }
 
         @media (max-width: 640px) {
             #keanu-poster-wrapper .hero { grid-template-columns: 1fr; padding: 40px 24px 0; }
@@ -505,6 +116,147 @@
             #keanu-poster-wrapper .bottom-strip { grid-template-columns: 1fr; text-align: center; }
             #keanu-poster-wrapper .year-text { text-align: center; }
             #keanu-poster-wrapper .final-band { flex-direction: column; gap: 8px; text-align: center; }
+        }
+
+        /* ==========================================
+           스페셜 2: 조지 6세 전용 스타일
+           ========================================== */
+        #george-wrapper {
+            display: none;
+            --g-navy: #1B263B;
+            --g-gold: #C5A880;
+            --g-cream: #F9F6F0;
+            --g-red: #8B0000;
+            --g-dark: #0D1321;
+            background: var(--g-dark);
+            color: var(--g-cream);
+            width: 100%; position: relative; z-index: 1;
+            padding: 40px 20px 80px;
+        }
+
+        #george-wrapper * { box-sizing: border-box; font-family: 'Noto Serif KR', 'Playfair Display', serif; }
+
+        #george-wrapper .g-poster {
+            max-width: 860px;
+            margin: 0 auto;
+            background: var(--g-navy);
+            border: 8px solid var(--g-gold);
+            outline: 2px solid var(--g-navy);
+            outline-offset: -12px;
+            padding: 60px 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        #george-wrapper .g-header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid rgba(197, 168, 128, 0.3);
+            padding-bottom: 40px;
+        }
+
+        #george-wrapper .g-royal-seal {
+            font-size: 3rem;
+            color: var(--g-gold);
+            margin-bottom: 10px;
+        }
+
+        #george-wrapper .g-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            color: var(--g-cream);
+            letter-spacing: 0.1em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #george-wrapper .g-subtitle {
+            font-family: 'Cinzel', serif;
+            color: var(--g-gold);
+            font-size: 1rem;
+            letter-spacing: 0.3em;
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+        #george-wrapper .g-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        #george-wrapper .g-block {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-top: 3px solid var(--g-red);
+        }
+
+        #george-wrapper .g-block-num {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--g-gold);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        #george-wrapper .g-block-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--g-cream);
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        #george-wrapper .g-block-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            word-break: keep-all;
+        }
+
+        #george-wrapper .g-highlight {
+            color: var(--g-gold);
+            font-weight: bold;
+        }
+
+        #george-wrapper .g-quote-box {
+            background: var(--g-dark);
+            padding: 40px;
+            text-align: center;
+            border-left: 4px solid var(--g-gold);
+            border-right: 4px solid var(--g-gold);
+            margin: 50px 0;
+        }
+
+        #george-wrapper .g-quote {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            font-style: italic;
+            color: var(--g-cream);
+        }
+
+        #george-wrapper .g-footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--g-gold);
+            letter-spacing: 0.1em;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            #george-wrapper .g-grid { grid-template-columns: 1fr; }
+            #george-wrapper .g-poster { padding: 40px 20px; }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -566,6 +318,7 @@
 
 <div id="sub-special" class="sub-menu">
     <button onclick="loadKeanu(this)" style="color: #f2ead8; background: #c0392b; border-color: #c0392b;">#KEANUREEVES</button>
+    <button onclick="loadGeorge(this)" style="color: #F9F6F0; background: #1B263B; border-color: #C5A880;">#GEORGE_VI</button>
 </div>
 
 <div id="display-card" class="card">
@@ -584,7 +337,6 @@
             <span>★ ★ ★ ★ ★</span>
             <span>Est. 1964 — Beirut</span>
         </div>
-
         <div class="hero">
             <div class="hero-left">
                 <p class="label-small">The World Presents</p>
@@ -613,7 +365,6 @@
                 </div>
             </div>
         </div>
-
         <div class="deco-rule">
             <div class="rule-line"></div>
             <div class="rule-diamond"></div>
@@ -621,14 +372,12 @@
             <div class="rule-diamond"></div>
             <div class="rule-line"></div>
         </div>
-
         <div class="tagline-banner">
             <span class="tag-label">Tagline</span>
             <span class="tag-text">
                 "이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."
             </span>
         </div>
-
         <div class="story-grid">
             <div class="story-card" data-num="01">
                 <div class="card-icon">◈</div>
@@ -641,7 +390,6 @@
                     어떤 카메라도, 어떤 기자도 없이.
                 </p>
             </div>
-
             <div class="story-card" data-num="02">
                 <div class="card-icon">◈</div>
                 <div class="card-title">Stunt Doubles Gift</div>
@@ -653,7 +401,6 @@
                     발표도, 홍보도 없이.
                 </p>
             </div>
-
             <div class="story-card" data-num="03">
                 <div class="card-icon">◈</div>
                 <div class="card-title">Salary Sacrifice</div>
@@ -664,7 +411,6 @@
                     그는 돈보다 영화를 선택했다.
                 </p>
             </div>
-
             <div class="story-card" data-num="04">
                 <div class="card-icon">◈</div>
                 <div class="card-title">Los Angeles · 1997</div>
@@ -677,7 +423,6 @@
                 </p>
             </div>
         </div>
-
         <div class="quote-section">
             <p class="quote-text">
                 대부분의 스타들은 자선을 베풀 때 모든 미디어에 선언한다.<br>
@@ -687,7 +432,6 @@
             </p>
             <p class="quote-source">— A Witness To Quiet Greatness</p>
         </div>
-
         <div class="bottom-strip">
             <div class="hashtag-display">#KEANUREEVES</div>
             <div class="star-divider">
@@ -701,10 +445,65 @@
                 The World
             </div>
         </div>
-
         <div class="final-band">
             <span class="fb-left">이 사람은 모든 것을 살 수 있었다</span>
             <span class="fb-right">그래서 선함을 선택했다 ★</span>
+        </div>
+    </div>
+</div>
+
+<div id="george-wrapper">
+    <div class="g-poster">
+        <div class="g-header">
+            <div class="g-royal-seal">♔</div>
+            <h1 class="g-title">GEORGE VI</h1>
+            <p class="g-subtitle">The Reluctant King · The Voice of Courage</p>
+        </div>
+
+        <div class="g-grid">
+            <div class="g-block">
+                <span class="g-block-num">I.</span>
+                <div class="g-block-title">준비되지 않았던 왕</div>
+                <div class="g-block-text">
+                    본래 왕이 될 운명이 아니었습니다. 원래 형인 에드워드 8세가 왕위 계승자였으나, 형이 사랑을 위해 왕위를 포기하는 <span class="g-highlight">사상 초유의 사건(세기의 로맨스)</span>이 벌어지면서 동생이었던 조지 6세가 갑작스럽게 왕위에 오르게 되었습니다. 성격이 내성적이고 대중 앞에 서는 것을 두려워했던 그에게는 엄청난 부담이었습니다.
+                </div>
+            </div>
+            
+            <div class="g-block">
+                <span class="g-block-num">II.</span>
+                <div class="g-block-title">말더듬이를 극복한 용기</div>
+                <div class="g-block-text">
+                    심한 말더듬이 증상이 있었습니다. 라디오 방송이 중요해지던 시대에 왕으로서 대중 연설을 해야 한다는 것은 그에게 큰 고통이었지만, 언어 치료사 라이오넬 로그의 도움을 받아 이를 극복해 나갔습니다. 이 과정이 바로 영화 <span class="g-highlight">'킹스 스피치'</span>의 핵심 내용입니다.
+                </div>
+            </div>
+
+            <div class="g-block">
+                <span class="g-block-num">III.</span>
+                <div class="g-block-title">제2차 세계대전의 정신적 지주</div>
+                <div class="g-block-text">
+                    그가 가장 존경받는 이유는 전쟁 중의 행보 때문입니다. 제2차 세계대전 당시 런던이 독일군의 폭격을 받을 때도 피난을 가지 않고 <span class="g-highlight">버킹엄 궁전에 남아서 국민들과 고통을 함께했습니다.</span> 매주 라디오 연설을 통해 국민들에게 용기를 북돋워 주며 승리의 정신적 지주 역할을 했습니다.
+                </div>
+            </div>
+
+            <div class="g-block">
+                <span class="g-block-num">IV.</span>
+                <div class="g-block-title">엘리자베스 2세 여왕의 아버지</div>
+                <div class="g-block-text">
+                    우리가 잘 아는 고(故) 엘리자베스 2세 여왕의 아버지입니다. 여왕은 아버지를 매우 존경했고, 조지 6세가 56세라는 비교적 젊은 나이에 서거하자 그 뒤를 이어 왕위에 올랐습니다. 1925년 웸블리 전시회에서 미끄럼틀을 타던 천진난만한 청년은, 훗날 영국을 지탱하는 가장 거대한 기둥이 되었습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="g-quote-box">
+            <div class="g-quote">
+                "이제야 이웃들(런던 시민들)의 얼굴을 똑바로 볼 수 있겠다."<br>
+                <span style="font-size: 0.8rem; color: #8a7f74; display: block; margin-top: 15px; font-style: normal; letter-spacing: 0.1em;">- 폭격당한 버킹엄 궁전을 바라보며</span>
+            </div>
+        </div>
+
+        <div class="g-footer">
+            KING GEORGE VI (1895 — 1952)<br>
+            A SYMBOL OF DUTY AND RESILIENCE
         </div>
     </div>
 </div>
@@ -720,6 +519,7 @@
         // 카테고리 전환 시 컨텐츠 창 모두 숨기기
         document.getElementById('display-card').style.display = 'none';
         document.getElementById('keanu-poster-wrapper').style.display = 'none';
+        document.getElementById('george-wrapper').style.display = 'none';
     } 
 
     const database = {
@@ -935,8 +735,9 @@
         document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
 
-        // 포스터 버전 숨기고 일반 카드 보여주기
+        // 다른 페이지들 숨기고 일반 카드 보여주기
         document.getElementById('keanu-poster-wrapper').style.display = 'none';
+        document.getElementById('george-wrapper').style.display = 'none';
         
         const data = database[key];
         currentList = data.list;
@@ -951,16 +752,31 @@
         document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
 
-        // 일반 카드 숨기고 포스터 보여주기
         document.getElementById('display-card').style.display = 'none';
+        document.getElementById('george-wrapper').style.display = 'none';
         
         const kw = document.getElementById('keanu-poster-wrapper');
         kw.style.display = 'block';
 
-        // CSS 애니메이션을 처음부터 다시 재생하기 위한 리플로우(Reflow) 트릭
         kw.style.animation = 'none';
-        kw.offsetHeight; // 트리거
+        kw.offsetHeight; 
         kw.style.animation = null; 
+    }
+
+    /* 조지 6세 스페셜 페이지 불러오기 */
+    function loadGeorge(btnElement) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        document.getElementById('display-card').style.display = 'none';
+        document.getElementById('keanu-poster-wrapper').style.display = 'none';
+        
+        const gw = document.getElementById('george-wrapper');
+        gw.style.display = 'block';
+
+        gw.style.animation = 'none';
+        gw.offsetHeight; 
+        gw.style.animation = null; 
     }
 
     function showRandom() {
@@ -973,8 +789,7 @@
         document.getElementById('lyric').innerText = text;
 
         const tweetText = encodeURIComponent(text + "\n\n#SentenceArchive");
-        document.getElementById('tw').href =
-            `https://twitter.com/intent/tweet?text=${tweetText}`;
+        document.getElementById('tw').href = `https://twitter.com/intent/tweet?text=${tweetText}`;
     }
 
     function refresh() {

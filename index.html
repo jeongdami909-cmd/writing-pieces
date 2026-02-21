@@ -7,7 +7,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="My Sentence Archive">
     <meta name="twitter:description" content="나만의 문장 저장소 🦋">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200"> 
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200">
 
     <style>
         :root { --bg: #000; --card-bg: #fff; --text: #1a1a1a; --accent: #d4af37; }
@@ -18,13 +18,13 @@
         .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; }
         .category-menu button { background: #222; border: 1px solid #666; color: #ccc; padding: 12px 20px; cursor: pointer; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: #fff; }
-        .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(212,175,55,0.5); } 
+        .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(212,175,55,0.5); }
 
         .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; }
         .sub-menu.active { display: flex; }
         .sub-menu button { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 14px; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 0.8rem; }
         .sub-menu button:hover { background: rgba(212,175,55,0.2); }
-        .sub-menu button.active { background: var(--accent); color: #000; } 
+        .sub-menu button.active { background: var(--accent); color: #000; }
 
         .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 500px; min-height: 300px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; margin-bottom: 50px; }
         .emoji { font-size: 2.5rem; margin-bottom: 25px; }
@@ -35,15 +35,15 @@
     </style>
 </head>
 <body>
-<header><h1>SENTENCE ARCHIVE</h1></header> 
+<header><h1>SENTENCE ARCHIVE</h1></header>
 
 <div class="category-menu">
     <button onclick="showSubMenu('bts', this)">BTS</button>
+    <button onclick="showSubMenu('idol', this)">아이돌</button>
     <button onclick="showSubMenu('bible', this)">말씀</button>
     <button onclick="showSubMenu('lit', this)">시 / 문학</button>
     <button onclick="showSubMenu('hiphop', this)">힙합</button>
-    <button onclick="showSubMenu('ballad', this)">발라드 / 팝</button>
-</div> 
+</div>
 
 <div id="sub-bts" class="sub-menu">
     <button onclick="loadContent('spring', this)">봄날</button>
@@ -52,13 +52,18 @@
     <button onclick="loadContent('bts', this)">BUTTERFLY</button>
     <button onclick="loadContent('singularity', this)">V - Singularity</button>
     <button onclick="loadContent('euphoria', this)">정국 - Euphoria</button>
-</div> 
+    <button onclick="loadContent('still', this)">정국 - Still With You</button>
+</div>
+
+<div id="sub-idol" class="sub-menu">
+    <button onclick="loadContent('nct', this)">NCT - PIANO</button>
+</div>
 
 <div id="sub-bible" class="sub-menu">
     <button onclick="loadContent('psalm1', this)">시편 1편</button>
     <button onclick="loadContent('psalm18', this)">시편 18편</button>
     <button onclick="loadContent('psalm23', this)">시편 23편</button>
-</div> 
+</div>
 
 <div id="sub-lit" class="sub-menu">
     <button onclick="loadContent('hamlet', this)">햄릿 독백</button>
@@ -66,19 +71,14 @@
     <button onclick="loadContent('bird', this)">심보선 - 새</button>
     <button onclick="loadContent('stone', this)">김남주 - 돌멩이</button>
     <button onclick="loadContent('toyou', this)">진은영 - 너에게</button>
-</div> 
+</div>
 
 <div id="sub-hiphop" class="sub-menu">
     <button onclick="loadContent('poison', this)">이센스 - 독</button>
     <button onclick="loadContent('epik', this)">에픽하이 - 빈차</button>
     <button onclick="loadContent('mapthesoul', this)">에픽하이 - Map the Soul</button>
     <button onclick="loadContent('endofworld', this)">에픽하이 - End of the World</button>
-</div> 
-
-<div id="sub-ballad" class="sub-menu">
-    <button onclick="loadContent('still', this)">정국 - Still With You</button>
-    <button onclick="loadContent('nct', this)">NCT - PIANO</button>
-</div> 
+</div>
 
 <div id="display-card" class="card">
     <div id="emoji" class="emoji"></div>
@@ -87,18 +87,18 @@
         <button onclick="refresh()" id="refresh-btn">NEXT SENTENCE</button>
         <a id="tw" href="#" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
     </div>
-</div> 
+</div>
 
 <script>
     let currentCategory = '';
-    
+
     function showSubMenu(categoryName, btnElement) {
         document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
         document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('active'));
         document.getElementById('sub-' + categoryName).classList.add('active');
         document.getElementById('display-card').style.display = 'none';
-    } 
+    }
 
     const database = {
         spring: { emoji: "🌸", list: [
@@ -195,7 +195,7 @@
             "여호와는 나의 목자시니 내게 부족함이 없으리로다\n그가 나를 푸른 풀밭에 누이시며\n쉴 만한 물 가로 인도하시는도다 (시편 23:1-2)",
             "내 영혼을 소생시키시고\n자기 이름을 위하여 의의 길로 인도하시는도다\n내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은\n주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다 (시편 23:3-4)",
             "주께서 내 원수의 목전에서 내게 상을 차려 주시고\n기름을 내 머리에 부으셨으니 내 잔이 넘치나이다\n내 평생에 선하심과 인자하심이 반드시 나를 따르리니\n내가 여호와의 집에 영원히 살리로다 (시편 23:5-6)"
-        ]}, 
+        ]},
 
         hamlet: { emoji: "💀", list: [
             "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them.",
@@ -238,7 +238,7 @@
             "너에게는 촛불 앞에서 흔들리는 흰 얼굴이 어울린다\n어둠과 빛을 아는 인어의 얼굴이\n나는 조용한 개들과 잠든 깃털, 새벽의 술집에서 잃어버린 시구를 찾고 있다\n너에게 어울리는",
             "너에게는 내가 잘 어울린다\n우리는 손을 잡고 어둠을 헤엄치고 빛 속을 걷는다\n네 손에는 끈적거리는 달콤한 망고들\n네 영혼에는 망각을 자르는 가위들이 솟아나는 저녁이 어울린다",
             "너에게는 어린 시절의 비밀이 나에게는 빈 새장이 잘 어울린다\n피에 젖은 오후의 하늘로 날아오르는 새들이"
-        ] }, 
+        ] },
 
         poison: { emoji: "🐍", list: [
             "시간 지나 먼지 덮인 많은 기억\n시간 지나면서 내 몸에 쌓인 독\n자유롭고 싶은 게 전보다 훨씬 더 심해진 요즘\n난 정확히 반쯤 죽어있어\n눈에 보이는 건 아니지만 난 믿은 것\n그게 날 이끌던 걸 느낀 적 있지 분명\n그 시작을 기억해 나를 썩히던 모든 걸 비워내\n붙잡아야지 잃어가던 것",
@@ -278,10 +278,10 @@
             "I don't believe\nAnything that I see on TV\n확성기\n듣기 좋은 말만 떠들지\n쓰디쓴 진실보단 달콤한 거짓이\n배를 불리니까 이빨까면 죄다 썩은 이\nI don't need a priest\nI need a goddam law degree\n나에게만 왜 항상 유죄추정의 원칙이\n가해자만 왜 양심, 얼굴 다 블러 처린지\n이게 대체 누굴 위한 법인지",
             "짜고 치는 이 게임\nNone of us can stop or beat 'em\n선이 곱던 논리가 흔들리게\n막춤을 추게 하는 algorithm\nOkay\nIt's gonna be okay\nBut that's a lie\n이 세상은 지옥행\nBurn",
             "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world",
-            "신도 못 구해\n믿음보다 충만한 의구심\n두 눈과 귀를 닫고 살면서 진실을 묻지\n왜곡된 질문들에 무의미한 맞고 틀림\n소수를 집어삼키는 다수의 불신\n똑같은 죄를 짓더라도\n죗값의 무게는 각자 달라\n정의는 부를 비껴가고\n부패된 만큼 살아남아",
+            "신도 못 구해\n믿음보다 충만한 의구심\n두 눈과 귀를 대충 살면서 진실을 묻지\n왜곡된 질문들에 무의미한 맞고 틀림\n소수를 집어삼키는 다수의 불신\n똑같은 죄를 짓더라도\n죗값의 무게는 각자 달라\n정의는 부를 비껴가고\n부패된 만큼 살아남아",
             "꿈꾼 만큼 상처받는 것이\n당연한 일처럼 가르쳐\n어두운 현실로 미래를 가려놨지\n끊임없는 욕망과 이기심이 엉킨 세상\n인간에겐 오직 인간만이 견제 대상\n소통은 고통이 된 지 오래\n입은 뗄 때마다 손해\n눈만 뜨면 펼쳐진\n저 세기말을 보네",
             "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world\nThe end of the world\nThe end of the world"
-        ] }, 
+        ] },
 
         still: { emoji: "☔", list: [
             "낮게 깔린 목소리 머지않아 오겠지\n또다시 차가운 공기 속에 남겨진 채\n내리는 비가 가라앉을 때쯤 널 끌어안고 물어볼게",
@@ -297,7 +297,7 @@
             "한 음 한 음 정성껏 쌓아 올린 마음이\n너에게 닿기를 기도해\n두 손을 모아 건반 위로 떨어지는 별빛들\n그 눈부신 순간 속에 우리가 있음을",
             "때로는 불협화음처럼 어긋나기도 하겠지만\n서로를 보듬는 화음으로 다시 일어설 거야\n마지막 소절이 끝나도 사라지지 않을\n우리의 영원한 교향곡"
         ] }
-    }; 
+    };
 
     function loadContent(category, element) {
         currentCategory = category;
@@ -306,7 +306,7 @@
         if (element) element.classList.add('active');
         document.getElementById('display-card').style.display = 'flex';
         refresh();
-    } 
+    }
 
     function refresh() {
         const data = database[currentCategory];

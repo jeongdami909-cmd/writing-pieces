@@ -15,13 +15,11 @@
         header { padding: 40px 20px; text-align: center; }
         h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); }
         
-        /* 메인 카테고리 버튼 */
         .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; }
         .category-menu button { background: #222; border: 1px solid #666; color: #ccc; padding: 12px 20px; cursor: pointer; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: #fff; }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(212,175,55,0.5); }
 
-        /* 하위 아이템 버튼 */
         .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; }
         .sub-menu.active { display: flex; }
         .sub-menu button { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 14px; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 0.8rem; }
@@ -74,8 +72,8 @@
     <button onclick="loadContent('poison', this)">이센스 - 독</button>
     <button onclick="loadContent('epik', this)">에픽하이 - 빈차</button>
     <button onclick="loadContent('mapthesoul', this)">에픽하이 - Map the Soul</button>
+    <button onclick="loadContent('endofworld', this)">에픽하이 - End of the World</button>
 </div>
-
 
 <div id="sub-ballad" class="sub-menu">
     <button onclick="loadContent('still', this)">정국 - Still With You</button>
@@ -93,22 +91,15 @@
 <script>
     let currentCategory = '';
     
-    // 서브 메뉴 전환 함수
     function showSubMenu(categoryName, btnElement) {
-        // 메인 버튼 활성화 처리
         document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
-
-        // 모든 서브 메뉴 숨기고 선택한 것만 보이기
         document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('active'));
         document.getElementById('sub-' + categoryName).classList.add('active');
-
-        // 카드 숨기기 (새 카테고리 선택 시 화면 정리)
         document.getElementById('display-card').style.display = 'none';
     }
 
     const database = {
-        // --- BTS ---
         spring: { emoji: "🌸", list: [
             "보고 싶다 이렇게 말하니까 더 보고 싶다\n너희 사진을 보고 있어도 보고 싶다\n너무 야속한 시간 나는 우리가 밉다\n이젠 얼굴 한 번 보는 것 조차 힘들어진 우리가",
             "여긴 온통 겨울 뿐이야 8월에도 겨울이 와\n마음은 시간을 달려가네 홀로 남은 설국열차\n니 손 잡고 지구 반대편까지 가 이 겨울을 끝내고파\n그리움들이 얼마나 눈처럼 내려야 그 봄날이 올까, friend?",
@@ -170,7 +161,6 @@
             "너도 나처럼 지워진 꿈을 찾아 헤맸을까\n운명 같은 흔한 말관 달라\n아픈 너의 눈빛이 나와 같은 곳을 보는 걸\nWon't you please stay in dreams"
         ] },
         
-        // --- 말씀 (전문) ---
         psalm1: { emoji: "📜", list: [
             "복 있는 사람은 악인들의 꾀를 따르지 아니하며 죄인들의 길에 서지 아니하며 오만한 자들의 자리에 앉지 아니하고",
             "오직 여호와의 율법을 즐거워하여 그의 율법을 주야로 묵상하는도다",
@@ -240,7 +230,6 @@
             "내 평생에 선하심과 인자하심이 반드시 나를 따르리니 내가 여호와의 집에 영원히 살리로다"
         ]},
 
-        // --- 시 / 문학 ---
         hamlet: { emoji: "💀", list: [
             "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them.",
             "To die, to sleep—\nNo more—and by a sleep to say we end\nThe heartache and the thousand natural shocks\nThat flesh is heir to—'tis a consummation\nDevoutly to be wish'd.",
@@ -264,7 +253,7 @@
             "나는 안다. 우리가 새를 키웠다면,\n우리는 그 새를 아주 우울한 기분으로 오늘 저녁의 창밖으로 날려 보냈을 것이다.\n그리고 함께 웃었을 것이다.\n깔깔깔. 그런 이상한 상상을 하면서 우리는 사랑을 나눈다.",
             "우리는 사랑을 나눌 때 서로의 영혼을 동그란 돌처럼 가지고 논다.\n하지만 어떻게 그럴 수 있지?\n정작 자기 자신의 영혼에는 그토록 진저리치면서.",
             "사랑이 끝나면, 끝나면 너의 손은 흠뻑 젖을 것이다.\n방금 태어나 한 줌의 영혼도 깃들지 않은 아기의 살결처럼.",
-            "나는 너의 손을 움켜잡는다. 나는 느낀다.\n너의 손이 내 손 안에서 조금씩 야위어가는 것을.\n마치 우리가 한 번도 키우지 않았던 그 자그마한 새처럼.",
+            "나는 너의 손을 움켜잡는다. 나는 느낀다.\n너의 손이 내 손 안에서 조금씩 야위어가는 것을.\n마치 우리가 한 번도 키랑 함께 하지 않았던 그 자그마한 새처럼.",
             "너는 날아갈 것이다.\n날아가지 마.\n너는 날아갈 것이다."
         ] },
         stone: { emoji: "🪨", list: [
@@ -284,7 +273,6 @@
             "너에게는 어린 시절의 비밀이 나에게는 빈 새장이 잘 어울린다\n피에 젖은 오후의 하늘로 날아오르는 새들이"
         ] },
 
-        // --- 힙합 ---
         poison: { emoji: "🐍", list: [
             "시간 지나 먼지 덮인 많은 기억\n시간 지나면서 내 몸에 쌓인 독\n자유롭고 싶은 게 전보다 훨씬 더 심해진 요즘\n난 정확히 반쯤 죽어있어\n눈에 보이는 건 아니지만 난 믿은 것\n그게 날 이끌던 걸 느낀 적 있지 분명\n그 시작을 기억해 나를 썩히던 모든 걸 비워내\n붙잡아야지 잃어가던 것",
             "지금까지의 긴 여행 꽉 쥔 주먹에\n신념이 가진 것의 전부라 말한 시절엔\n겁먹고 낡아 버린 모두를 비웃었지 반대로 그들은 날 겁 줬지\n나 역시 나중엔 그들같이 변할 거라고 어쩔 수 없이\n그러니 똑바로 쳐다보라던 현실 그는 뛰고 싶어도 앉은 자리가 더 편하대\n매번 그렇게 나와 너한테 거짓말을 해",
@@ -318,8 +306,16 @@
             "Without You 내 맘은 텅 비겠어\n한없이 야속해 맘 어떻게 이 세상을 견디겠어\n한순간에 못 가 미친다 피 내리는 4월아\n모든 게 파멸 할 때까지 너를 지킨다",
             "L O V E You\nI was made to be with you\nmade to be with you\nmade to be with you"
         ] },
+        endofworld: { emoji: "🔥", list: [
+            "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world\nThe end of the world\nThe end of the world",
+            "I don't believe\nAnything that I see on TV\n확성기\n듣기 좋은 말만 떠들지\n쓰디쓴 진실보단 달콤한 거짓이\n배를 불리니까 이빨까면 죄다 썩은 이\nI don't need a priest\nI need a goddam law degree\n나에게만 왜 항상 유죄추정의 원칙이\n가해자만 왜 양심, 얼굴 다 블러 처린지\n이게 대체 누굴 위한 법인지",
+            "짜고 치는 이 게임\nNone of us can stop or beat 'em\n선이 곱던 논리가 흔들리게\n막춤을 추게 하는 algorithm\nOkay\nIt's gonna be okay\nBut that's a lie\n이 세상은 지옥행\nBurn",
+            "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world",
+            "신도 못 구해\n믿음보다 충만한 의구심\n두 눈과 귀를 닫고 살면서 진실을 묻지\n왜곡된 질문들에 무의미한 맞고 틀림\n소수를 집어삼키는 다수의 불신\n똑같은 죄를 짓더라도\n죗값의 무게는 각자 달라\n정의는 부를 비껴가고\n부패된 만큼 살아남아",
+            "꿈꾼 만큼 상처받는 것이\n당연한 일처럼 가르쳐\n어두운 현실로 미래를 가려놨지\n끊임없는 욕망과 이기심이 엉킨 세상\n인간에겐 오직 인간만이 견제 대상\n소통은 고통이 된 지 오래\n입은 뗄 때마다 손해\n눈만 뜨면 펼쳐진\n저 세기말을 보네",
+            "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world\nThe end of the world\nThe end of the world"
+        ] },
 
-        // --- 발라드 / 팝 ---
         still: { emoji: "☔", list: [
             "낮게 깔린 목소리 머지않아 오겠지\n또다시 차가운 공기 속에 남겨진 채\n내리는 비가 가라앉을 때쯤 널 끌어안고 물어볼게",
             "그날 왜 그랬는지 왜 날 울렸는지\n뒤엉킨 채로 무너진 내 몸을 달래줘\n텅 빈 방 안에서 널 그리며 난 갇혀있네",
@@ -340,17 +336,4 @@
         currentCategory = category;
         const btns = document.querySelectorAll('.sub-menu button');
         btns.forEach(b => b.classList.remove('active'));
-        if (element) element.classList.add('active');
-        document.getElementById('display-card').style.display = 'flex';
-        refresh();
-    }
-    function refresh() {
-        const data = database[currentCategory];
-        const pick = data.list[Math.floor(Math.random() * data.list.length)];
-        document.getElementById('emoji').innerText = data.emoji;
-        document.getElementById('lyric').innerText = pick;
-        document.getElementById('tw').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(pick)}`;
-    }
-</script>
-</body>
-</html>
+ 

@@ -1,355 +1,275 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html><html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive</title>
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="My Sentence Archive">
-    <meta name="twitter:description" content="나만의 문장 저장소 🦋">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentence Archive</title><style>
+:root{
+--bg:#000;
+--card-bg:#fff;
+--text:#1a1a1a;
+--accent:#d4af37;
+}
 
-    <style>
-        :root { --bg: #000; --card-bg: #fff; --text: #1a1a1a; --accent: #d4af37; }
-        body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        header { padding: 40px 20px; text-align: center; }
-        h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); }
-        
-        /* 메인 카테고리 버튼 */
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; }
-        .category-menu button { background: #222; border: 1px solid #666; color: #ccc; padding: 12px 20px; cursor: pointer; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; }
-        .category-menu button:hover { border-color: var(--accent); color: #fff; }
-        .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(212,175,55,0.5); }
+body{
+background:var(--bg);
+color:#fff;
+font-family:serif;
+margin:0;
+display:flex;
+flex-direction:column;
+align-items:center;
+min-height:100vh;
+}
 
-        /* 하위 아이템 버튼 */
-        .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; }
-        .sub-menu.active { display: flex; }
-        .sub-menu button { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 14px; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 0.8rem; }
-        .sub-menu button:hover { background: rgba(212,175,55,0.2); }
-        .sub-menu button.active { background: var(--accent); color: #000; }
+header{
+padding:40px 20px;
+text-align:center;
+}
 
-        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 500px; min-height: 300px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; margin-bottom: 50px; }
-        .emoji { font-size: 2.5rem; margin-bottom: 25px; }
-        #lyric { font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; white-space: pre-line; font-style: italic; word-break: keep-all; font-weight: 500; }
-        .btn-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-        #refresh-btn { border: none; background: var(--accent); color: #000; padding: 16px; font-weight: bold; font-size: 0.9rem; cursor: pointer; }
-        .tw-btn { border: 1px solid #1a1a1a; background: #000; color: #fff; padding: 14px; text-decoration: none; font-weight: bold; font-size: 0.8rem; cursor: pointer; text-align: center; }
-    </style>
-</head>
-<body>
-<header><h1>SENTENCE ARCHIVE</h1></header>
+h1{
+font-size:1.8rem;
+letter-spacing:3px;
+color:var(--accent);
+text-shadow:0 0 8px rgba(212,175,55,0.5),0 2px 4px rgba(212,175,55,0.3);
+}
 
-<div class="category-menu">
-    <button onclick="showSubMenu('bts', this)">BTS</button>
-    <button onclick="showSubMenu('bible', this)">말씀</button>
-    <button onclick="showSubMenu('lit', this)">시 / 문학</button>
-    <button onclick="showSubMenu('hiphop', this)">힙합</button>
-    <button onclick="showSubMenu('ballad', this)">발라드 / 팝</button>
+/* category */
+.category-menu{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+padding:0 20px 20px;
+max-width:900px;
+}
+
+.category-menu button{
+background:#222;
+border:1px solid #666;
+color:#ccc;
+padding:12px 20px;
+cursor:pointer;
+border-radius:6px;
+transition:.3s;
+font-size:.9rem;
+font-weight:bold;
+}
+
+.category-menu button.active{
+background:var(--accent);
+color:#000;
+border-color:var(--accent);
+box-shadow:0 0 15px rgba(212,175,55,.5);
+}
+
+/* sub menu */
+.sub-menu{
+display:none;
+flex-wrap:wrap;
+gap:8px;
+justify-content:center;
+padding:0 20px 40px;
+max-width:900px;
+width:100%;
+}
+
+.sub-menu.active{
+display:flex;
+}
+
+.sub-menu button{
+background:transparent;
+border:1px solid var(--accent);
+color:var(--accent);
+padding:8px 14px;
+cursor:pointer;
+border-radius:4px;
+transition:.3s;
+font-size:.8rem;
+}
+
+.sub-menu button.active{
+background:var(--accent);
+color:#000;
+}
+
+/* card */
+.card{
+background:var(--card-bg);
+color:var(--text);
+padding:50px 30px;
+width:85%;
+max-width:500px;
+min-height:300px;
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+box-shadow:0 30px 60px rgba(0,0,0,0.8);
+text-align:center;
+border:1px solid #ddd;
+margin-bottom:50px;
+animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.emoji{
+font-size:2.5rem;
+margin-bottom:25px;
+}
+
+#lyric{
+font-size:1.1rem;
+line-height:1.8;
+margin-bottom:40px;
+white-space:pre-line;
+font-style:italic;
+}
+
+.btn-box{
+display:flex;
+flex-direction:column;
+gap:12px;
+width:100%;
+}
+
+#refresh-btn{
+border:none;
+background:var(--accent);
+color:#000;
+padding:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.tw-btn{
+border:1px solid #1a1a1a;
+background:#000;
+color:#fff;
+padding:14px;
+text-decoration:none;
+font-weight:bold;
+font-size:.8rem;
+}
+</style></head><body><header>
+<h1>SENTENCE ARCHIVE</h1>
+</header><!-- main --><div class="category-menu">
+<button onclick="showSubMenu('bts',this)">BTS</button>
+<button onclick="showSubMenu('bible',this)">말씀</button>
+<button onclick="showSubMenu('lit',this)">문학</button>
+</div><!-- BTS --><div id="sub-bts" class="sub-menu">
+<button onclick="loadContent('spring',this)">봄날</button>
+<button onclick="loadContent('bts',this)">Butterfly</button>
+</div><!-- Bible --><div id="sub-bible" class="sub-menu">
+<button onclick="loadContent('psalm23',this)">시편 23편</button>
+</div><!-- Literature --><div id="sub-lit" class="sub-menu">
+<button onclick="loadContent('hamlet',this)">햄릿</button>
+</div><!-- card --><div id="display-card" class="card">
+<div id="emoji" class="emoji"></div>
+<p id="lyric"></p><div class="btn-box">
+<button onclick="refresh()" id="refresh-btn">NEXT SENTENCE</button>
+<a id="tw" target="_blank" class="tw-btn">𝕏 POST</a>
 </div>
+</div><script>
 
-<div id="sub-bts" class="sub-menu">
-    <button onclick="loadContent('spring', this)">봄날</button>
-    <button onclick="loadContent('truth', this)">전하지 못한 진심</button>
-    <button onclick="loadContent('whalien', this)">Whalien 52</button>
-    <button onclick="loadContent('bts', this)">BUTTERFLY</button>
-    <button onclick="loadContent('singularity', this)">V - Singularity</button>
-    <button onclick="loadContent('euphoria', this)">정국 - Euphoria</button>
-</div>
+let currentKey=null;
+let currentList=[];
 
-<div id="sub-bible" class="sub-menu">
-    <button onclick="loadContent('psalm1', this)">시편 1편</button>
-    <button onclick="loadContent('psalm18', this)">시편 18편</button>
-    <button onclick="loadContent('psalm23', this)">시편 23편</button>
-</div>
+function showSubMenu(name,btn){
 
-<div id="sub-lit" class="sub-menu">
-    <button onclick="loadContent('hamlet', this)">햄릿 독백</button>
-    <button onclick="loadContent('tess', this)">테스</button>
-    <button onclick="loadContent('bird', this)">심보선 - 새</button>
-    <button onclick="loadContent('stone', this)">김남주 - 돌멩이</button>
-    <button onclick="loadContent('toyou', this)">진은영 - 너에게</button>
-</div>
+document.querySelectorAll('.category-menu button')
+.forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
 
-<div id="sub-hiphop" class="sub-menu">
-    <button onclick="loadContent('poison', this)">이센스 - 독</button>
-    <button onclick="loadContent('epik', this)">에픽하이 - 빈차</button>
-    <button onclick="loadContent('endofworld', this)">에픽하이 - End of the World</button>
-</div>
-</div>
+document.querySelectorAll('.sub-menu')
+.forEach(m=>m.classList.remove('active'));
 
-<div id="sub-ballad" class="sub-menu">
-    <button onclick="loadContent('still', this)">정국 - Still With You</button>
-    <button onclick="loadContent('nct', this)">NCT - PIANO</button>
-</div>
+document.getElementById('sub-'+name)
+.classList.add('active');
 
-<div id="display-card" class="card">
-    <div id="emoji" class="emoji"></div>
-    <p id="lyric"></p>
-    <div class="btn-box">
-        <button onclick="refresh()" id="refresh-btn">NEXT SENTENCE</button>
-        <a id="tw" href="#" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
-    </div>
-</div>
-<script>
-    let currentCategory = '';
-    
-    // 서브 메뉴 전환 함수
-    function showSubMenu(categoryName, btnElement) {
-        // 메인 버튼 활성화 처리
-        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
+document.getElementById('display-card').style.display="none";
+}
 
-        // 모든 서브 메뉴 숨기고 선택한 것만 보이기
-        document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('active'));
-        document.getElementById('sub-' + categoryName).classList.add('active');
+const database={
 
-        // 카드 숨기기 (새 카테고리 선택 시 화면 정리)
-        document.getElementById('display-card').style.display = 'none';
-    }
+spring:{
+emoji:"🌸",
+list:[
+"보고 싶다 이렇게 말하니까 더 보고 싶다",
+"여긴 온통 겨울 뿐이야 8월에도 겨울이 와",
+"추운 겨울 끝을 지나 다시 봄날이 올 때까지"
+]
+},
 
-    const database = {
-        // --- BTS ---
-        spring: { emoji: "🌸", list: [
-            "보고 싶다 이렇게 말하니까 더 보고 싶다\n너희 사진을 보고 있어도 보고 싶다\n너무 야속한 시간 나는 우리가 밉다\n이젠 얼굴 한 번 보는 것 조차 힘들어진 우리가",
-            "여긴 온통 겨울 뿐이야 8월에도 겨울이 와\n마음은 시간을 달려가네 홀로 남은 설국열차\n니 손 잡고 지구 반대편까지 가 이 겨울을 끝내고파\n그리움들이 얼마나 눈처럼 내려야 그 봄날이 올까, friend?",
-            "허공을 떠도는 작은\n먼지처럼, 작은 먼지처럼\n날리는 눈이 나라면\n조금 더 빨리 네게 닿을 수 있을 텐데?",
-            "눈꽃이 떨어져요\n또 조금씩 멀어져요\n보고 싶다 (보고 싶다)\n보고 싶다 (보고 싶다)",
-            "얼마나 기다려야?\n또 몇 밤을 더 새워야?\n널 보게 될까? (널 보게 될까?)\n만나게 될까? (만나게 될까?)",
-            "추운 겨울 끝을 지나\n다시 봄날이 올 때까지\n꽃 피울 때까지\n그곳에 좀 더 머물러줘, 머물러줘",
-            "네가 변한 건지? (네가 변한 건지?)\n아니면 내가 변한 건지? (내가 변한 건지?)\n이 순간 흐르는 시간조차 미워\n우리가 변한 거지 뭐? 모두가 그런 거지, 뭐?",
-            "그래, 밉다 니가 넌 떠났지만\n단 하루도 너를 잊은 적이 없었지 난\n솔직히 보고 싶은데 이만 너를 지울게\n그게 널 원망하기보단 덜 아프니까",
-            "시린 널 불어내 본다\n연기처럼, 하얀 연기처럼\n말로는 지운다 해도\n사실 난 아직 널 보내지 못하는데",
-            "You know it all, you're my best friend\n아침은 다시 올 거야\n어떤 어둠도, 어떤 계절도\n영원할 순 없으니까",
-            "벚꽃이 피나봐요\n이 겨울도 끝이 나요\n보고 싶다 (보고 싶다)\n보고 싶다 (보고 싶다)",
-            "조금만 기다리면 (기다리면)\n며칠 밤만 더 새우면\n만나러 갈게 (만나러 갈게)\n데리러 갈게 (데리러 갈게, yeah, yeah)"
-        ] },
-        truth: { emoji: "🥀", list: [
-            "외로움이 가득히 피어있는 이 garden\n가시투성이 이 모래성에 난 날 매었어\n너의 이름은 뭔지 갈 곳이 있긴 한지\nOh could you tell me? 이 정원에 숨어든 널 봤어",
-            "And I know 너의 온긴 모두 다 진짜란 걸\n푸른 꽃을 꺾는 손 잡고 싶지만\n내 운명인 걸 Don't smile on me Light on me\n너에게 다가설 수 없으니까\n내겐 불러줄 이름이 없어",
-            "You know that I can't Show you me Give you me\n초라한 모습 보여줄 순 없어\n또 가면을 쓰고 널 만나러 가 But I still want you",
-            "외로움의 정원에 핀 너를 닮은 꽃\n주고 싶었지 바보 같은 가면을 벗고서\nBut I know 영원히 그럴 수는 없는 걸\n숨어야만 하는 걸 추한 나니까",
-            "난 두려운 걸 초라한 걸 I'm so afraid\n결국엔 너도 날 또 떠나버릴까\n또 가면을 쓰고 널 만나러 가",
-            "할 수 있는 건 정원에 이 세상에\n예쁜 너를 닮은 꽃을 피운 다음 니가 아는 나로 숨쉬는 것\nBut I still want you",
-            "어쩌면 그때 조금만 이만큼만 용기 내서 너의 앞에 섰더라면\n지금 모든 건 달라졌을까",
-            "난 울고 있어 사라진 무너진\n홀로 남겨진 이 모래성에서 부서진 가면을 바라보면서\nAnd I still want you"
-        ] },
-        whalien: { emoji: "🐳", list: [
-            "이 넓은 바다 그 한가운데\n한 마리 고래가 나지막이 외롭게 말을 해\n아무리 소리쳐도 닿지 않는 게\n사무치게 외로워 조용히 입 다무네",
-            "아무렴 어때 뭐가 됐던 이젠 뭐 I don't care\n외로움이란 녀석만 내 곁에서 머물 때\n완전히 혼자가 돼 외로이 채우는 자물쇠",
-            "누군 말해 새끼 연예인 다 됐네\nOh fuck that, 그래 뭐 어때 누군가 곁에\n머물 수 없다 한들 그걸로 족해\n날 향해 쉽게 얘기하는 이 말은 곧 벽이 돼\n외로움조차 니들 눈엔 척이 돼",
-            "그 벽에 갇혀서 내 숨이 막혀도\n저 수면 위를 향해 Hey oh, oh hey oh yeah\nLonely lonely lonely whale\n이렇게 혼자 노래불러\n외딴 섬 같은 나도 밝게 빛날 수 있을까",
-            "Lonely lonely lonely whale\n이렇게 또 한 번 불러봐\n대답 없는 이 노래가 내일 닿을 때까지",
-            "No more, no more baby\nNo more, no more\n끝없는 무전 하나 언젠가 닿을 거야\n저기 지구 반대편까지 다",
-            "어머니는 바다가 푸르다 하셨어\n멀리 힘껏 니 목소릴 내라 하셨어\n그런데 어떡하죠 여긴 너무 깜깜하고\n온통 다른 말을 하는 다른 고래들 뿐인데"
-        ] },
-        bts: { emoji: "🦋", list: [
-            "아무것도 생각하지 마\n넌 아무 말도 꺼내지도 마\n그냥 내게 웃어줘",
-            "난 아직도 믿기지가 않아\n이 모든 게 다 꿈인 것 같아\n사라지려 하지 마",
-            "Is it true? Is it true?\nYou You\n너무 아름다워 두려워\nUntrue Untrue\nYou You You",
-            "곁에 머물러줄래 내게 약속해줄래\n손 대면 날아갈까 부서질까\n겁나 겁나 겁나",
-            "시간을 멈출래 이 순간이 지나면\n없었던 일이 될까 널 잃을까\n겁나 겁나 겁나",
-            "Butterfly, like a Butterfly\n마치 Butterfly, bu butterfly 처럼\nButterfly, like a butterfly\n마치 Butterfly, bu butterfly 처럼",
-            "넌 마치 Butterfly 멀리서 훔쳐봐\n손 닿으면 널 잃을까\n이 칠흑 같은 어둠 속 날 밝히는 나비효과\n니 작은 손짓 한 번에 현실을 잊어 난",
-            "살며시 쓰다듬는 바람 같아\n살포시 표류하는 먼지 같아\n넌 거기 있지만 왠지 닿지 않아\n꿈 같은 넌 내게 butterfly, high",
-            "심장은 메마른 소리를 내\n꿈인지 현실인지 알 수 없네\n나의 해변의 카프카여\n저기 숲으로 가진 말아줘",
-            "내 마음은 아직 너 위에 부서져\n조각조각 까맣게 녹아 흘러\n(난 그냥 이대로 증발하고 싶어)\n내 사랑은 영원인 걸\nIt's all FREE for you baby"
-        ] },
-        singularity: { emoji: "🎭", list: [
-            "무언가 깨지는 소리 난 문득 잠에서 깨\n낯설음 가득한 소리 귀를 막아보지만 잠들지 못해\n목이 자꾸 아파와 감싸보려하지만\n나에겐 목소리가 없어 오늘도 그 소리를 들어",
-            "또 울리고 있어 그 소리가 이 얼어붙은 호수에 또 금이 가\n그 호수에 내가 날 버렸잖아\n내 목소리를 널 위해 묻었잖아",
-            "버린 겨울 호수 위로 두꺼운 얼음이 얼었네\n잠시 들어간 꿈속에도 나를 괴롭히는 환상통은 여전해\n나는 날 잃은 걸까 아니 날 얻은 걸까\n난 문득 호수로 달려가 오 그 속에 내 얼굴 있어",
-            "부탁해 아무 말도 하지 마\n입을 막으려 손을 뻗어보지만\n결국엔 언젠가 봄이 와 얼음들은 녹아내려 흘러 가",
-            "Tell me 내 목소리가 가짜라면 날 버리지 말았어야 했는지\nTell me 고통조차 가짜라면 그 때 내가 무얼 해야 했는지"
-        ] },
-        euphoria: { emoji: "✨", list: [
-            "너는 내 삶에 다시 뜬 햇빛\n어린 시절 내 꿈들의 재림\n모르겠어 이 감정이 뭔지\n혹시 여기도 꿈 속인건지",
-            "꿈은 사막의 푸른 신기루\n내 안 깊은 곳의 a priori\n숨이 막힐 듯이 행복해져\n주변이 점점 더 투명해져",
-            "저기 멀리서 바다가 들려\n꿈을 건너서 수풀 너머로\n선명해지는 그 곳으로 가\nTake my hands now\nYou are the cause of my euphoria",
-            "Euphoria\nTake my hands now\nYou are the cause of my euphoria",
-            "모래바닥이 갈라진대도\n그 누가 이 세계를 흔들어도\n잡은 손 절대 놓지 말아줘\n제발 꿈에서 깨어나지 마",
-            "너도 나처럼 지워진 꿈을 찾아 헤맸을까\n운명 같은 흔한 말관 달라\n아픈 너의 눈빛이 나와 같은 곳을 보는 걸\nWon't you please stay in dreams"
-        ] },
-        
-        // --- 말씀 (전문) ---
-        psalm1: { emoji: "📜", list: [
-            "복 있는 사람은 악인들의 꾀를 따르지 아니하며 죄인들의 길에 서지 아니하며 오만한 자들의 자리에 앉지 아니하고",
-            "오직 여호와의 율법을 즐거워하여 그의 율법을 주야로 묵상하는도다",
-            "그는 시냇가에 심은 나무가 철을 따라 열매를 맺으며 그 잎사귀가 마르지 아니함 같으니 그가 하는 모든 일이 다 형통하리로다",
-            "악인들은 그렇지 아니함이여 오직 바람에 나는 겨와 같도다",
-            "그러므로 악인들은 심판을 견디지 못하며 죄인들이 의인들의 모임에 들지 못하리로다",
-            "무릇 의인들의 길은 여호와께서 인정하시나 악인들의 길은 망하리로다"
-        ]},
-        psalm18: { emoji: "🛡️", list: [
-            "나의 힘이신 여호와여 내가 주를 사랑하나이다 (1절)",
-            "여호와는 나의 반석이시요 나의 요새시요 나를 건지시는 이시요 나의 하나님이시요 나의 피할 바위시요 나의 방패시요 나의 구원의 뿔이시요 나의 산성이시로다 (2절)",
-            "내가 찬송 받으실 여호와께 아뢰리니 내 원수들에게서 구원을 얻으리로다 (3절)",
-            "사망의 줄이 나를 얽고 불의의 창수가 나를 두렵게 하였으며 (4절)",
-            "스올의 줄이 나를 두르고 사망의 올무가 내게 이르렀도다 (5절)",
-            "내가 환난 중에서 여호와께 아뢰며 나의 하나님께 부르짖었더니 그가 그의 성전에서 내 소리를 들으심이여 그의 앞에서 나의 부르짖음이 그의 귀에 들렸도다 (6절)",
-            "이에 땅이 진동하고 산들의 터도 요동하였으니 그의 진노로 말미암음이로다 (7절)",
-            "그의 코에서 연기가 오르고 입에서 불이 나와 사름이여 그 불에 숯이 피었도다 (8절)",
-            "그가 또 하늘을 드리우시고 강림하시니 그의 발 아래는 어두캄캄하도다 (9절)",
-            "그룹을 타고 다니심이여 바람 날개를 타고 높이 솟아오르셨도다 (10절)",
-            "그가 흑암을 그의 숨는 곳으로 삼으사 장막 같이 자기를 두르게 하심이여 곧 물의 흑암과 공중의 빽빽한 구름으로 그리하시도다 (11절)",
-            "그 앞에 광채로 말미암아 빽빽한 구름이 지나며 우박과 숯불이 내리도다 (12절)",
-            "여호와께서 하늘에서 우렛소리를 내시고 지존하신 이가 음성을 내시며 우박과 숯불을 내리시도다 (13절)",
-            "그의 화살을 날려 그들을 흩으심이여 많은 번개로 그들을 깨뜨리셨도다 (14절)",
-            "이럴 때에 여호와의 꾸지람과 콧김으로 말미암아 물 밑이 드러나고 세상의 터가 나타났도다 (15절)",
-            "그가 높은 곳에서 손을 펴사 나를 붙잡아 주심이여 많은 물에서 나를 건져내셨도다 (16절)",
-            "나를 강한 원수와 미워하는 자에게서 건지셨음이여 그들은 나보다 힘이 세기 때문이로다 (17절)",
-            "그들이 나의 재앙의 날에 내게 이르렀으나 여호와께서 나의 의지가 되셨도다 (18절)",
-            "나를 넓은 곳으로 인도하시고 나를 기뻐하시므로 나를 구원하셨도다 (19절)",
-            "여호와께서 내 의를 따라 상 주시며 내 손의 깨끗함을 따라 내게 갚으셨으니 (20절)",
-            "이는 내가 여호와의 도를 지키고 악하게 내 하나님을 떠나지 아니하였으며 (21절)",
-            "그의 모든 규례가 내 앞에 있고 내게서 그의 율례를 버리지 아니하였음이로다 (22절)",
-            "또한 나는 그의 앞에 완전하여 나의 죄악에서 스스로 자신을 지켰나니 (23절)",
-            "그러므로 여호와께서 내 의를 따라 갚으시되 그의 목전에서 내 손이 깨끗한 만큼 내게 갚으셨도다 (24절)",
-            "자비로운 자에게는 주의 자비로우심을 나타내시며 완전한 자에게는 주의 완전하심을 보이시며 (25절)",
-            "깨끗한 자에게는 주의 깨끗하심을 보이시며 사악한 자에게는 주의 거스르심을 보이시리니 (26절)",
-            "주께서 곤고한 백성은 구원하시고 교만한 눈은 낮추시리이다 (27절)",
-            "주께서 나의 등불을 켜심이여 여호와 내 하나님이 내 흑암을 밝히시리이다 (28절)",
-            "내가 주를 의뢰하고 적군을 향해 달리며 내 하나님을 의지하고 담을 뛰어넘나이다 (29절)",
-            "하나님의 도는 완전하고 여호와의 말씀은 순수하니 그는 자기에게 피하는 모든 자의 방패시로다 (30절)",
-            "여호와 외에 누가 하나님이며 우리 하나님 외에 누가 반석이냐 (31절)",
-            "이 하나님이 힘으로 내게 띠 띠우시며 내 길을 완전하게 하시며 (32절)",
-            "나의 발을 암사슴 발 같게 하시며 나를 나의 높은 곳에 세우시며 (33절)",
-            "내 손을 가르쳐 싸우게 하시니 내 팔이 놋 활을 당기도다 (34절)",
-            "또 주께서 주의 구원하는 방패를 내게 주시며 주의 오른손이 나를 붙들고 주의 온유함이 나를 크게 하셨나이다 (35절)",
-            "내 걸음을 넓게 하셨고 나를 실족하지 않게 하셨나이다 (36절)",
-            "내가 내 원수를 뒤쫓아 가리니 그들이 망하기 전에는 돌아서지 아니하리이다 (37절)",
-            "내가 그들을 쳐서 능히 일어서지 못하게 하리니 그들이 내 발 아래에 엎드러지리이다 (38절)",
-            "주께서 나를 전쟁하게 하려고 능력으로 내게 띠 띠우사 일어나 나를 치는 자들이 내게 굴복하게 하셨나이다 (39절)",
-            "또 주께서 내 원수들에게 등을 내게로 향하게 하시고 나를 미워하는 자들을 내가 끊어 버리게 하셨나이다 (40절)",
-            "그들이 부르짖으나 구원할 자가 없었고 여호와께 부르짖어도 대답하지 아니하셨나이다 (41절)",
-            "내가 그들을 바람 앞에 티끌 같이 부서뜨리고 거리의 진흙 같이 쏟아 버렸나이다 (42절)",
-            "주께서 나를 백성의 다툼에서 건지시고 여러 민족의 으뜸으로 삼으셨으니 내가 알지 못하는 백성이 나를 섬기리이다 (43절)",
-            "그들이 내 소문을 들은 즉시로 내게 청종함이여 이방인들이 내게 복종하리로다 (44절)",
-            "이방 자손들이 쇠하여 그 견고한 곳에서 떨며 나오리로다 (45절)",
-            "여호와는 살아 계시니 나의 반석을 찬송하며 내 구원의 하나님을 높일지로다 (46절)",
-            "이 하나님이 나를 위하여 보복해 주시고 민족들이 내게 복종하게 해 주시도다 (47절)",
-            "주께서 나를 내 원수들에게서 구조하시니 주께서 나를 대적하는 자들의 위에 나를 높이 드시고 나를 포악한 자에게서 건지시나이다 (48절)",
-            "여호와여 이러므로 내가 이방 나라들 중에서 주께 감사하며 주의 이름을 찬송하리이다 (49절)",
-            "여호와께서 그 왕에게 큰 구원을 주시며 기름 부음 받은 자에게 인자를 베푸심이여 영원토록 다윗과 그 후손에게로다 (50절)"
-        ]},
-        psalm23: { emoji: "🌿", list: [
-            "여호와는 나의 목자시니 내게 부족함이 없으리로다",
-            "그가 나를 푸른 풀밭에 누이시며 쉴 만한 물 가로 인도하시는도다",
-            "내 영혼을 소생시키시고 자기 이름을 위하여 의의 길로 인도하시는도다",
-            "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다",
-            "주께서 내 원수의 목전에서 내게 상을 차려 주시고 기름을 내 머리에 부으셨으니 내 잔이 넘치나이다",
-            "내 평생에 선하심과 인자하심이 반드시 나를 따르리니 내가 여호와의 집에 영원히 살리로다"
-        ]},
+bts:{
+emoji:"🦋",
+list:[
+"넌 마치 Butterfly 멀리서 훔쳐봐",
+"시간을 멈출래 이 순간이 지나면",
+"내 사랑은 영원인 걸 It's all free for you"
+]
+},
 
-        // --- 시 / 문학 ---
-        hamlet: { emoji: "💀", list: [
-            "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them.",
-            "To die, to sleep—\nNo more—and by a sleep to say we end\nThe heartache and the thousand natural shocks\nThat flesh is heir to—'tis a consummation\nDevoutly to be wish'd.",
-            "O, that this too too solid flesh would melt,\nThaw and resolve itself into a dew!\nOr that the Everlasting had not fix'd\nHis canon 'gainst self-slaughter! O God! God!\nHow weary, stale, flat and unprofitable,\nSeem to me all the uses of this world!",
-            "What a piece of work is a man! How noble in reason, how infinite in faculty! In form and moving how express and admirable! In action how like an Angel! in apprehension how like a god!",
-            "The rest is silence."
-        ] },
-        tess: { emoji: "🚩", list: [
-            "'Justice' was done, and the President of the Immortals, in Aeschylean phrase, had ended his sport with Tess.\nAnd the d'Urberville knights and dames slept on in their tombs unknowing.",
-            "As soon as they had strength they arose, joined hands again, and went on.\n'I am ready,' she said quietly.",
-            "A few minutes after the hour had struck something moved slowly up the staff, and extended itself upon the breeze.\nIt was a black flag.",
-            "Why so often the coarse appropriates the finer thus, the wrong man the woman, the wrong woman the man, many thousand years of analytical philosophy have failed to explain to our sense of order.",
-            "She was not an existence, an experience, a passion, a structure of sensations, to anybody but herself.\nTo all humankind besides Tess was only a passing thought."
-        ] },
-        bird: { emoji: "🕊️", list: [
-            "우리는 사랑을 나눈다.\n무엇을 원하는지도 모른 채.\n아주 밝거나 아주 어두운 대기에 둘러싸인 채.",
-            "우리가 사랑을 나눌 때,\n달빛을 받아 은회색으로 반짝이는 네 귀에 대고 나는 속삭인다.\n너는 지금 무엇을 두려워하는가.\n너는 지금 무슨 생각에 빠져 있는가.",
-            "사랑해.\n나는 너에게 연달아 세 번 고백할 수도 있다.\n깔깔깔.\n그때 웃음소리들은 낙석처럼 너의 표정으로부터 굴러떨어질 수도 있다.",
-            "방금 내 얼굴을 스치고 지나간 미풍 한 줄기.\n잠시 후 그것은 네 얼굴을 전혀 다른 손길로 쓰다듬을 수도 있다.",
-            "우리는 만났다. 우리는 여러 번 만났다.\n우리는 그보다 더 여러 번 사랑을 나눴다.\n지극히 평범한 감정과 초라한 욕망으로 이루어진 사랑을.",
-            "나는 안다. 우리가 새를 키웠다면,\n우리는 그 새를 아주 우울한 기분으로 오늘 저녁의 창밖으로 날려 보냈을 것이다.\n그리고 함께 웃었을 것이다.\n깔깔깔. 그런 이상한 상상을 하면서 우리는 사랑을 나눈다.",
-            "우리는 사랑을 나눌 때 서로의 영혼을 동그란 돌처럼 가지고 논다.\n하지만 어떻게 그럴 수 있지?\n정작 자기 자신의 영혼에는 그토록 진저리치면서.",
-            "사랑이 끝나면, 끝나면 너의 손은 흠뻑 젖을 것이다.\n방금 태어나 한 줌의 영혼도 깃들지 않은 아기의 살결처럼.",
-            "나는 너의 손을 움켜잡는다. 나는 느낀다.\n너의 손이 내 손 안에서 조금씩 야위어가는 것을.\n마치 우리가 한 번도 키우지 않았던 그 자그마한 새처럼.",
-            "너는 날아갈 것이다.\n날아가지 마.\n너는 날아갈 것이다."
-        ] },
-        stone: { emoji: "🪨", list: [
-            "하늘과 땅 사이에 바람 한 점 없고 답답하여라\n숨이 막히고 가슴이 미어지던 날\n친구와 나 제방을 걸으며\n돌멩이 하나 되자고 했다",
-            "강물 위에 파문 하나 자그맣게 내고\n이내 가라앉고 말\n그런 돌멩이 하나",
-            "날 저물어 캄캄한 밤\n친구와 나 밤길을 걸으며\n불씨 하나 되자고 했다",
-            "풀밭에서 개똥벌레쯤으로나 깜박이다가\n새날이 오면 금세 사라지고 말\n그런 불씨 하나",
-            "그때 나 묻지 않았다 친구에게\n돌에 실릴 역사의 무게\n그 얼마일 거냐고",
-            "그때 나 묻지 않았다 친구에게\n불이 밀어낼 어둠의 영역\n그 얼마일 거냐고",
-            "죽음 하나 같이할\n벗 하나 있음에\n나 그것으로 자랑스러웠다"
-        ] },
-        toyou: { emoji: "🕯️", list: [
-            "너에게는 피에 젖은 오후가 어울린다\n죽은 나무 트럼펫이 바람에 황금빛 소음을 불어댄다\n너에게는 희망이 어울린다\n식초에 담가둔 흰 달걀처럼 부서지는 희망이",
-            "너에게는 2월이 잘 어울린다\n하루나 이틀쯤 모자라는 슬픔이\n너에게는 토요일이 잘 어울린다\n부서진 벤치에 앉아 누군가 내내 기다리던",
-            "너에게는 촛불 앞에서 흔들리는 흰 얼굴이 어울린다\n어둠과 빛을 아는 인어의 얼굴이\n나는 조용한 개들과 잠든 깃털, 새벽의 술집에서 잃어버린 시구를 찾고 있다\n너에게 어울리는",
-            "너에게는 내가 잘 어울린다\n우리는 손을 잡고 어둠을 헤엄치고 빛 속을 걷는다\n네 손에는 끈적거리는 달콤한 망고들\n네 영혼에는 망각을 자르는 가위들이 솟아나는 저녁이 어울린다",
-            "너에게는 어린 시절의 비밀이 나에게는 빈 새장이 잘 어울린다\n피에 젖은 오후의 하늘로 날아오르는 새들이"
-        ] },
+psalm23:{
+emoji:"🌿",
+list:[
+"여호와는 나의 목자시니 내게 부족함이 없으리로다",
+"그가 나를 푸른 풀밭에 누이시며 쉴 만한 물 가로 인도하시는도다",
+"내 평생에 선하심과 인자하심이 반드시 나를 따르리니"
+]
+},
 
-        // --- 힙합 ---
-        poison: { emoji: "🐍", list: [
-            "시간 지나 먼지 덮인 많은 기억\n시간 지나면서 내 몸에 쌓인 독\n자유롭고 싶은 게 전보다 훨씬 더 심해진 요즘\n난 정확히 반쯤 죽어있어\n눈에 보이는 건 아니지만 난 믿은 것\n그게 날 이끌던 걸 느낀 적 있지 분명\n그 시작을 기억해 나를 썩히던 모든 걸 비워내\n붙잡아야지 잃어가던 것",
-            "지금까지의 긴 여행 꽉 쥔 주먹에\n신념이 가진 것의 전부라 말한 시절엔\n겁먹고 낡아 버린 모두를 비웃었지 반대로 그들은 날 겁 줬지\n나 역시 나중엔 그들같이 변할 거라고 어쩔 수 없이\n그러니 똑바로 쳐다보라던 현실 그는 뛰고 싶어도 앉은 자리가 더 편하대\n매번 그렇게 나와 너한테 거짓말을 해",
-            "그 담배 같은 위안 땜에 좀먹은 정신\n어른이 돼야 된다는 말 뒤에 숨겨진 건 최면일 뿐\n절대 현명해 지고 있는 게 아냐 안주하는 것뿐\n줄에 묶여있는 개마냥 배워가던 게 그런 것들뿐이라서\n용기 내는 것만큼 두려운 게 남들 눈이라서\n그 꼴들이 지겨워서 그냥 꺼지라 했지",
-            "내 믿음이 이끄는 곳 그 곳이 바로 내 집이며 내가 완성되는 곳\n기회란 것도 온다면 옆으로 치워놓은 꿈 때문에\n텅 빈 껍데기뿐인 너 보단 나에게\n날 걱정하는 듯 말하며 니 실패를 숨겨도 돼\n다치기 싫은 마음뿐인 넌 가만히만 있어 그리고 그걸 상식이라 말하지",
-            "비겁함이 약이 되는 세상이지만\n난 너 대신 흉터를 가진 모두에게 존경을 이겨낸 이에게 축복을\n깊은 구멍에 빠진 적 있지 가족과 친구에겐 문제없이 사는 척\n뒤섞이던 자기 혐오와 오만 거울에서 조차 날 쳐다보는 눈이 싫었어\n열정의 고갈 어떤 누구보다 내가 싫어하던 그 짓들",
-            "그게 내 일이 된 후엔 죽어가는 느낌뿐 다른 건 제대로 느끼지 못해\n뒤틀려버린 내 모습 난 나를 죽이지 못해\n그저 어딘가 먼 데로 가진 걸 다 갖다 버린대도 아까울 것 같지 않던 그 때는\n위로가 될 만한 일들을 미친놈같이 뒤지고 지치며",
-            "평화는 나와 관계없는 일이었고 불안함 감추기 위해\n목소리 높이며 자존심에 대한 얘길 화내며 떠들고 헤매어 어지럽게\n누가 내 옆에 있는지도 모르던 때\n그 때도 난 신을 믿지 않았지만 망가진 날 믿을 수도 없어\n한참을 갈피 못 잡았지\n내 의식에 스며든 질기고 지독한 감기",
-            "몇 시간을 자던지 개운치 못한 아침\n조바심과 압박감이 찌그러트려놓은 젊음\n거품, 덫들, 기회 대신 오는 유혹들\n그 모든 것의 정면에서 다시 처음부터 붙잡아야지 잃어가던 것\n급히 따라가다 보면 어떤 게 나인지 잊어가 점점\n멈춰야겠으면 지금 멈춰 우린 중요한 것들을 너무 많이 놓쳐"
-        ] },
-        epik: { emoji: "🚕", list: [
-            "내가 해야 할 일\n벌어야 할 돈\n말고도 뭐가 있었는데\n내가 가야 할 길\n나에게 남은 꿈\n말고도 뭐가 있었는데",
-            "다 잊고 사네 다 잊고 사네\n가야 할 길이 너무 먼데\n지나가는 빈 차는 많네\n근데 왜 타질 못하네",
-            "마음 기댈 곳 하나 없네\n비는 오는데 비는 오는데\n위로가 돼줄 사람 하나 없네",
-            "내가 해야 할 일\n벌어야 할 돈\n말고도 뭐가 있었는데\n내가 가야 할 길\n나에게 남은 꿈\n말고도 뭐가 있었는데",
-            "갈 길이 먼데\n지나가는 빈 차는 많네\n근데 왜 타질 못하네",
-            "지나가는 빈 차는 많네\n비는 오는데 비는 오는데\n마음 기댈 곳 하나 없네\n위로가 돼줄 사람 하나 없네",
-            "하루 종일 멍하니\n창밖만 바라보다가\n해가지면 술 한잔에\n기대어 보다가",
-            "어느새 훌쩍 커버린\n내 모습을 보다가\n나도 모르게 눈물이\n흘러내리잖아",
-            "지나가는 빈 차는 많네\n근데 왜 타질 못하네\n마음 기댈 곳 하나 없네\n비는 오는데 비는 오는데\n위로가 돼줄 사람 하나 없네"
-        ]},
-                endofworld: { emoji: "🔥", list: [
-            "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world\nThe end of the world\nThe end of the world",
-            "I don't believe\nAnything that I see on TV\n확성기\n듣기 좋은 말만 떠들지\n쓰디쓴 진실보단 달콤한 거짓이\n배를 불리니까 이빨까면 죄다 썩은 이\nI don't need a priest\nI need a goddam law degree\n나에게만 왜 항상 유죄추정의 원칙이\n가해자만 왜 양심, 얼굴 다 블러 처린지\n이게 대체 누굴 위한 법인지",
-            "짜고 치는 이 게임\nNone of us can stop or beat 'em\n선이 곱던 논리가 흔들리게\n막춤을 추게 하는 algorithm\nOkay\nIt's gonna be okay\nBut that's a lie\n이 세상은 지옥행\nBurn",
-            "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world",
-            "신도 못 구해\n믿음보다 충만한 의구심\n두 눈과 귀를 닫고 살면서 진실을 묻지\n왜곡된 질문들에 무의미한 맞고 틀림\n소수를 집어삼키는 다수의 불신\n똑같은 죄를 짓더라도\n죗값의 무게는 각자 달라\n정의는 부를 비껴가고\n부패된 만큼 살아남아",
-            "꿈꾼 만큼 상처받는 것이\n당연한 일처럼 가르쳐\n어두운 현실로 미래를 가려놨지\n끊임없는 욕망과 이기심이 엉킨 세상\n인간에겐 오직 인간만이 견제 대상\n소통은 고통이 된 지 오래\n입은 뗄 때마다 손해\n눈만 뜨면 펼쳐진\n저 세기말을 보네",
-            "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world\nThe end of the world\nThe end of the world"
-        ] },
+hamlet:{
+emoji:"💀",
+list:[
+"To be, or not to be, that is the question.",
+"The rest is silence.",
+"What a piece of work is a man!"
+]
+}
 
-        
+};
 
-        // --- 발라드 / 팝 ---
-        still: { emoji: "☔", list: [
-            "낮게 깔린 목소리 머지않아 오겠지\n또다시 차가운 공기 속에 남겨진 채\n내리는 비가 가라앉을 때쯤 널 끌어안고 물어볼게",
-            "그날 왜 그랬는지 왜 날 울렸는지\n뒤엉킨 채로 무너진 내 몸을 달래줘\n텅 빈 방 안에서 널 그리며 난 갇혀있네",
-            "날 바라보는 그 미소 뒤에\n아름다운 보랏빛을 그려볼게요\n서로의 발걸음이 안 맞을 수도 있지만\n그대와 함께 이 길을 걷고 싶어요",
-            "Still with you\n어두운 방 조명 하나 없이 익숙해지면 안 되는데\n그게 또 익숙해지네",
-            "함께 웃고 함께 울고\n이 단순한 감정들이 내겐 전부였나 봐\n언제쯤일까 다시 그댈 마주한다면\n눈을 보고 말할래요 보고 싶었어요"
-        ] },
-        nct: { emoji: "🎹", list: [
-            "햇살 아래 부서지는 하얀 건반\n그 위를 걷는 너의 손가락 끝에\n어느새 번져가는 멜로디 속에\n내가 꿈꾸던 그 계절이 담겨있어",
-            "까만 건반과 하얀 건반 사이\n우리가 함께 그린 이 노래\n내 삶의 가장 빛나는 곡 그건 바로 너야",
-            "숨 가쁘게 달려온 시간의 끝에\n나를 멈춰 세운 건 너의 작은 떨림\n너를 위해 노래할게 언제까지나\n이 세상에 하나뿐인 아름다운 연주",
-            "한 음 한 음 정성껏 쌓아 올린 마음이\n너에게 닿기를 기도해\n두 손을 모아 건반 위로 떨어지는 별빛들\n그 눈부신 순간 속에 우리가 있음을",
-            "때로는 불협화음처럼 어긋나기도 하겠지만\n서로를 보듬는 화음으로 다시 일어설 거야\n마지막 소절이 끝나도 사라지지 않을\n우리의 영원한 교향곡"
-        ] }
-    };
+function loadContent(key,btn){
 
-    function loadContent(category, element) {
-        currentCategory = category;
-        const btns = document.querySelectorAll('.sub-menu button');
-        btns.forEach(b => b.classList.remove('active'));
-        if (element) element.classList.add('active');
-        document.getElementById('display-card').style.display = 'flex';
-        refresh();
-    }
-    function refresh() {
-        const data = database[currentCategory];
-        const pick = data.list[Math.floor(Math.random() * data.list.length)];
-        document.getElementById('emoji').innerText = data.emoji;
-        document.getElementById('lyric').innerText = pick;
-        document.getElementById('tw').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(pick)}`;
-    }
-</script>
-</body>
+document.querySelectorAll('.sub-menu button')
+.forEach(b=>b.classList.remove('active'));
+
+btn.classList.add('active');
+
+currentKey=key;
+currentList=database[key].list;
+
+document.getElementById('emoji').textContent=
+database[key].emoji;
+
+showRandom();
+
+document.getElementById('display-card').style.display="flex";
+}
+
+function showRandom(){
+
+let text=currentList[
+Math.floor(Math.random()*currentList.length)
+];
+
+document.getElementById('lyric').textContent=text;
+
+let url="https://twitter.com/intent/tweet?text="+
+encodeURIComponent(text);
+
+document.getElementById('tw').href=url;
+}
+
+function refresh(){
+if(!currentKey) return;
+showRandom();
+}
+
+</script></body>
 </html>

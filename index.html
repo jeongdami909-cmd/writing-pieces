@@ -10,32 +10,80 @@
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200"> 
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cinzel:wght@400;700&display=swap');
+
+        /* 기본 사이트 스타일 */
         :root { --bg: #000; --card-bg: #fff; --text: #1a1a1a; --accent: #d4af37; }
-        body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        header { padding: 40px 20px; text-align: center; }
-        h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); }
+        body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
         
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; }
+        #main-header { padding: 40px 20px; text-align: center; position: relative; z-index: 2; }
+        #main-header h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); margin: 0; }
+        
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; position: relative; z-index: 2; }
         .category-menu button { background: #222; border: 1px solid #666; color: #ccc; padding: 12px 20px; cursor: pointer; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: #fff; }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(212,175,55,0.5); } 
 
-        .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; }
+        .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; position: relative; z-index: 2; }
         .sub-menu.active { display: flex; }
         .sub-menu button { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 14px; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 0.8rem; }
         .sub-menu button:hover { background: rgba(212,175,55,0.2); }
         .sub-menu button.active { background: var(--accent); color: #000; } 
 
-        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 500px; min-height: 300px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; margin-bottom: 50px; }
+        /* 일반 문장 카드 스타일 */
+        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 500px; min-height: 300px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; margin-bottom: 50px; position: relative; z-index: 2; }
         .emoji { font-size: 2.5rem; margin-bottom: 25px; }
         #lyric { font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; white-space: pre-line; font-style: italic; word-break: keep-all; font-weight: 500; }
         .btn-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
         #refresh-btn { border: none; background: var(--accent); color: #000; padding: 16px; font-weight: bold; font-size: 0.9rem; cursor: pointer; }
         .tw-btn { border: 1px solid #1a1a1a; background: #000; color: #fff; padding: 14px; text-decoration: none; font-weight: bold; font-size: 0.8rem; cursor: pointer; text-align: center; }
+
+        /* ==========================================
+           Keanu Reeves 스페셜 페이지 전용 스타일
+           ========================================== */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.15; display: none; pointer-events: none; }
+        
+        #keanu-wrapper { 
+            display: none; width: 100%; position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 20px 30px 80px; 
+            font-family: 'Share Tech Mono', monospace; 
+            --green: #00ff41; --dark-green: #008f11; --black: #0d0208; --mid: #003b00;
+        }
+        #keanu-wrapper .k-header { text-align: center; margin-bottom: 70px; }
+        #keanu-wrapper .hashtag { font-family: 'Cinzel', serif; font-size: clamp(2rem, 6vw, 4rem); font-weight: 700; letter-spacing: 0.15em; color: var(--green); text-shadow: 0 0 10px var(--green), 0 0 30px var(--dark-green), 0 0 60px var(--mid); animation: flicker 4s infinite; }
+        #keanu-wrapper .subtitle { margin-top: 12px; font-size: 0.85rem; letter-spacing: 0.4em; color: var(--dark-green); text-transform: uppercase; }
+        
+        @keyframes flicker { 0%, 95%, 100% { opacity: 1; } 96% { opacity: 0.4; } 97% { opacity: 1; } 98% { opacity: 0.6; } 99% { opacity: 1; } }
+        
+        #keanu-wrapper .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--green), transparent); margin: 30px 0; position: relative; overflow: hidden; }
+        #keanu-wrapper .divider::after { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, #fff, transparent); animation: scan 3s linear infinite; }
+        @keyframes scan { to { left: 200%; } }
+        
+        #keanu-wrapper .story { display: flex; flex-direction: column; gap: 40px; text-align: left; }
+        #keanu-wrapper .block { border-left: 2px solid var(--dark-green); padding-left: 24px; position: relative; opacity: 0; transform: translateY(20px); animation: rise 0.8s forwards; }
+        #keanu-wrapper .block:nth-child(1) { animation-delay: 0.1s; }
+        #keanu-wrapper .block:nth-child(2) { animation-delay: 0.5s; }
+        #keanu-wrapper .block:nth-child(3) { animation-delay: 0.9s; }
+        #keanu-wrapper .block:nth-child(4) { animation-delay: 1.3s; }
+        @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+        
+        #keanu-wrapper .block::before { content: '▶'; position: absolute; left: -12px; top: 2px; font-size: 0.7rem; color: var(--green); background: var(--bg); padding: 2px 0; }
+        #keanu-wrapper .block-label { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--dark-green); text-transform: uppercase; margin-bottom: 10px; }
+        #keanu-wrapper .block-text { font-size: 1.05rem; line-height: 1.85; color: #b8ffb8; text-shadow: 0 0 8px rgba(0,255,65,0.3); }
+        #keanu-wrapper .highlight { color: var(--green); font-weight: bold; text-shadow: 0 0 12px var(--green); }
+        
+        #keanu-wrapper .finale { margin-top: 70px; text-align: center; opacity: 0; animation: rise 1s 1.8s forwards; }
+        #keanu-wrapper .finale-line { font-family: 'Cinzel', serif; font-size: clamp(1.2rem, 3.5vw, 2rem); letter-spacing: 0.08em; color: var(--green); text-shadow: 0 0 20px var(--green), 0 0 50px var(--dark-green); line-height: 1.6; }
+        #keanu-wrapper .cursor { display: inline-block; width: 3px; height: 1.1em; background: var(--green); vertical-align: middle; margin-left: 4px; animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        
+        #keanu-wrapper .k-footer { margin-top: 60px; text-align: center; font-size: 0.75rem; letter-spacing: 0.3em; color: var(--mid); }
     </style>
 </head>
 <body>
-<header><h1>SENTENCE ARCHIVE</h1></header> 
+
+<canvas id="matrix-canvas"></canvas>
+
+<header id="main-header"><h1>SENTENCE ARCHIVE</h1></header> 
 
 <div class="category-menu">
     <button onclick="showSubMenu('bts', this)">BTS</button>
@@ -45,6 +93,7 @@
     <button onclick="showSubMenu('pop', this)">팝</button>
     <button onclick="showSubMenu('lit', this)">시 / 문학</button>
     <button onclick="showSubMenu('bible', this)">말씀</button>
+    <button onclick="showSubMenu('special', this)" style="color: #00ff41; border-color: #008f11;">SPECIAL</button>
 </div> 
 
 <div id="sub-bts" class="sub-menu">
@@ -72,8 +121,7 @@
     <button onclick="loadContent('exhibition', this)">전람회 - 이방인</button>
 </div> 
 
-<div id="sub-pop" class="sub-menu">
-    </div> 
+<div id="sub-pop" class="sub-menu"></div> 
 
 <div id="sub-lit" class="sub-menu">
     <button onclick="loadContent('hamlet', this)">햄릿 독백</button>
@@ -89,6 +137,10 @@
     <button onclick="loadContent('psalm23', this)">시편 23편</button>
 </div> 
 
+<div id="sub-special" class="sub-menu">
+    <button onclick="loadKeanu(this)" style="color: #00ff41; border-color: #00ff41;">#KEANUREEVES</button>
+</div>
+
 <div id="display-card" class="card">
     <div id="emoji" class="emoji"></div>
     <p id="lyric"></p>
@@ -98,18 +150,54 @@
     </div>
 </div> 
 
+<div id="keanu-wrapper">
+    <div class="k-header"> 
+        <div class="hashtag">#KEANUREEVES</div> 
+        <div class="subtitle">The Man Who Could Buy Everything — And Chose Otherwise</div> 
+    </div> 
+    <div class="divider"></div> 
+    <div class="story"> 
+        <div class="block"> 
+            <div class="block-label">// Matrix Trilogy · Behind The Scenes</div> 
+            <div class="block-text"> The Matrix Trilogy이 끝난 후, 그는 <span class="highlight">$50,000,000 이상</span>을 의상팀과 특수효과팀 스태프들에게 조용히 나눠주었다.<br><br> 그는 그들을 "트릴로지의 진정한 영웅들"이라 불렀다. 어떤 카메라도, 어떤 기자도 없이. </div> 
+        </div> 
+        <div class="block"> 
+            <div class="block-label">// Stunt Doubles · Personal Gift</div> 
+            <div class="block-text"> 촬영 내내 자신을 대신해 위험을 감수한 스턴트 더블들 한 명 한 명에게, 그는 개인적으로 <span class="highlight">Harley-Davidson 오토바이</span>를 선물했다.<br><br> 총 수백만 달러에 달하는 감사의 표시였다. 발표도, 홍보도 없이. </div> 
+        </div> 
+        <div class="block"> 
+            <div class="block-label">// Salary Sacrifice · For Better Films</div> 
+            <div class="block-text"> 여러 성공적인 영화에서 그는 자신의 출연료 중 <span class="highlight">90%를 자진 반납</span>했다. 더 좋은 배우들을 섭외하고, 더 나은 작품을 만들기 위해.<br><br> 그는 돈보다 영화를 선택했다. </div> 
+        </div> 
+        <div class="block"> 
+            <div class="block-label">// Los Angeles · 1997</div> 
+            <div class="block-text"> 파파라치는 그를 로스앤젤레스 어느 거리에서 발견했다 — <span class="highlight">노숙자 옆에 앉아</span>, 몇 시간 동안 그의 이야기를 들으며, 그의 삶을 함께 나누고 있었다.<br><br> 그는 사진이 찍힌다는 걸 몰랐다. 아니, 알았어도 달라지지 않았을 것이다. </div> 
+        </div> 
+    </div> 
+    <div class="divider"></div> 
+    <div class="finale"> 
+        <div class="finale-line"> 이 사람은 모든 것을 살 수 있었다.<br> 그래서 그는 <span class="highlight">선함</span>을 선택했다.<span class="cursor"></span> </div> 
+    </div> 
+    <div class="k-footer"> &lt; BE EXCELLENT TO EACH OTHER &gt; </div>
+</div>
+
 <script>
+    /* UI 제어 스크립트 */
     function showSubMenu(categoryName, btnElement) {
         document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
         document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('active'));
         document.getElementById('sub-' + categoryName).classList.add('active');
+        
+        // 메뉴 바꿀 때 컨텐츠 창들 일단 숨기기
         document.getElementById('display-card').style.display = 'none';
+        document.getElementById('keanu-wrapper').style.display = 'none';
+        document.getElementById('matrix-canvas').style.display = 'none';
     } 
 
     const database = {
         spring: { emoji: "🌸", list: [
-            "보고 싶다 이렇게 말하니까 더 보고 싶다\n너희 사진을 보고 있어도 보고 싶다\n너무 야속한 시간 나는 우리가 밉다\n이젠 얼굴 한 번 보는 것 조 조차 힘들어진 우리가",
+            "보고 싶다 이렇게 말하니까 더 보고 싶다\n너희 사진을 보고 있어도 보고 싶다\n너무 야속한 시간 나는 우리가 밉다\n이젠 얼굴 한 번 보는 것 조차 힘들어진 우리가",
             "여긴 온통 겨울 뿐이야 8월에도 겨울이 와\n마음은 시간을 달려가네 홀로 남은 설국열차\n니 손 잡고 지구 반대편까지 가 이 겨울을 끝내고파\n그리움들이 얼마나 눈처럼 내려야 그 봄날이 올까, friend?",
             "허공을 떠도는 작은\n먼지처럼, 작은 먼지처럼\n날리는 눈이 나라면\n조금 더 빨리 네게 닿을 수 있을 텐데?",
             "눈꽃이 떨어져요\n또 조금씩 멀어져요\n보고 싶다 (보고 싶다)\n보고 싶다 (보고 싶다)",
@@ -315,16 +403,38 @@
     let currentList = [];
     let currentEmoji = "";
 
+    /* 일반 노래/글귀 불러오기 */
     function loadContent(key, btnElement) {
         document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
 
+        // 매트릭스 끄고 카드 보여주기
+        document.getElementById('keanu-wrapper').style.display = 'none';
+        document.getElementById('matrix-canvas').style.display = 'none';
+        
         const data = database[key];
         currentList = data.list;
         currentEmoji = data.emoji;
 
         document.getElementById('display-card').style.display = 'flex';
         showRandom();
+    }
+
+    /* 키아누 리브스 스페셜 페이지 불러오기 */
+    function loadKeanu(btnElement) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        // 카드 끄고 매트릭스 보여주기
+        document.getElementById('display-card').style.display = 'none';
+        document.getElementById('keanu-wrapper').style.display = 'block';
+        document.getElementById('matrix-canvas').style.display = 'block';
+        
+        // 애니메이션 재시작을 위한 리플로우(Reflow) 트릭
+        const kw = document.getElementById('keanu-wrapper');
+        kw.style.animation = 'none';
+        kw.offsetHeight; 
+        kw.style.animation = null; 
     }
 
     function showRandom() {
@@ -344,6 +454,49 @@
     function refresh() {
         showRandom();
     }
+
+    /* ==========================================
+       매트릭스 비(Matrix Rain) 효과 스크립트
+       ========================================== */
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const fontSize = 14;
+    let cols = Math.floor(canvas.width / fontSize);
+    let drops = Array(cols).fill(1);
+
+    // 윈도우 리사이즈 시 drops 배열도 다시 맞춰주기
+    window.addEventListener('resize', () => {
+        cols = Math.floor(canvas.width / fontSize);
+        drops = Array(cols).fill(1);
+    });
+
+    function draw() {
+        ctx.fillStyle = 'rgba(13, 2, 8, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff41';
+        ctx.font = fontSize + 'px Share Tech Mono';
+        
+        for (let i = 0; i < drops.length; i++) {
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillStyle = Math.random() > 0.95 ? '#ffffff' : '#00ff41';
+            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+    setInterval(draw, 50);
 </script>
 </body>
 </html>

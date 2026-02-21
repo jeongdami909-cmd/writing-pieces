@@ -10,28 +10,30 @@
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200"> 
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cinzel:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap');
 
-        /* 기본 사이트 스타일 */
+        /* ==========================================
+           기본 사이트 스타일 (문장 아카이브)
+           ========================================== */
         :root { --bg: #000; --card-bg: #fff; --text: #1a1a1a; --accent: #d4af37; }
+        html { scroll-behavior: smooth; }
         body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
         
-        #main-header { padding: 40px 20px; text-align: center; position: relative; z-index: 2; }
-        #main-header h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); margin: 0; }
+        header { padding: 40px 20px; text-align: center; position: relative; z-index: 10; }
+        h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); margin: 0; }
         
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; position: relative; z-index: 2; }
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; position: relative; z-index: 10; }
         .category-menu button { background: #222; border: 1px solid #666; color: #ccc; padding: 12px 20px; cursor: pointer; border-radius: 6px; transition: 0.3s; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: #fff; }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(212,175,55,0.5); } 
 
-        .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; position: relative; z-index: 2; }
+        .sub-menu { display: none; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0 20px 40px; max-width: 900px; width: 100%; position: relative; z-index: 10; }
         .sub-menu.active { display: flex; }
         .sub-menu button { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 14px; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 0.8rem; }
         .sub-menu button:hover { background: rgba(212,175,55,0.2); }
         .sub-menu button.active { background: var(--accent); color: #000; } 
 
-        /* 일반 문장 카드 스타일 */
-        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 500px; min-height: 300px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; margin-bottom: 50px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 500px; min-height: 300px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; margin-bottom: 50px; position: relative; z-index: 10; }
         .emoji { font-size: 2.5rem; margin-bottom: 25px; }
         #lyric { font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; white-space: pre-line; font-style: italic; word-break: keep-all; font-weight: 500; }
         .btn-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
@@ -39,51 +41,476 @@
         .tw-btn { border: 1px solid #1a1a1a; background: #000; color: #fff; padding: 14px; text-decoration: none; font-weight: bold; font-size: 0.8rem; cursor: pointer; text-align: center; }
 
         /* ==========================================
-           Keanu Reeves 스페셜 페이지 전용 스타일
+           새로운 클래식 포스터 페이지 전용 스타일
            ========================================== */
-        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.15; display: none; pointer-events: none; }
-        
-        #keanu-wrapper { 
-            display: none; width: 100%; position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 20px 30px 80px; 
-            font-family: 'Share Tech Mono', monospace; 
-            --green: #00ff41; --dark-green: #008f11; --black: #0d0208; --mid: #003b00;
+        #keanu-poster-wrapper {
+            display: none; /* 기본은 숨김 */
+            --cream: #f2ead8;
+            --rust: #c0392b;
+            --gold: #b8860b;
+            --dark: #0e0c0a;
+            --mid: #2a2420;
+            --warm-gray: #8a7f74;
+            background: var(--dark);
+            font-family: 'DM Mono', monospace;
+            color: var(--cream);
+            width: 100%;
+            position: relative;
+            z-index: 1;
         }
-        #keanu-wrapper .k-header { text-align: center; margin-bottom: 70px; }
-        #keanu-wrapper .hashtag { font-family: 'Cinzel', serif; font-size: clamp(2rem, 6vw, 4rem); font-weight: 700; letter-spacing: 0.15em; color: var(--green); text-shadow: 0 0 10px var(--green), 0 0 30px var(--dark-green), 0 0 60px var(--mid); animation: flicker 4s infinite; }
-        #keanu-wrapper .subtitle { margin-top: 12px; font-size: 0.85rem; letter-spacing: 0.4em; color: var(--dark-green); text-transform: uppercase; }
-        
-        @keyframes flicker { 0%, 95%, 100% { opacity: 1; } 96% { opacity: 0.4; } 97% { opacity: 1; } 98% { opacity: 0.6; } 99% { opacity: 1; } }
-        
-        #keanu-wrapper .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--green), transparent); margin: 30px 0; position: relative; overflow: hidden; }
-        #keanu-wrapper .divider::after { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, #fff, transparent); animation: scan 3s linear infinite; }
-        @keyframes scan { to { left: 200%; } }
-        
-        #keanu-wrapper .story { display: flex; flex-direction: column; gap: 40px; text-align: left; }
-        #keanu-wrapper .block { border-left: 2px solid var(--dark-green); padding-left: 24px; position: relative; opacity: 0; transform: translateY(20px); animation: rise 0.8s forwards; }
-        #keanu-wrapper .block:nth-child(1) { animation-delay: 0.1s; }
-        #keanu-wrapper .block:nth-child(2) { animation-delay: 0.5s; }
-        #keanu-wrapper .block:nth-child(3) { animation-delay: 0.9s; }
-        #keanu-wrapper .block:nth-child(4) { animation-delay: 1.3s; }
-        @keyframes rise { to { opacity: 1; transform: translateY(0); } }
-        
-        #keanu-wrapper .block::before { content: '▶'; position: absolute; left: -12px; top: 2px; font-size: 0.7rem; color: var(--green); background: var(--bg); padding: 2px 0; }
-        #keanu-wrapper .block-label { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--dark-green); text-transform: uppercase; margin-bottom: 10px; }
-        #keanu-wrapper .block-text { font-size: 1.05rem; line-height: 1.85; color: #b8ffb8; text-shadow: 0 0 8px rgba(0,255,65,0.3); }
-        #keanu-wrapper .highlight { color: var(--green); font-weight: bold; text-shadow: 0 0 12px var(--green); }
-        
-        #keanu-wrapper .finale { margin-top: 70px; text-align: center; opacity: 0; animation: rise 1s 1.8s forwards; }
-        #keanu-wrapper .finale-line { font-family: 'Cinzel', serif; font-size: clamp(1.2rem, 3.5vw, 2rem); letter-spacing: 0.08em; color: var(--green); text-shadow: 0 0 20px var(--green), 0 0 50px var(--dark-green); line-height: 1.6; }
-        #keanu-wrapper .cursor { display: inline-block; width: 3px; height: 1.1em; background: var(--green); vertical-align: middle; margin-left: 4px; animation: blink 1s step-end infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-        
-        #keanu-wrapper .k-footer { margin-top: 60px; text-align: center; font-size: 0.75rem; letter-spacing: 0.3em; color: var(--mid); }
+
+        #keanu-poster-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 200px;
+        }
+
+        #keanu-poster-wrapper * { box-sizing: border-box; }
+
+        #keanu-poster-wrapper .poster {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 0 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        #keanu-poster-wrapper .top-band {
+            background: var(--rust);
+            padding: 10px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.62rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--cream);
+            opacity: 0;
+            animation: fadeDown 0.6s 0.1s forwards;
+        }
+
+        #keanu-poster-wrapper .hero {
+            position: relative;
+            padding: 60px 50px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 70vh;
+        }
+
+        #keanu-poster-wrapper .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 50px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.3s forwards;
+        }
+
+        #keanu-poster-wrapper .label-small {
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--rust);
+            margin-bottom: 18px;
+        }
+
+        #keanu-poster-wrapper .main-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5rem, 12vw, 9.5rem);
+            line-height: 0.88;
+            letter-spacing: 0.03em;
+            color: var(--cream);
+            text-shadow: 6px 6px 0 var(--rust);
+            margin: 0;
+        }
+
+        #keanu-poster-wrapper .main-title span {
+            display: block;
+            color: var(--gold);
+            text-shadow: 4px 4px 0 var(--dark);
+        }
+
+        #keanu-poster-wrapper .hero-sub {
+            margin-top: 24px;
+            font-size: 0.72rem;
+            letter-spacing: 0.25em;
+            color: var(--warm-gray);
+            text-transform: uppercase;
+            line-height: 2;
+            max-width: 280px;
+        }
+
+        #keanu-poster-wrapper .hero-right {
+            opacity: 0;
+            animation: fadeUp 0.9s 0.5s forwards;
+        }
+
+        #keanu-poster-wrapper .portrait-frame {
+            width: 100%;
+            height: 100%;
+            min-height: 480px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #keanu-poster-wrapper .portrait-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(192,57,43,0.25) 0%, transparent 50%),
+                linear-gradient(to bottom, transparent 60%, var(--dark) 100%);
+            z-index: 2;
+        }
+
+        #keanu-poster-wrapper .silhouette {
+            width: 100%;
+            height: 100%;
+            min-height: 480px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            background: radial-gradient(ellipse 60% 80% at 50% 30%, #2a2420 0%, var(--dark) 100%);
+        }
+
+        #keanu-poster-wrapper .figure { position: relative; width: 160px; height: 420px; }
+
+        #keanu-poster-wrapper .figure-head {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 56px; height: 62px;
+            background: #3a3028;
+            border-radius: 50% 50% 42% 42%;
+            box-shadow: inset -6px -8px 18px rgba(0,0,0,0.5), 0 0 40px rgba(184,134,11,0.15);
+        }
+
+        #keanu-poster-wrapper .figure-neck {
+            position: absolute;
+            top: 58px; left: 50%;
+            transform: translateX(-50%);
+            width: 22px; height: 20px;
+            background: #2e2620;
+        }
+
+        #keanu-poster-wrapper .figure-coat {
+            position: absolute;
+            top: 70px; left: 50%;
+            transform: translateX(-50%);
+            width: 110px; height: 280px;
+            background: linear-gradient(170deg, #1c1814 0%, #0e0c0a 100%);
+            clip-path: polygon(18% 0%, 82% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%);
+            box-shadow: inset -10px 0 30px rgba(0,0,0,0.6);
+        }
+
+        #keanu-poster-wrapper .figure-coat::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 50px; height: 90px;
+            background: linear-gradient(180deg, #292420 0%, transparent 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        #keanu-poster-wrapper .figure-coat::after {
+            content: '';
+            position: absolute;
+            top: 48%; left: 0; right: 0;
+            height: 6px;
+            background: #2a2420;
+        }
+
+        #keanu-poster-wrapper .figure-legs {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 95px;
+            display: flex;
+            gap: 8px;
+        }
+
+        #keanu-poster-wrapper .leg {
+            flex: 1;
+            background: linear-gradient(180deg, #181512 0%, #0e0c0a 100%);
+            border-radius: 0 0 4px 4px;
+        }
+
+        #keanu-poster-wrapper .figure::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 120px; height: 20px;
+            background: radial-gradient(ellipse, rgba(0,0,0,0.7) 0%, transparent 80%);
+        }
+
+        #keanu-poster-wrapper .rim-light {
+            position: absolute;
+            top: 0; right: 0;
+            width: 2px; height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(184,134,11,0.4), transparent);
+        }
+
+        #keanu-poster-wrapper .deco-rule {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 50px;
+            margin: 50px 0 0;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.7s forwards;
+        }
+
+        #keanu-poster-wrapper .rule-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        #keanu-poster-wrapper .rule-diamond {
+            width: 8px; height: 8px;
+            background: var(--rust);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        #keanu-poster-wrapper .rule-text {
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        #keanu-poster-wrapper .tagline-banner {
+            background: var(--rust);
+            margin: 20px 50px 0;
+            padding: 16px 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.85s forwards;
+        }
+
+        #keanu-poster-wrapper .tag-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(242,234,216,0.5);
+            white-space: nowrap;
+        }
+
+        #keanu-poster-wrapper .tag-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--cream);
+            line-height: 1.4;
+        }
+
+        #keanu-poster-wrapper .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            margin: 40px 50px 0;
+            background: rgba(184,134,11,0.15);
+            border: 1px solid rgba(184,134,11,0.15);
+            opacity: 0;
+            animation: fadeUp 0.8s 1s forwards;
+        }
+
+        #keanu-poster-wrapper .story-card {
+            background: var(--mid);
+            padding: 32px 28px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+
+        #keanu-poster-wrapper .story-card:hover { background: #332e28; }
+
+        #keanu-poster-wrapper .story-card::before {
+            content: attr(data-num);
+            position: absolute;
+            top: -10px; right: 16px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            color: rgba(192,57,43,0.08);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        #keanu-poster-wrapper .card-icon {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--rust);
+        }
+
+        #keanu-poster-wrapper .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.08em;
+            color: var(--cream);
+            margin-bottom: 12px;
+        }
+
+        #keanu-poster-wrapper .card-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        #keanu-poster-wrapper .card-body {
+            font-size: 0.78rem;
+            line-height: 1.8;
+            color: #9e9188;
+            font-weight: 300;
+        }
+
+        #keanu-poster-wrapper .quote-section {
+            margin: 40px 50px 0;
+            padding: 50px 60px;
+            background: var(--dark);
+            border: 1px solid rgba(184,134,11,0.2);
+            border-left: 4px solid var(--rust);
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 0.8s 1.2s forwards;
+        }
+
+        #keanu-poster-wrapper .quote-section::before {
+            content: '\201C';
+            position: absolute;
+            top: -20px; left: 40px;
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            color: var(--rust);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        #keanu-poster-wrapper .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            line-height: 1.7;
+            color: var(--cream);
+            font-style: italic;
+        }
+
+        #keanu-poster-wrapper .quote-source {
+            margin-top: 20px;
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--rust);
+        }
+
+        #keanu-poster-wrapper .bottom-strip {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 50px 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(184,134,11,0.2);
+            opacity: 0;
+            animation: fadeUp 0.7s 1.4s forwards;
+        }
+
+        #keanu-poster-wrapper .hashtag-display {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            letter-spacing: 0.05em;
+            color: var(--rust);
+            text-shadow: 3px 3px 0 rgba(192,57,43,0.2);
+        }
+
+        #keanu-poster-wrapper .star-divider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        #keanu-poster-wrapper .year-text {
+            text-align: right;
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            color: var(--warm-gray);
+            line-height: 2;
+            text-transform: uppercase;
+        }
+
+        #keanu-poster-wrapper .final-band {
+            background: var(--mid);
+            margin: 40px 50px 0;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid var(--rust);
+            opacity: 0;
+            animation: fadeUp 0.6s 1.6s forwards;
+        }
+
+        #keanu-poster-wrapper .fb-left {
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+        }
+
+        #keanu-poster-wrapper .fb-right {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 640px) {
+            #keanu-poster-wrapper .hero { grid-template-columns: 1fr; padding: 40px 24px 0; }
+            #keanu-poster-wrapper .portrait-frame, #keanu-poster-wrapper .silhouette { min-height: 300px; }
+            #keanu-poster-wrapper .figure { width: 110px; height: 290px; }
+            #keanu-poster-wrapper .figure-head { width: 42px; height: 46px; }
+            #keanu-poster-wrapper .figure-coat { width: 76px; height: 196px; }
+            #keanu-poster-wrapper .figure-legs { width: 56px; height: 66px; }
+            #keanu-poster-wrapper .top-band { padding: 10px 24px; flex-direction: column; gap: 4px; text-align: center; }
+            #keanu-poster-wrapper .deco-rule, #keanu-poster-wrapper .tagline-banner, #keanu-poster-wrapper .story-grid,
+            #keanu-poster-wrapper .quote-section, #keanu-poster-wrapper .bottom-strip, #keanu-poster-wrapper .final-band { margin-left: 24px; margin-right: 24px; }
+            #keanu-poster-wrapper .story-grid { grid-template-columns: 1fr; }
+            #keanu-poster-wrapper .quote-section { padding: 36px 28px; }
+            #keanu-poster-wrapper .main-title { font-size: 5rem; }
+            #keanu-poster-wrapper .bottom-strip { grid-template-columns: 1fr; text-align: center; }
+            #keanu-poster-wrapper .year-text { text-align: center; }
+            #keanu-poster-wrapper .final-band { flex-direction: column; gap: 8px; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
-<canvas id="matrix-canvas"></canvas>
-
-<header id="main-header"><h1>SENTENCE ARCHIVE</h1></header> 
+<header><h1>SENTENCE ARCHIVE</h1></header> 
 
 <div class="category-menu">
     <button onclick="showSubMenu('bts', this)">BTS</button>
@@ -93,7 +520,7 @@
     <button onclick="showSubMenu('pop', this)">팝</button>
     <button onclick="showSubMenu('lit', this)">시 / 문학</button>
     <button onclick="showSubMenu('bible', this)">말씀</button>
-    <button onclick="showSubMenu('special', this)" style="color: #00ff41; border-color: #008f11;">SPECIAL</button>
+    <button onclick="showSubMenu('special', this)" style="color: #b8860b; border-color: #c0392b;">SPECIAL</button>
 </div> 
 
 <div id="sub-bts" class="sub-menu">
@@ -138,7 +565,7 @@
 </div> 
 
 <div id="sub-special" class="sub-menu">
-    <button onclick="loadKeanu(this)" style="color: #00ff41; border-color: #00ff41;">#KEANUREEVES</button>
+    <button onclick="loadKeanu(this)" style="color: #f2ead8; background: #c0392b; border-color: #c0392b;">#KEANUREEVES</button>
 </div>
 
 <div id="display-card" class="card">
@@ -150,35 +577,136 @@
     </div>
 </div> 
 
-<div id="keanu-wrapper">
-    <div class="k-header"> 
-        <div class="hashtag">#KEANUREEVES</div> 
-        <div class="subtitle">The Man Who Could Buy Everything — And Chose Otherwise</div> 
-    </div> 
-    <div class="divider"></div> 
-    <div class="story"> 
-        <div class="block"> 
-            <div class="block-label">// Matrix Trilogy · Behind The Scenes</div> 
-            <div class="block-text"> The Matrix Trilogy이 끝난 후, 그는 <span class="highlight">$50,000,000 이상</span>을 의상팀과 특수효과팀 스태프들에게 조용히 나눠주었다.<br><br> 그는 그들을 "트릴로지의 진정한 영웅들"이라 불렀다. 어떤 카메라도, 어떤 기자도 없이. </div> 
-        </div> 
-        <div class="block"> 
-            <div class="block-label">// Stunt Doubles · Personal Gift</div> 
-            <div class="block-text"> 촬영 내내 자신을 대신해 위험을 감수한 스턴트 더블들 한 명 한 명에게, 그는 개인적으로 <span class="highlight">Harley-Davidson 오토바이</span>를 선물했다.<br><br> 총 수백만 달러에 달하는 감사의 표시였다. 발표도, 홍보도 없이. </div> 
-        </div> 
-        <div class="block"> 
-            <div class="block-label">// Salary Sacrifice · For Better Films</div> 
-            <div class="block-text"> 여러 성공적인 영화에서 그는 자신의 출연료 중 <span class="highlight">90%를 자진 반납</span>했다. 더 좋은 배우들을 섭외하고, 더 나은 작품을 만들기 위해.<br><br> 그는 돈보다 영화를 선택했다. </div> 
-        </div> 
-        <div class="block"> 
-            <div class="block-label">// Los Angeles · 1997</div> 
-            <div class="block-text"> 파파라치는 그를 로스앤젤레스 어느 거리에서 발견했다 — <span class="highlight">노숙자 옆에 앉아</span>, 몇 시간 동안 그의 이야기를 들으며, 그의 삶을 함께 나누고 있었다.<br><br> 그는 사진이 찍힌다는 걸 몰랐다. 아니, 알았어도 달라지지 않았을 것이다. </div> 
-        </div> 
-    </div> 
-    <div class="divider"></div> 
-    <div class="finale"> 
-        <div class="finale-line"> 이 사람은 모든 것을 살 수 있었다.<br> 그래서 그는 <span class="highlight">선함</span>을 선택했다.<span class="cursor"></span> </div> 
-    </div> 
-    <div class="k-footer"> &lt; BE EXCELLENT TO EACH OTHER &gt; </div>
+<div id="keanu-poster-wrapper">
+    <div class="poster">
+        <div class="top-band">
+            <span>A Portrait of Quiet Greatness</span>
+            <span>★ ★ ★ ★ ★</span>
+            <span>Est. 1964 — Beirut</span>
+        </div>
+
+        <div class="hero">
+            <div class="hero-left">
+                <p class="label-small">The World Presents</p>
+                <h1 class="main-title">
+                    KEANU<span>REEVES</span>
+                </h1>
+                <p class="hero-sub">
+                    배우 · 인간 · 시대의 증인<br>
+                    그가 가진 것보다<br>그가 나눈 것으로 기억되다
+                </p>
+            </div>
+            <div class="hero-right">
+                <div class="portrait-frame">
+                    <div class="silhouette">
+                        <div class="figure">
+                            <div class="figure-head"></div>
+                            <div class="figure-neck"></div>
+                            <div class="figure-coat"></div>
+                            <div class="figure-legs">
+                                <div class="leg"></div>
+                                <div class="leg"></div>
+                            </div>
+                            <div class="rim-light"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="deco-rule">
+            <div class="rule-line"></div>
+            <div class="rule-diamond"></div>
+            <span class="rule-text">The True Story Behind The Icon</span>
+            <div class="rule-diamond"></div>
+            <div class="rule-line"></div>
+        </div>
+
+        <div class="tagline-banner">
+            <span class="tag-label">Tagline</span>
+            <span class="tag-text">
+                "이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."
+            </span>
+        </div>
+
+        <div class="story-grid">
+            <div class="story-card" data-num="01">
+                <div class="card-icon">◈</div>
+                <div class="card-title">Matrix Crew Gift</div>
+                <span class="card-amount">$50,000,000+</span>
+                <p class="card-body">
+                    트릴로지 종영 후, 의상팀과 특수효과팀 스태프들에게
+                    5천만 달러 이상을 나눠주었다.
+                    그는 그들을 "트릴로지의 진정한 영웅들"이라 불렀다.
+                    어떤 카메라도, 어떤 기자도 없이.
+                </p>
+            </div>
+
+            <div class="story-card" data-num="02">
+                <div class="card-icon">◈</div>
+                <div class="card-title">Stunt Doubles Gift</div>
+                <span class="card-amount">Harley-Davidson</span>
+                <p class="card-body">
+                    촬영 내내 자신을 대신해 위험을 감수한 스턴트 더블
+                    한 명 한 명에게 개인적으로 할리데이비슨 오토바이를 선물했다.
+                    총 수백만 달러에 달하는 감사의 표시.
+                    발표도, 홍보도 없이.
+                </p>
+            </div>
+
+            <div class="story-card" data-num="03">
+                <div class="card-icon">◈</div>
+                <div class="card-title">Salary Sacrifice</div>
+                <span class="card-amount">90% 자진 반납</span>
+                <p class="card-body">
+                    여러 성공적인 영화에서 자신의 출연료 중 90%를 자진 반납했다.
+                    더 좋은 배우들을 섭외하고, 더 나은 작품을 만들기 위해.
+                    그는 돈보다 영화를 선택했다.
+                </p>
+            </div>
+
+            <div class="story-card" data-num="04">
+                <div class="card-icon">◈</div>
+                <div class="card-title">Los Angeles · 1997</div>
+                <span class="card-amount">어느 조용한 아침</span>
+                <p class="card-body">
+                    파파라치는 그를 로스앤젤레스 거리에서 발견했다 —
+                    노숙자 옆에 앉아 몇 시간 동안 그의 이야기를 들으며,
+                    그의 삶을 함께 나누고 있었다.
+                    그는 사진이 찍힌다는 걸 몰랐다.
+                </p>
+            </div>
+        </div>
+
+        <div class="quote-section">
+            <p class="quote-text">
+                대부분의 스타들은 자선을 베풀 때 모든 미디어에 선언한다.<br>
+                그는 한 번도 그런 적이 없다.<br><br>
+                그저 도덕적 원칙의 문제로, 다른 이들의 눈에 더 나아 보이려는 것이 아니라,
+                그냥 그렇게 한다.
+            </p>
+            <p class="quote-source">— A Witness To Quiet Greatness</p>
+        </div>
+
+        <div class="bottom-strip">
+            <div class="hashtag-display">#KEANUREEVES</div>
+            <div class="star-divider">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+            </div>
+            <div class="year-text">
+                1964 — Present<br>
+                Beirut · Los Angeles<br>
+                The World
+            </div>
+        </div>
+
+        <div class="final-band">
+            <span class="fb-left">이 사람은 모든 것을 살 수 있었다</span>
+            <span class="fb-right">그래서 선함을 선택했다 ★</span>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -189,10 +717,9 @@
         document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('active'));
         document.getElementById('sub-' + categoryName).classList.add('active');
         
-        // 메뉴 바꿀 때 컨텐츠 창들 일단 숨기기
+        // 카테고리 전환 시 컨텐츠 창 모두 숨기기
         document.getElementById('display-card').style.display = 'none';
-        document.getElementById('keanu-wrapper').style.display = 'none';
-        document.getElementById('matrix-canvas').style.display = 'none';
+        document.getElementById('keanu-poster-wrapper').style.display = 'none';
     } 
 
     const database = {
@@ -408,9 +935,8 @@
         document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
 
-        // 매트릭스 끄고 카드 보여주기
-        document.getElementById('keanu-wrapper').style.display = 'none';
-        document.getElementById('matrix-canvas').style.display = 'none';
+        // 포스터 버전 숨기고 일반 카드 보여주기
+        document.getElementById('keanu-poster-wrapper').style.display = 'none';
         
         const data = database[key];
         currentList = data.list;
@@ -420,20 +946,20 @@
         showRandom();
     }
 
-    /* 키아누 리브스 스페셜 페이지 불러오기 */
+    /* 클래식 키아누 리브스 포스터 페이지 불러오기 */
     function loadKeanu(btnElement) {
         document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
 
-        // 카드 끄고 매트릭스 보여주기
+        // 일반 카드 숨기고 포스터 보여주기
         document.getElementById('display-card').style.display = 'none';
-        document.getElementById('keanu-wrapper').style.display = 'block';
-        document.getElementById('matrix-canvas').style.display = 'block';
         
-        // 애니메이션 재시작을 위한 리플로우(Reflow) 트릭
-        const kw = document.getElementById('keanu-wrapper');
+        const kw = document.getElementById('keanu-poster-wrapper');
+        kw.style.display = 'block';
+
+        // CSS 애니메이션을 처음부터 다시 재생하기 위한 리플로우(Reflow) 트릭
         kw.style.animation = 'none';
-        kw.offsetHeight; 
+        kw.offsetHeight; // 트리거
         kw.style.animation = null; 
     }
 
@@ -454,49 +980,6 @@
     function refresh() {
         showRandom();
     }
-
-    /* ==========================================
-       매트릭스 비(Matrix Rain) 효과 스크립트
-       ========================================== */
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const fontSize = 14;
-    let cols = Math.floor(canvas.width / fontSize);
-    let drops = Array(cols).fill(1);
-
-    // 윈도우 리사이즈 시 drops 배열도 다시 맞춰주기
-    window.addEventListener('resize', () => {
-        cols = Math.floor(canvas.width / fontSize);
-        drops = Array(cols).fill(1);
-    });
-
-    function draw() {
-        ctx.fillStyle = 'rgba(13, 2, 8, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff41';
-        ctx.font = fontSize + 'px Share Tech Mono';
-        
-        for (let i = 0; i < drops.length; i++) {
-            const char = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillStyle = Math.random() > 0.95 ? '#ffffff' : '#00ff41';
-            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-            
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-    }
-    setInterval(draw, 50);
 </script>
 </body>
 </html>

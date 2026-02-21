@@ -39,10 +39,12 @@
 
 <div class="category-menu">
     <button onclick="showSubMenu('bts', this)">BTS</button>
-    <button onclick="showSubMenu('bible', this)">말씀</button>
-    <button onclick="showSubMenu('lit', this)">시 / 문학</button>
+    <button onclick="showSubMenu('idol', this)">아이돌</button>
     <button onclick="showSubMenu('hiphop', this)">힙합</button>
-    <button onclick="showSubMenu('ballad', this)">발라드 / 팝</button>
+    <button onclick="showSubMenu('ballad', this)">발라드</button>
+    <button onclick="showSubMenu('pop', this)">팝</button>
+    <button onclick="showSubMenu('lit', this)">시 / 문학</button>
+    <button onclick="showSubMenu('bible', this)">말씀</button>
 </div> 
 
 <div id="sub-bts" class="sub-menu">
@@ -52,20 +54,11 @@
     <button onclick="loadContent('bts', this)">BUTTERFLY</button>
     <button onclick="loadContent('singularity', this)">V - Singularity</button>
     <button onclick="loadContent('euphoria', this)">정국 - Euphoria</button>
+    <button onclick="loadContent('still', this)">정국 - Still With You</button>
 </div> 
 
-<div id="sub-bible" class="sub-menu">
-    <button onclick="loadContent('psalm1', this)">시편 1편</button>
-    <button onclick="loadContent('psalm18', this)">시편 18편</button>
-    <button onclick="loadContent('psalm23', this)">시편 23편</button>
-</div> 
-
-<div id="sub-lit" class="sub-menu">
-    <button onclick="loadContent('hamlet', this)">햄릿 독백</button>
-    <button onclick="loadContent('tess', this)">테스</button>
-    <button onclick="loadContent('bird', this)">심보선 - 새</button>
-    <button onclick="loadContent('stone', this)">김남주 - 돌멩이</button>
-    <button onclick="loadContent('toyou', this)">진은영 - 너에게</button>
+<div id="sub-idol" class="sub-menu">
+    <button onclick="loadContent('nct', this)">NCT - PIANO</button>
 </div> 
 
 <div id="sub-hiphop" class="sub-menu">
@@ -76,8 +69,23 @@
 </div> 
 
 <div id="sub-ballad" class="sub-menu">
-    <button onclick="loadContent('still', this)">정국 - Still With You</button>
-    <button onclick="loadContent('nct', this)">NCT - PIANO</button>
+    </div> 
+
+<div id="sub-pop" class="sub-menu">
+    </div> 
+
+<div id="sub-lit" class="sub-menu">
+    <button onclick="loadContent('hamlet', this)">햄릿 독백</button>
+    <button onclick="loadContent('tess', this)">테스</button>
+    <button onclick="loadContent('bird', this)">심보선 - 새</button>
+    <button onclick="loadContent('stone', this)">김남주 - 돌멩이</button>
+    <button onclick="loadContent('toyou', this)">진은영 - 너에게</button>
+</div> 
+
+<div id="sub-bible" class="sub-menu">
+    <button onclick="loadContent('psalm1', this)">시편 1편</button>
+    <button onclick="loadContent('psalm18', this)">시편 18편</button>
+    <button onclick="loadContent('psalm23', this)">시편 23편</button>
 </div> 
 
 <div id="display-card" class="card">
@@ -160,6 +168,20 @@
             "Euphoria\nTake my hands now\nYou are the cause of my euphoria",
             "모래바닥이 갈라진대도\n그 누가 이 세계를 흔들어도\n잡은 손 절대 놓지 말아줘\n제발 꿈에서 깨어나지 마",
             "너도 나처럼 지워진 꿈을 찾아 헤맸을까\n운명 같은 흔한 말관 달라\n아픈 너의 눈빛이 나와 같은 곳을 보는 걸\nWon't you please stay in dreams"
+        ] },
+        still: { emoji: "☔", list: [
+            "낮게 깔린 목소리 머지않아 오겠지\n또다시 차가운 공기 속에 남겨진 채\n내리는 비가 가라앉을 때쯤 널 끌어안고 물어볼게",
+            "그날 왜 그랬는지 왜 날 울렸는지\n뒤엉킨 채로 무너진 내 몸을 달래줘\n텅 빈 방 안에서 널 그리며 난 갇혀있네",
+            "날 바라보는 그 미소 뒤에\n아름다운 보랏빛을 그려볼게요\n서로의 발걸음이 안 맞을 수도 있지만\n그대와 함께 이 길을 걷고 싶어요",
+            "Still with you\n어두운 방 조명 하나 없이 익숙해지면 안 되는데\n그게 또 익숙해지네",
+            "함께 웃고 함께 울고\n이 단순한 감정들이 내겐 전부였나 봐\n언제쯤일까 다시 그댈 마주한다면\n눈을 보고 말할래요 보고 싶었어요"
+        ] },
+        nct: { emoji: "🎹", list: [
+            "햇살 아래 부서지는 하얀 건반\n그 위를 걷는 너의 손가락 끝에\n어느새 번져가는 멜로디 속에\n내가 꿈꾸던 그 계절이 담겨있어",
+            "까만 건반과 하얀 건반 사이\n우리가 함께 그린 이 노래\n내 삶의 가장 빛나는 곡 그건 바로 너야",
+            "숨 가쁘게 달려온 시간의 끝에\n나를 멈춰 세운 건 너의 작은 떨림\n너를 위해 노래할게 언제까지나\n이 세상에 하나뿐인 아름다운 연주",
+            "한 음 한 음 정성껏 쌓아 올린 마음이\n너에게 닿기를 기도해\n두 손을 모아 건반 위로 떨어지는 별빛들\n그 눈부신 순간 속에 우리가 있음을",
+            "때로는 불협화음처럼 어긋나기도 하겠지만\n서로를 보듬는 화음으로 다시 일어설 거야\n마지막 소절이 끝나도 사라지지 않을\n우리의 영원한 교향곡"
         ] },
         
         psalm1: { emoji: "📜", list: [
@@ -281,21 +303,6 @@
             "신도 못 구해\n믿음보다 충만한 의구심\n두 눈과 귀를 닫고 살면서 진실을 묻지\n왜곡된 질문들에 무의미한 맞고 틀림\n소수를 집어삼키는 다수의 불신\n똑같은 죄를 짓더라도\n죗값의 무게는 각자 달라\n정의는 부를 비껴가고\n부패된 만큼 살아남아",
             "꿈꾼 만큼 상처받는 것이\n당연한 일처럼 가르쳐\n어두운 현실로 미래를 가려놨지\n끊임없는 욕망과 이기심이 엉킨 세상\n인간에겐 오직 인간만이 견제 대상\n소통은 고통이 된 지 오래\n입은 뗄 때마다 손해\n눈만 뜨면 펼쳐진\n저 세기말을 보네",
             "I want you to love me\nLike it's the end of the world\nNo one else above me\nNobody else you prefer\n'Cause we got this thing I wanna trust\nEven if it falls apart\nI want you to love me\nLike it's the end of the world\nThe end of the world\nThe end of the world"
-        ] }, 
-
-        still: { emoji: "☔", list: [
-            "낮게 깔린 목소리 머지않아 오겠지\n또다시 차가운 공기 속에 남겨진 채\n내리는 비가 가라앉을 때쯤 널 끌어안고 물어볼게",
-            "그날 왜 그랬는지 왜 날 울렸는지\n뒤엉킨 채로 무너진 내 몸을 달래줘\n텅 빈 방 안에서 널 그리며 난 갇혀있네",
-            "날 바라보는 그 미소 뒤에\n아름다운 보랏빛을 그려볼게요\n서로의 발걸음이 안 맞을 수도 있지만\n그대와 함께 이 길을 걷고 싶어요",
-            "Still with you\n어두운 방 조명 하나 없이 익숙해지면 안 되는데\n그게 또 익숙해지네",
-            "함께 웃고 함께 울고\n이 단순한 감정들이 내겐 전부였나 봐\n언제쯤일까 다시 그댈 마주한다면\n눈을 보고 말할래요 보고 싶었어요"
-        ] },
-        nct: { emoji: "🎹", list: [
-            "햇살 아래 부서지는 하얀 건반\n그 위를 걷는 너의 손가락 끝에\n어느새 번져가는 멜로디 속에\n내가 꿈꾸던 그 계절이 담겨있어",
-            "까만 건반과 하얀 건반 사이\n우리가 함께 그린 이 노래\n내 삶의 가장 빛나는 곡 그건 바로 너야",
-            "숨 가쁘게 달려온 시간의 끝에\n나를 멈춰 세운 건 너의 작은 떨림\n너를 위해 노래할게 언제까지나\n이 세상에 하나뿐인 아름다운 연주",
-            "한 음 한 음 정성껏 쌓아 올린 마음이\n너에게 닿기를 기도해\n두 손을 모아 건반 위로 떨어지는 별빛들\n그 눈부신 순간 속에 우리가 있음을",
-            "때로는 불협화음처럼 어긋나기도 하겠지만\n서로를 보듬는 화음으로 다시 일어설 거야\n마지막 소절이 끝나도 사라지지 않을\n우리의 영원한 교향곡"
         ] }
     }; 
 
@@ -313,11 +320,9 @@
         const data = database[currentCategory];
         const pick = data.list[Math.floor(Math.random() * data.list.length)];
         
-        // 카드 내용 업데이트
         document.getElementById('emoji').innerText = data.emoji;
         document.getElementById('lyric').innerText = pick;
 
-        // X(트위터) 공유 링크 업데이트 (선택 사항이지만 UI 완성도를 위해 추가했습니다)
         const twLink = document.getElementById('tw');
         const textToTweet = encodeURIComponent(pick + "\n\n#SentenceArchive");
         twLink.href = `https://twitter.com/intent/tweet?text=${textToTweet}`;

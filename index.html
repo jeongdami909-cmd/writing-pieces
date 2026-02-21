@@ -3,18 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Archive</title>
-
+    <title>Sentence Archive</title>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="My Sentence Archive">
     <meta name="twitter:description" content="나만의 문장 저장소 🦋">
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200">
 
-    <meta property="og:title" content="My Sentence Archive">
-    <meta property="og:description" content="나만의 문장 저장소 🦋">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=1200">
-    <meta property="og:url" content="https://jeongdami909-cmd.github.io/writing-pieces/">
-
     <style>
         :root { --bg: #000; --card-bg: #fff; --text: #1a1a1a; --accent: #d4af37; }
-        body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display
+        body { background: var(--bg); color: #fff; font-family: 'serif'; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { padding: 40px 20px; text-align: center; }
+        h1 { font-size: 1.8rem; letter-spacing: 3px; color: var(--accent); text-shadow: 0 2px 4px rgba(212,175,55,0.3); }
+        .menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 40px; max-width: 600px; }
+        /* 버튼 디자인: 블랙 & 골드 */
+        .menu button { background: #111; border: 1.5px solid var(--accent); color: var(--accent); padding: 12px 18px; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 0.85rem; font-weight: bold; }
+        .menu button:hover { background: var(--accent); color: #000; }
+        .menu button.active { background: var(--accent); color: #000; box-shadow: 0 0 15px rgba(212,175,55,0.5); }
+        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; border-radius: 0; width: 85%; max-width: 450px; min-height: 250px; display: none; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8); text-align: center; border: 1px solid #ddd; }
+        .emoji { font-size: 2.5rem; margin-bottom: 25px; }
+        #lyric { font-size: 1.15rem; line-height: 1.8; margin-bottom: 40px; white-space: pre-line; font-style: italic; word-break: keep-all; font-weight: 500; }
+        .btn-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        /* 다음 문장 버튼: 골드 포인트 */
+        #refresh-btn { border: none; background: var(--accent); color: #000; padding: 16px; font-weight: bold; font-size: 0.9rem; cursor: pointer; }
+        .tw-btn { border: 1px solid #1a1a1a; background: #000; color: #fff; padding: 14px; text-decoration: none; font-weight: bold; font-size: 0.8rem; cursor: pointer; text-align: center; }
+    </style>
+</head>
+<body>
+<header><h1>SENTENCE ARCHIVE</h1></header>
+<div class="menu" id="mainMenu">
+    <button onclick="loadContent('hamlet')">HAMLET</button>
+    <button onclick="loadContent('tess')">TESS</button>
+    <button onclick="loadContent('spring')">BTS - 봄날</button>
+    <button onclick="loadContent('jungkook')">정국 - Still With You</button>
+    <button onclick="loadContent('bts')">BTS - BUTTERFLY</button>
+    <button onclick="loadContent('nct')">NCT - PIANO</button>
+</div>
+<div id="display-card" class="card">
+    <div id="emoji" class="emoji"></div>
+    <p id="lyric"></p>
+    <div class="btn-box">
+        <button onclick="refresh()" id="refresh-btn">NEXT SENTENCE</button>
+        <a id="tw" href="#" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
+    </div>
+</div>
+<script>
+    let currentCategory = '';
+    const database = {
+        hamlet: { emoji: "💀", list: ["To be, or not to be, that is the question", "The rest is silence.", "O, that this too too solid flesh would melt"] },
+        tess: { emoji: "🚩", list: ["'Justice' was done", "It was a black flag."] },
+        spring: { emoji: "🌸", list: ["보고 싶다 이렇게 말하니까 더 보고 싶다", "추운 겨울 끝을 지나 다시 봄이 올 때까지", "허공을 떠도는 작은 먼지처럼 눈꽃이 떨어져요"] },
+        jungkook: { emoji: "☔", list: ["내리는 비가 가라앉을 때쯤 널 끌어안고 물어볼게", "날 바라보는 그 미소 뒤에 아름다운 보랏빛을 그려볼게요", "우리가 함께라면 이 길의 끝조차도 아름다울 거야"] },
+        bts: { emoji: "🦋", list: ["곁에 머물러줄래 내게 약속해줄래", "손 대면 날아갈까 부서질까 겁나"] },
+        nct: { emoji: "🎹", list: ["까만 건반과 하얀 건반 사이\n우리가 함께 그린 이 노래", "내 삶의 가장 빛나는 곡 그건 바로 너야"] }
+    };
+    function loadContent(category) {
+        currentCategory = category;
+        const btns = document.querySelectorAll('.menu button');
+        btns.forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('display-card').style.display = 'flex';
+        refresh();
+    }
+    function refresh() {
+        const data = database[currentCategory];
+        const pick = data.list[Math.floor(Math.random() * data.list.length)];
+        document.getElementById('emoji').innerText = data.emoji;
+        document.getElementById('lyric').innerText = pick;
+        document.getElementById('tw').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(pick)}`;
+    }
+</script>
+</body>
+</html>

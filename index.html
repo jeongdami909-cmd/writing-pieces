@@ -41,7 +41,7 @@
         .tw-btn { border: 1px solid #1a1a1a; background: #000; color: #fff; padding: 14px; text-decoration: none; font-weight: bold; font-size: 0.8rem; cursor: pointer; text-align: center; }
 
         /* ==========================================
-           스페셜 1: 키아누 리브스
+           스페셜 1: 키아누 리브스 포스터
            ========================================== */
         #keanu-poster-wrapper {
             display: none; 
@@ -101,125 +101,81 @@
         #keanu-poster-wrapper .fb-right { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.2em; color: var(--gold); }
 
         /* ==========================================
-           스페셜 2: 조지 6세 전용 스타일 (빈티지 폴라로이드 추가)
+           스페셜 2: 조지 6세 포스터
            ========================================== */
         #george-wrapper {
             display: none;
-            --g-navy: #1B263B;
-            --g-gold: #C5A880;
-            --g-cream: #F9F6F0;
-            --g-red: #8B0000;
-            --g-dark: #0D1321;
-            background: var(--g-dark);
-            color: var(--g-cream);
-            width: 100%; position: relative; z-index: 1;
-            padding: 40px 20px 80px;
+            --g-navy: #1B263B; --g-gold: #C5A880; --g-cream: #F9F6F0; --g-red: #8B0000; --g-dark: #0D1321;
+            background: var(--g-dark); color: var(--g-cream);
+            width: 100%; position: relative; z-index: 1; padding: 40px 20px 80px;
         }
-
         #george-wrapper * { box-sizing: border-box; font-family: 'Noto Serif KR', 'Playfair Display', serif; }
-
-        #george-wrapper .g-poster {
-            max-width: 960px;
-            margin: 0 auto;
-            background: var(--g-navy);
-            border: 8px solid var(--g-gold);
-            outline: 2px solid var(--g-navy);
-            outline-offset: -12px;
-            padding: 60px 50px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            position: relative;
-        }
-
-        #george-wrapper .g-header {
-            text-align: center;
-            margin-bottom: 50px;
-            border-bottom: 2px solid rgba(197, 168, 128, 0.3);
-            padding-bottom: 40px;
-        }
-
+        #george-wrapper .g-poster { max-width: 960px; margin: 0 auto; background: var(--g-navy); border: 8px solid var(--g-gold); outline: 2px solid var(--g-navy); outline-offset: -12px; padding: 60px 50px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); position: relative; }
+        #george-wrapper .g-header { text-align: center; margin-bottom: 50px; border-bottom: 2px solid rgba(197, 168, 128, 0.3); padding-bottom: 40px; }
         #george-wrapper .g-royal-seal { font-size: 3rem; color: var(--g-gold); margin-bottom: 10px; }
         #george-wrapper .g-title { font-family: 'Cinzel', serif; font-size: clamp(3rem, 8vw, 5rem); color: var(--g-cream); letter-spacing: 0.1em; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         #george-wrapper .g-subtitle { font-family: 'Cinzel', serif; color: var(--g-gold); font-size: 1rem; letter-spacing: 0.3em; margin-top: 15px; text-transform: uppercase; }
-
-        /* 조지 6세 레이아웃 (텍스트 + 사진 액자) */
-        #george-wrapper .g-layout {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        #george-wrapper .g-text-content {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        #george-wrapper .g-block {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 25px;
-            border-left: 3px solid var(--g-red);
-        }
-
+        #george-wrapper .g-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; }
+        #george-wrapper .g-text-content { display: flex; flex-direction: column; gap: 30px; }
+        #george-wrapper .g-block { background: rgba(255, 255, 255, 0.03); padding: 25px; border-left: 3px solid var(--g-red); }
         #george-wrapper .g-block-num { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--g-gold); margin-bottom: 10px; display: block; }
         #george-wrapper .g-block-title { font-size: 1.2rem; font-weight: bold; color: var(--g-cream); margin-bottom: 12px; letter-spacing: 0.05em; }
         #george-wrapper .g-block-text { font-size: 0.95rem; line-height: 1.8; color: #d1d5db; word-break: keep-all; }
         #george-wrapper .g-highlight { color: var(--g-gold); font-weight: bold; }
-
-        /* 빈티지 폴라로이드 사진 영역 */
-        #george-wrapper .g-photo-area {
-            perspective: 1000px;
-        }
-
-        #george-wrapper .g-polaroid {
-            background: #F9F6F0;
-            padding: 15px 15px 60px 15px;
-            box-shadow: 5px 15px 30px rgba(0,0,0,0.7);
-            transform: rotate(3deg);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            position: relative;
-        }
-
-        #george-wrapper .g-polaroid:hover {
-            transform: rotate(0deg) scale(1.02);
-            box-shadow: 10px 25px 40px rgba(0,0,0,0.9);
-        }
-
-        #george-wrapper .g-polaroid img {
-            width: 100%;
-            height: auto;
-            display: block;
-            background: #2a2a2a; /* 이미지가 없을 때의 배경색 */
-            min-height: 300px; /* 이미지가 없을 때의 최소 높이 */
-            filter: sepia(0.4) contrast(1.1) brightness(0.9);
-        }
-
-        #george-wrapper .g-caption {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-            color: #1a1a1a;
-            font-size: 1.1rem;
-            font-style: italic;
-            font-weight: bold;
-        }
-
-        #george-wrapper .g-quote-box {
-            background: var(--g-dark);
-            padding: 40px;
-            text-align: center;
-            border-left: 4px solid var(--g-gold);
-            border-right: 4px solid var(--g-gold);
-            margin: 50px 0;
-        }
-
+        #george-wrapper .g-photo-area { perspective: 1000px; }
+        #george-wrapper .g-polaroid { background: #F9F6F0; padding: 15px 15px 60px 15px; box-shadow: 5px 15px 30px rgba(0,0,0,0.7); transform: rotate(3deg); transition: transform 0.4s ease, box-shadow 0.4s ease; position: relative; }
+        #george-wrapper .g-polaroid:hover { transform: rotate(0deg) scale(1.02); box-shadow: 10px 25px 40px rgba(0,0,0,0.9); }
+        #george-wrapper .g-polaroid img { width: 100%; height: auto; display: block; background: #2a2a2a; min-height: 300px; filter: sepia(0.4) contrast(1.1) brightness(0.9); }
+        #george-wrapper .g-caption { position: absolute; bottom: 20px; left: 0; width: 100%; text-align: center; font-family: 'Playfair Display', serif; color: #1a1a1a; font-size: 1.1rem; font-style: italic; font-weight: bold; }
+        #george-wrapper .g-quote-box { background: var(--g-dark); padding: 40px; text-align: center; border-left: 4px solid var(--g-gold); border-right: 4px solid var(--g-gold); margin: 50px 0; }
         #george-wrapper .g-quote { font-size: 1.3rem; line-height: 1.8; font-style: italic; color: var(--g-cream); }
         #george-wrapper .g-footer { text-align: center; margin-top: 40px; font-size: 0.85rem; color: var(--g-gold); letter-spacing: 0.1em; line-height: 1.8; }
 
-        @media (max-width: 800px) {
+        /* ==========================================
+           스페셜 3: 철학자들 (홉스, 로크, 루소)
+           ========================================== */
+        #philosophy-wrapper {
+            display: none;
+            width: 100%; position: relative; z-index: 1;
+            padding: 40px 20px 80px;
+            font-family: 'Noto Serif KR', serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+        }
+        #philosophy-wrapper .phil-header { text-align: center; margin-bottom: 60px; }
+        #philosophy-wrapper .phil-subtitle { font-family: 'Cinzel', serif; color: #c5a880; letter-spacing: 0.4em; font-size: 0.85rem; margin-bottom: 15px; text-transform: uppercase; }
+        #philosophy-wrapper .phil-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #f5f5f0; margin: 0; letter-spacing: 0.05em; }
+        #philosophy-wrapper .phil-intro { max-width: 700px; margin: 20px auto; color: #888; line-height: 1.8; word-break: keep-all; font-size: 0.95rem;}
+        #philosophy-wrapper .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1100px; margin: 0 auto; }
+        #philosophy-wrapper .phil-card { background: #141414; border: 1px solid #2a2a2a; padding: 40px 30px; position: relative; transition: all 0.4s ease; display: flex; flex-direction: column; overflow: hidden; opacity: 0; transform: translateY(20px); }
+        #philosophy-wrapper .card-hobbes { --theme-color: #4a69bd; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .card-locke { --theme-color: #78e08f; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .card-rousseau { --theme-color: #e55039; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .phil-card.active { opacity: 1; transform: translateY(0); }
+        #philosophy-wrapper .phil-card:hover { transform: translateY(-10px); border-color: var(--theme-color); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px inset rgba(255,255,255,0.02); }
+        #philosophy-wrapper .phil-card::before { content: '❝'; position: absolute; top: 10px; right: 20px; font-size: 6rem; font-family: 'Playfair Display', serif; color: var(--theme-color); opacity: 0.1; transition: opacity 0.4s ease; }
+        #philosophy-wrapper .phil-card:hover::before { opacity: 0.2; }
+        #philosophy-wrapper .p-name { font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin: 0 0 5px 0; letter-spacing: 0.05em; }
+        #philosophy-wrapper .p-years { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: #666; margin-bottom: 25px; letter-spacing: 0.1em; }
+        #philosophy-wrapper .p-book { font-size: 0.9rem; color: var(--theme-color); font-weight: bold; margin-bottom: 20px; letter-spacing: 0.05em; }
+        #philosophy-wrapper .p-quote { font-size: 1.1rem; font-style: italic; line-height: 1.6; color: #e0e0e0; margin-bottom: 25px; padding-left: 15px; border-left: 2px solid var(--theme-color); word-break: keep-all; }
+        #philosophy-wrapper .p-desc { font-size: 0.95rem; line-height: 1.8; color: #a0a0a0; margin-bottom: 30px; flex-grow: 1; word-break: keep-all; }
+        #philosophy-wrapper .p-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+        #philosophy-wrapper .p-tag { background: rgba(255,255,255,0.05); color: var(--theme-color); padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; letter-spacing: 0.05em; }
+        #philosophy-wrapper .phil-controls { margin: 60px auto 0; text-align: center; }
+        #philosophy-wrapper .btn-compare { background: transparent; border: 1px solid #c5a880; color: #c5a880; padding: 15px 40px; font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s; letter-spacing: 2px; }
+        #philosophy-wrapper .btn-compare:hover { background: #c5a880; color: #000; }
+
+        @media (max-width: 960px) {
+            #philosophy-wrapper .phil-grid { grid-template-columns: 1fr; max-width: 500px; }
+        }
+        @media (max-width: 640px) {
+            #keanu-poster-wrapper .hero { grid-template-columns: 1fr; padding: 40px 24px 0; }
+            #keanu-poster-wrapper .portrait-frame, #keanu-poster-wrapper .silhouette { min-height: 300px; }
+            #keanu-poster-wrapper .top-band { padding: 10px 24px; flex-direction: column; gap: 4px; text-align: center; }
+            #keanu-poster-wrapper .deco-rule, #keanu-poster-wrapper .tagline-banner, #keanu-poster-wrapper .story-grid,
+            #keanu-poster-wrapper .quote-section, #keanu-poster-wrapper .bottom-strip, #keanu-poster-wrapper .final-band { margin-left: 24px; margin-right: 24px; }
+            #keanu-poster-wrapper .story-grid { grid-template-columns: 1fr; }
             #george-wrapper .g-layout { grid-template-columns: 1fr; }
             #george-wrapper .g-polaroid { max-width: 400px; margin: 0 auto; transform: rotate(0deg); }
             #george-wrapper .g-poster { padding: 40px 20px; }
@@ -288,6 +244,7 @@
 <div id="sub-special" class="sub-menu">
     <button onclick="loadKeanu(this)" style="color: #f2ead8; background: #c0392b; border-color: #c0392b;">#KEANUREEVES</button>
     <button onclick="loadGeorge(this)" style="color: #F9F6F0; background: #1B263B; border-color: #C5A880;">#GEORGE_VI</button>
+    <button onclick="loadPhilosophy(this)" style="color: #fff; background: #1a1a1a; border-color: #888;">#PHILOSOPHY</button>
 </div>
 
 <div id="display-card" class="card">
@@ -309,13 +266,8 @@
         <div class="hero">
             <div class="hero-left">
                 <p class="label-small">The World Presents</p>
-                <h1 class="main-title">
-                    KEANU<span>REEVES</span>
-                </h1>
-                <p class="hero-sub">
-                    배우 · 인간 · 시대의 증인<br>
-                    그가 가진 것보다<br>그가 나눈 것으로 기억되다
-                </p>
+                <h1 class="main-title">KEANU<span>REEVES</span></h1>
+                <p class="hero-sub">배우 · 인간 · 시대의 증인<br>그가 가진 것보다<br>그가 나눈 것으로 기억되다</p>
             </div>
             <div class="hero-right">
                 <div class="portrait-frame">
@@ -324,10 +276,7 @@
                             <div class="figure-head"></div>
                             <div class="figure-neck"></div>
                             <div class="figure-coat"></div>
-                            <div class="figure-legs">
-                                <div class="leg"></div>
-                                <div class="leg"></div>
-                            </div>
+                            <div class="figure-legs"><div class="leg"></div><div class="leg"></div></div>
                             <div class="rim-light"></div>
                         </div>
                     </div>
@@ -335,88 +284,41 @@
             </div>
         </div>
         <div class="deco-rule">
-            <div class="rule-line"></div>
-            <div class="rule-diamond"></div>
-            <span class="rule-text">The True Story Behind The Icon</span>
-            <div class="rule-diamond"></div>
-            <div class="rule-line"></div>
+            <div class="rule-line"></div><div class="rule-diamond"></div><span class="rule-text">The True Story Behind The Icon</span><div class="rule-diamond"></div><div class="rule-line"></div>
         </div>
         <div class="tagline-banner">
             <span class="tag-label">Tagline</span>
-            <span class="tag-text">
-                "이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."
-            </span>
+            <span class="tag-text">"이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."</span>
         </div>
         <div class="story-grid">
             <div class="story-card" data-num="01">
-                <div class="card-icon">◈</div>
-                <div class="card-title">Matrix Crew Gift</div>
-                <span class="card-amount">$50,000,000+</span>
-                <p class="card-body">
-                    트릴로지 종영 후, 의상팀과 특수효과팀 스태프들에게
-                    5천만 달러 이상을 나눠주었다.
-                    그는 그들을 "트릴로지의 진정한 영웅들"이라 불렀다.
-                    어떤 카메라도, 어떤 기자도 없이.
-                </p>
+                <div class="card-icon">◈</div><div class="card-title">Matrix Crew Gift</div><span class="card-amount">$50,000,000+</span>
+                <p class="card-body">트릴로지 종영 후, 의상팀과 특수효과팀 스태프들에게 5천만 달러 이상을 나눠주었다. 그는 그들을 "트릴로지의 진정한 영웅들"이라 불렀다.</p>
             </div>
             <div class="story-card" data-num="02">
-                <div class="card-icon">◈</div>
-                <div class="card-title">Stunt Doubles Gift</div>
-                <span class="card-amount">Harley-Davidson</span>
-                <p class="card-body">
-                    촬영 내내 자신을 대신해 위험을 감수한 스턴트 더블
-                    한 명 한 명에게 개인적으로 할리데이비슨 오토바이를 선물했다.
-                    총 수백만 달러에 달하는 감사의 표시.
-                    발표도, 홍보도 없이.
-                </p>
+                <div class="card-icon">◈</div><div class="card-title">Stunt Doubles Gift</div><span class="card-amount">Harley-Davidson</span>
+                <p class="card-body">촬영 내내 자신을 대신해 위험을 감수한 스턴트 더블 한 명 한 명에게 개인적으로 할리데이비슨 오토바이를 선물했다.</p>
             </div>
             <div class="story-card" data-num="03">
-                <div class="card-icon">◈</div>
-                <div class="card-title">Salary Sacrifice</div>
-                <span class="card-amount">90% 자진 반납</span>
-                <p class="card-body">
-                    여러 성공적인 영화에서 자신의 출연료 중 90%를 자진 반납했다.
-                    더 좋은 배우들을 섭외하고, 더 나은 작품을 만들기 위해.
-                    그는 돈보다 영화를 선택했다.
-                </p>
+                <div class="card-icon">◈</div><div class="card-title">Salary Sacrifice</div><span class="card-amount">90% 자진 반납</span>
+                <p class="card-body">여러 성공적인 영화에서 자신의 출연료 중 90%를 자진 반납했다. 더 좋은 배우들을 섭외하고, 더 나은 작품을 만들기 위해.</p>
             </div>
             <div class="story-card" data-num="04">
-                <div class="card-icon">◈</div>
-                <div class="card-title">Los Angeles · 1997</div>
-                <span class="card-amount">어느 조용한 아침</span>
-                <p class="card-body">
-                    파파라치는 그를 로스앤젤레스 거리에서 발견했다 —
-                    노숙자 옆에 앉아 몇 시간 동안 그의 이야기를 들으며,
-                    그의 삶을 함께 나누고 있었다.
-                    그는 사진이 찍힌다는 걸 몰랐다.
-                </p>
+                <div class="card-icon">◈</div><div class="card-title">Los Angeles · 1997</div><span class="card-amount">어느 조용한 아침</span>
+                <p class="card-body">파파라치는 그를 로스앤젤레스 거리에서 발견했다 — 노숙자 옆에 앉아 몇 시간 동안 그의 이야기를 들으며, 그의 삶을 함께 나누고 있었다.</p>
             </div>
         </div>
         <div class="quote-section">
-            <p class="quote-text">
-                대부분의 스타들은 자선을 베풀 때 모든 미디어에 선언한다.<br>
-                그는 한 번도 그런 적이 없다.<br><br>
-                그저 도덕적 원칙의 문제로, 다른 이들의 눈에 더 나아 보이려는 것이 아니라,
-                그냥 그렇게 한다.
-            </p>
+            <p class="quote-text">대부분의 스타들은 자선을 베풀 때 모든 미디어에 선언한다.<br>그는 한 번도 그런 적이 없다.<br><br>그저 도덕적 원칙의 문제로, 다른 이들의 눈에 더 나아 보이려는 것이 아니라, 그냥 그렇게 한다.</p>
             <p class="quote-source">— A Witness To Quiet Greatness</p>
         </div>
         <div class="bottom-strip">
             <div class="hashtag-display">#KEANUREEVES</div>
-            <div class="star-divider">
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-            </div>
-            <div class="year-text">
-                1964 — Present<br>
-                Beirut · Los Angeles<br>
-                The World
-            </div>
+            <div class="star-divider"><span>★</span><span>★</span><span>★</span></div>
+            <div class="year-text">1964 — Present<br>Beirut · Los Angeles<br>The World</div>
         </div>
         <div class="final-band">
-            <span class="fb-left">이 사람은 모든 것을 살 수 있었다</span>
-            <span class="fb-right">그래서 선함을 선택했다 ★</span>
+            <span class="fb-left">이 사람은 모든 것을 살 수 있었다</span><span class="fb-right">그래서 선함을 선택했다 ★</span>
         </div>
     </div>
 </div>
@@ -428,38 +330,25 @@
             <h1 class="g-title">GEORGE VI</h1>
             <p class="g-subtitle">The Reluctant King · The Voice of Courage</p>
         </div>
-
         <div class="g-layout">
             <div class="g-text-content">
                 <div class="g-block">
                     <span class="g-block-num">I. 준비되지 않았던 왕</span>
-                    <div class="g-block-text">
-                        본래 왕이 될 운명이 아니었습니다. 형인 에드워드 8세가 왕위 계승자였으나, 사랑을 위해 왕위를 포기하는 <span class="g-highlight">사상 초유의 사건(세기의 로맨스)</span>이 벌어지며 동생이었던 그가 갑작스럽게 왕위에 오릅니다. 내성적이고 대중 앞에 서는 것을 두려워했던 그에게는 엄청난 부담이었죠.
-                    </div>
+                    <div class="g-block-text">본래 왕이 될 운명이 아니었습니다. 형인 에드워드 8세가 왕위 계승자였으나, 사랑을 위해 왕위를 포기하는 <span class="g-highlight">사상 초유의 사건(세기의 로맨스)</span>이 벌어지며 동생이었던 그가 갑작스럽게 왕위에 오릅니다. 내성적이고 대중 앞에 서는 것을 두려워했던 그에게는 엄청난 부담이었죠.</div>
                 </div>
-                
                 <div class="g-block">
                     <span class="g-block-num">II. 말더듬이를 극복한 용기</span>
-                    <div class="g-block-text">
-                        심한 말더듬이 증상이 있었습니다. 라디오 방송이 중요해지던 시대에 대중 연설은 그에게 큰 고통이었지만, 언어 치료사의 도움을 받아 이를 극복해 나갔습니다. 이 과정이 바로 영화 <span class="g-highlight">'킹스 스피치'</span>의 핵심 내용입니다.
-                    </div>
+                    <div class="g-block-text">심한 말더듬이 증상이 있었습니다. 라디오 방송이 중요해지던 시대에 대중 연설은 그에게 큰 고통이었지만, 언어 치료사의 도움을 받아 이를 극복해 나갔습니다. 이 과정이 바로 영화 <span class="g-highlight">'킹스 스피치'</span>의 핵심 내용입니다.</div>
                 </div>
-
                 <div class="g-block">
                     <span class="g-block-num">III. 제2차 세계대전의 정신적 지주</span>
-                    <div class="g-block-text">
-                        제2차 세계대전 당시 런던이 독일군의 폭격을 받을 때도 피난을 가지 않고 <span class="g-highlight">버킹엄 궁전에 남아 국민들과 고통을 함께했습니다.</span> 매주 라디오 연설을 통해 국민들에게 용기를 북돋워 주며 승리의 정신적 지주 역할을 했습니다.
-                    </div>
+                    <div class="g-block-text">제2차 세계대전 당시 런던이 독일군의 폭격을 받을 때도 피난을 가지 않고 <span class="g-highlight">버킹엄 궁전에 남아 국민들과 고통을 함께했습니다.</span> 매주 라디오 연설을 통해 국민들에게 용기를 북돋워 주며 승리의 정신적 지주 역할을 했습니다.</div>
                 </div>
-
                 <div class="g-block">
                     <span class="g-block-num">IV. 엘리자베스 2세의 아버지</span>
-                    <div class="g-block-text">
-                        고(故) 엘리자베스 2세 여왕의 아버지입니다. 1925년 웸블리 전시회에서 미끄럼틀을 타던 천진난만한 청년은, 훗날 56세의 나이로 서거할 때까지 영국을 지탱하는 가장 거대한 기둥이 되었습니다.
-                    </div>
+                    <div class="g-block-text">고(故) 엘리자베스 2세 여왕의 아버지입니다. 1925년 웸블리 전시회에서 미끄럼틀을 타던 천진난만한 청년은, 훗날 56세의 나이로 서거할 때까지 영국을 지탱하는 가장 거대한 기둥이 되었습니다.</div>
                 </div>
             </div>
-
             <div class="g-photo-area">
                 <div class="g-polaroid">
                     <img src="https://via.placeholder.com/400x500/1a1a1a/ffffff?text=Insert+Photo+Here" alt="조지 6세 미끄럼틀 사진">
@@ -467,35 +356,153 @@
                 </div>
             </div>
         </div>
-
         <div class="g-quote-box">
             <div class="g-quote">
                 "이제야 이웃들(런던 시민들)의 얼굴을 똑바로 볼 수 있겠다."<br>
                 <span style="font-size: 0.8rem; color: #8a7f74; display: block; margin-top: 15px; font-style: normal; letter-spacing: 0.1em;">- 폭격당한 버킹엄 궁전을 바라보며</span>
             </div>
         </div>
-
         <div class="g-footer">
-            KING GEORGE VI (1895 — 1952)<br>
-            A SYMBOL OF DUTY AND RESILIENCE
+            KING GEORGE VI (1895 — 1952)<br>A SYMBOL OF DUTY AND RESILIENCE
         </div>
     </div>
 </div>
 
+<div id="philosophy-wrapper">
+    <div class="phil-header">
+        <div class="phil-subtitle">The Social Contract Theory</div>
+        <h1 class="phil-title">TRINITY OF MODERNITY</h1>
+        <p class="phil-intro">
+            사회계약론은 국가의 기원과 정당성을 시민의 합의에서 찾는 현대 정치 철학의 근간입니다.<br>
+            인간을 바라보는 서로 다른 시선이 어떻게 다른 국가를 설계했는지 확인해 보세요.
+        </p>
+    </div>
+
+    <div class="phil-grid">
+        <div class="phil-card card-hobbes">
+            <h2 class="p-name">Thomas Hobbes</h2>
+            <div class="p-years">1588 – 1679</div>
+            <div class="p-book">『리바이어던 (Leviathan)』</div>
+            <div class="p-quote">"만인의 만인에 대한 투쟁 상태에서 인간의 삶은 고독하고, 가난하고, 험악하고, 잔인하며, 짧다."</div>
+            <div class="p-desc">
+                전쟁과 혼란의 시대를 살았던 홉스는 인간의 이기심이 통제되지 않을 때 벌어질 끔찍한 결과를 경고했습니다. 그는 평화를 유지하기 위해 시민들이 자신의 권리를 강력한 절대 권력(리바이어던)에게 완전히 양도하는 계약을 맺어야 한다고 보았습니다.
+            </div>
+            <div class="p-tags">
+                <span class="p-tag">#절대군주제</span>
+                <span class="p-tag">#성악설적관점</span>
+                <span class="p-tag">#생존권보장</span>
+            </div>
+        </div>
+
+        <div class="phil-card card-locke" style="animation-delay: 0.2s;">
+            <h2 class="p-name">John Locke</h2>
+            <div class="p-years">1632 – 1704</div>
+            <div class="p-book">『통치론 (Two Treatises)』</div>
+            <div class="p-quote">"법이 없는 곳에는 자유도 없다. 국가의 가장 위대하고 주된 목적은 재산의 보존이다."</div>
+            <div class="p-desc">
+                로크는 인간이 이성적이며 평등한 존재라고 믿었습니다. 인간은 천부인권(생명, 자유, 재산)을 지니며, 국가는 이를 보호하기 위해 세워진 대리인일 뿐입니다. 만약 국가가 계약을 어기고 권리를 침해한다면 시민은 정부를 바꿀 권리(저항권)를 갖습니다.
+            </div>
+            <div class="p-tags">
+                <span class="p-tag">#대의민주주의</span>
+                <span class="p-tag">#국민저항권</span>
+                <span class="p-tag">#자유주의근간</span>
+            </div>
+        </div>
+
+        <div class="phil-card card-rousseau" style="animation-delay: 0.4s;">
+            <h2 class="p-name">J.J. Rousseau</h2>
+            <div class="p-years">1712 – 1778</div>
+            <div class="p-book">『사회계약론 (Social Contract)』</div>
+            <div class="p-quote">"인간은 자유롭게 태어났으나, 모든 곳에서 쇠사슬에 묶여 있다."</div>
+            <div class="p-desc">
+                루소는 문명과 사유재산이 본래 선했던 인간을 타락시켰다고 보았습니다. 그는 개개인의 사적 이기심이 아닌 공동체 전체의 선을 지향하는 '일반의지(General Will)'에 따른 통치를 주장하며, 진정한 주권은 왕이 아닌 인민에게 있음을 선포했습니다.
+            </div>
+            <div class="p-tags">
+                <span class="p-tag">#직접민주주의</span>
+                <span class="p-tag">#일반의지</span>
+                <span class="p-tag">#인민주권</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="phil-controls">
+        <button class="btn-compare" onclick="alert('[사회계약론 3인방 핵심 비교]\n\n👉 토머스 홉스\n- 목적: 생존과 평화 (안전 우선)\n- 정부: 절대군주제\n\n👉 존 로크\n- 목적: 생명, 자유, 재산의 보호\n- 정부: 간접(대의) 민주주의, 저항권 인정\n\n👉 장 자크 루소\n- 목적: 잃어버린 자유와 평등의 회복\n- 정부: 직접 민주주의, 일반의지에 의한 통치')">QUICK COMPARISON</button>
+    </div>
+</div>
+
 <script>
-    /* UI 제어 스크립트 */
+    /* ==========================================
+       UI 탭 제어 스크립트
+       ========================================== */
+    function hideAllSpecialPages() {
+        document.getElementById('display-card').style.display = 'none';
+        document.getElementById('keanu-poster-wrapper').style.display = 'none';
+        document.getElementById('george-wrapper').style.display = 'none';
+        document.getElementById('philosophy-wrapper').style.display = 'none';
+    }
+
     function showSubMenu(categoryName, btnElement) {
         document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
         btnElement.classList.add('active');
         document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('active'));
         document.getElementById('sub-' + categoryName).classList.add('active');
         
-        // 카테고리 전환 시 컨텐츠 창 모두 숨기기
-        document.getElementById('display-card').style.display = 'none';
-        document.getElementById('keanu-poster-wrapper').style.display = 'none';
-        document.getElementById('george-wrapper').style.display = 'none';
+        hideAllSpecialPages();
     } 
 
+    function loadContent(key, btnElement) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        hideAllSpecialPages();
+        
+        const data = database[key];
+        if(!data) return; 
+        
+        currentList = data.list;
+        currentEmoji = data.emoji;
+
+        document.getElementById('display-card').style.display = 'flex';
+        showRandom();
+    }
+
+    function loadKeanu(btnElement) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+        hideAllSpecialPages();
+        const kw = document.getElementById('keanu-poster-wrapper');
+        kw.style.display = 'block';
+        kw.style.animation = 'none'; kw.offsetHeight; kw.style.animation = null; 
+    }
+
+    function loadGeorge(btnElement) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+        hideAllSpecialPages();
+        const gw = document.getElementById('george-wrapper');
+        gw.style.display = 'block';
+        gw.style.animation = 'none'; gw.offsetHeight; gw.style.animation = null; 
+    }
+
+    function loadPhilosophy(btnElement) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+        hideAllSpecialPages();
+        
+        const pw = document.getElementById('philosophy-wrapper');
+        pw.style.display = 'block';
+        
+        // 애니메이션 효과 주기
+        setTimeout(() => {
+            document.querySelectorAll('#philosophy-wrapper .phil-card').forEach((card, index) => {
+                card.style.animation = `fadeUp 0.6s ${index * 0.2}s forwards`;
+            });
+        }, 50);
+    }
+
+    /* ==========================================
+       가사 및 텍스트 데이터베이스 (전체 포함 완료)
+       ========================================== */
     const database = {
         spring: { emoji: "🌸", list: [
             "보고 싶다 이렇게 말하니까 더 보고 싶다\n너희 사진을 보고 있어도 보고 싶다\n너무 야속한 시간 나는 우리가 밉다\n이젠 얼굴 한 번 보는 것 조차 힘들어진 우리가",
@@ -613,7 +620,6 @@
             "내 영혼을 소생시키시고\n자기 이름을 위하여 의의 길로 인도하시는도다\n내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은\n주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다 (시편 23:3-4)",
             "주께서 내 원수의 목전에서 내게 상을 차려 주시고\n기름을 내 머리에 부으셨으니 내 잔이 넘치나이다\n내 평생에 선하심과 인자하심이 반드시 나를 따르리니\n내가 여호와의 집에 영원히 살리로다 (시편 23:5-6)"
         ]}, 
-
         hamlet: { emoji: "💀", list: [
             "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them.",
             "To die, to sleep—\nNo more—and by a sleep to say we end\nThe heartache and the thousand natural shocks\nThat flesh is heir to—'tis a consummation\nDevoutly to be wish'd.",
@@ -656,7 +662,6 @@
             "너에게는 내가 잘 어울린다\n우리는 손 잡고 어둠을 헤엄치고 빛 속을 걷는다\n네 손에는 끈적거리는 달콤한 망고들\n네 영혼에는 망각을 자르는 가위들이 솟아나는 저녁이 어울린다",
             "너에게는 어린 시절의 비밀이 나에게는 빈 새장이 잘 어울린다\n피에 젖은 오후의 하늘로 날아오르는 새들이"
         ] }, 
-
         poison: { emoji: "🐍", list: [
             "시간 지나 먼지 덮인 많은 기억\n시간 지나면서 내 몸에 쌓인 독\n자유롭고 싶은 게 전보다 훨씬 더 심해진 요즘\n난 정확히 반쯤 죽어있어\n눈에 보이는 건 아니지만 난 믿은 것\n그게 날 이끌던 걸 느낀 적 있지 분명\n그 시작을 기억해 나를 썩히던 모든 걸 비워내\n붙잡아야지 잃어가던 것",
             "지금까지의 긴 여행 꽉 쥔 주먹에\n신념이 가진 것의 전부라 말한 시절엔\n겁먹고 낡아 버린 모두를 비웃었지 반대로 그들은 날 겁 줬지\n나 역시 나중엔 그들같이 변할 거라고 어쩔 수 없이\n그러니 똑바로 쳐다보라던 현실 그는 뛰고 싶어도 앉은 자리가 더 편하대\n매번 그렇게 나와 너한테 거짓말을 해",
@@ -703,54 +708,6 @@
 
     let currentList = [];
     let currentEmoji = "";
-
-    /* 일반 노래/글귀 불러오기 */
-    function loadContent(key, btnElement) {
-        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
-
-        document.getElementById('keanu-poster-wrapper').style.display = 'none';
-        document.getElementById('george-wrapper').style.display = 'none';
-        
-        const data = database[key];
-        currentList = data.list;
-        currentEmoji = data.emoji;
-
-        document.getElementById('display-card').style.display = 'flex';
-        showRandom();
-    }
-
-    /* 클래식 키아누 리브스 스페셜 페이지 불러오기 */
-    function loadKeanu(btnElement) {
-        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
-
-        document.getElementById('display-card').style.display = 'none';
-        document.getElementById('george-wrapper').style.display = 'none';
-        
-        const kw = document.getElementById('keanu-poster-wrapper');
-        kw.style.display = 'block';
-
-        kw.style.animation = 'none';
-        kw.offsetHeight; 
-        kw.style.animation = null; 
-    }
-
-    /* 조지 6세 스페셜 페이지 불러오기 */
-    function loadGeorge(btnElement) {
-        document.querySelectorAll('.sub-menu button').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
-
-        document.getElementById('display-card').style.display = 'none';
-        document.getElementById('keanu-poster-wrapper').style.display = 'none';
-        
-        const gw = document.getElementById('george-wrapper');
-        gw.style.display = 'block';
-
-        gw.style.animation = 'none';
-        gw.offsetHeight; 
-        gw.style.animation = null; 
-    }
 
     function showRandom() {
         if (!currentList.length) return;

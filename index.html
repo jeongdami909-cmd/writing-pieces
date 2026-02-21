@@ -311,10 +311,4 @@
     function refresh() {
         const data = database[currentCategory];
         const pick = data.list[Math.floor(Math.random() * data.list.length)];
-        document.getElementById('emoji').innerText = data.emoji;
-        document.getElementById('lyric').innerText = pick;
-        document.getElementById('tw').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(pick)}`;
-    }
-</script>
-</body>
-</html>
+        document.getElementBy

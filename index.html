@@ -123,7 +123,7 @@ margin-bottom:25px;
 }
 
 #lyric{
-font-size:1.1rem;
+font-size:1rem;
 line-height:1.8;
 margin-bottom:40px;
 white-space:pre-line;
@@ -161,6 +161,7 @@ font-size:.8rem;
 <button onclick="showSubMenu('bts',this)">BTS</button>
 <button onclick="showSubMenu('bible',this)">말씀</button>
 <button onclick="showSubMenu('lit',this)">문학</button>
+<button onclick="showSubMenu('hiphop',this)">HIPHOP</button>
 </div><!-- BTS --><div id="sub-bts" class="sub-menu">
 <button onclick="loadContent('spring',this)">봄날</button>
 <button onclick="loadContent('bts',this)">Butterfly</button>
@@ -168,6 +169,8 @@ font-size:.8rem;
 <button onclick="loadContent('psalm23',this)">시편 23편</button>
 </div><!-- Literature --><div id="sub-lit" class="sub-menu">
 <button onclick="loadContent('hamlet',this)">햄릿</button>
+</div><!-- HIPHOP --><div id="sub-hiphop" class="sub-menu">
+<button onclick="loadContent('mapthesoul',this)">Map The Soul</button>
 </div><!-- card --><div id="display-card" class="card">
 <div id="emoji" class="emoji"></div>
 <p id="lyric"></p><div class="btn-box">
@@ -230,6 +233,39 @@ list:[
 "The rest is silence.",
 "What a piece of work is a man!"
 ]
+},
+
+mapthesoul:{
+emoji:"🔥",
+list:[`그대가 읊조리는 시는 영원 뒤로 맴도는 echo
+메마른 귀로 샘솟는 숨소리는 음악사에 기록된 모든 음표
+조각난 날 줍고 있어 나는 Troubled
+이 Lie 내 슬픈 초상화를 맞춰가는 Puzzle이야
+내 맘은 썩은 지하 뒤엉킨 Mix
+오직 나란 감옥 속에 갇힌 Convict
+
+Me Myself And I 삼자 대면에
+거짓된 선악에 고여 무너지고 드러난 세상
+제 3의 눈을 뜨니까 선명하게 보여
+넌 나의 영감 영원 And 영혼 Without you
+I got no reason to go on
+
+그대는 나의 하늘 같아
+그 안에 난 태양을 봤다
+짙은 밤에 살다 밝은 빛을 받아
+이제는 맘에 풍요로운 밭을 간다
+
+운명같은 만남
+아름다운 칼이라 해도 난 그대를 잡으리
+그 누구도 살 수 없는 지옥 같은 밤이라 해도
+난 빛을 놓고 편히 눈을 감으리
+
+그대는 감옥같은 내 인생의 밝은 창
+빠지면 헤어날 수 없어 바다 같은 강
+그대가 원한다면 영혼마저 바치겠어
+
+L O V E You
+I was made to be with you`]
 }
 
 };

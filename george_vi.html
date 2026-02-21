@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>조지 6세 — ANNALS</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Nanum+Myeongjo:wght@400;700&family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12100e; --parchment: #f2ead8; --aged: #e8dcc4;
+      --gold: #b8922a; --gold-dim: #8a6d1f; --rust: #8b3a2a;
+      --olive: #4a5240; --muted: #7a6e5e; --warm-white: #faf6ee;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--warm-white); color: var(--ink); font-family: 'Nanum Myeongjo', serif; line-height: 1.6; }
+    
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; background: rgba(250,246,238,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .nav-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; letter-spacing: 8px; color: var(--ink); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--gold); }
 
+    .article-header { padding: 160px 60px 80px; text-align: center; background: var(--parchment); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .article-meta { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; }
+    .article-main-title { font-family: 'Nanum Myeongjo', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: var(--ink); margin-bottom: 24px; line-height: 1.3; }
+    .article-subtitle { font-family: 'IM Fell English', serif; font-style: italic; font-size: 22px; color: var(--muted); max-width: 600px; margin: 0 auto; }
+
+    .article-content-wrapper { max-width: 800px; margin: 0 auto; padding: 80px 40px; }
+    .article-content h2 { font-family: 'Cinzel', serif; font-size: 28px; color: var(--ink); margin: 60px 0 20px; display: flex; align-items: center; gap: 15px; }
+    .article-content h2::before { content: '✦'; color: var(--gold); font-size: 18px; }
+    .article-content p { font-size: 17px; line-height: 2.2; color: #333; margin-bottom: 30px; text-align: justify; }
+    .article-content .dropcap::first-letter { float: left; font-family: 'Cinzel', serif; font-size: 70px; line-height: 60px; padding-top: 4px; padding-right: 12px; padding-left: 3px; color: var(--rust); }
+    
+    .quote-box { background: var(--parchment); border-left: 4px solid var(--gold); padding: 30px 40px; margin: 40px 0; font-style: italic; color: var(--olive); }
+
+    footer { background: var(--ink); padding: 60px; text-align: center; color: var(--parchment); margin-top: 60px; }
+    .footer-bottom { background: #0a0806; padding: 20px; text-align: center; border-top: 1px solid rgba(184,146,42,0.1); font-size: 12px; color: rgba(242,234,216,0.25); }
+
+    @media (max-width: 900px) { nav { padding: 20px 24px; } .nav-links { display: none; } .article-header { padding: 120px 24px 60px; } .article-content-wrapper { padding: 40px 24px; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">ANN<span>A</span>LS</a>
+    <ul class="nav-links">
+      <li><a href="archive.html">세계사 공부</a></li>
+      <li><a href="index.html">메인으로</a></li>
+    </ul>
+  </nav>
+
+  <header class="article-header">
+    <p class="article-meta">European History · Archive</p>
+    <h1 class="article-main-title">조지 6세</h1>
+    <p class="article-subtitle">왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주</p>
+  </header>
+
+  <main class="article-content-wrapper">
+    <article class="article-content">
+      <p class="dropcap">그</p><p>는 화려한 스포트라이트를 받는 것을 두려워하는 내성적인 차남이었습니다. 심한 말더듬증(Stuttering)을 앓고 있었기에 대중 앞에 서서 연설을 하는 것은 그에게 크나큰 고통이었습니다. 형인 에드워드 8세가 왕위를 잇는 것이 당연한 수순이었기에, 가족들은 그가 조용한 삶을 살 수 있을 것이라 믿었습니다. 하지만 역사는 그를 가만두지 않았습니다.</p>
+
+      <h2>뜻밖의 왕위 계승</h2>
+      <p>1936년, 형 에드워드 8세가 이혼녀인 심슨 부인과의 결혼을 위해 돌연 왕위를 포기하는 초유의 사태가 발생합니다. 왕실은 큰 충격에 빠졌고, 전혀 준비되지 않았던 차남이 '조지 6세'라는 이름으로 억지로 왕관을 써야만 했습니다. 즉위식 날, 그는 어머니 메리 태후의 품에 안겨 어린아이처럼 엉엉 울었다고 전해집니다.</p>
+
+      <h2>마이크 앞의 공포를 이겨내다</h2>
+      <p>조지 6세의 가장 큰 적은 외부의 군대가 아니라 '자신의 목소리'였습니다. 라디오의 발달로 국왕의 육성 연설이 그 어느 때보다 중요해진 시대였기 때문입니다. 그는 언어 치료사를 만나 뼈를 깎는 훈련을 시작합니다. 때로는 바닥을 구르고 욕설을 내뱉으며 심리적인 억압과 말더듬증을 조금씩 치료해 나갑니다. 이 눈물겨운 극복기는 훗날 영화 '킹스 스피치'로 제작되어 전 세계에 큰 감동을 주었습니다.</p>
+
+      <div class="quote-box">
+        <p>"이 암흑의 시기에... 저는 영국과 제국 전역에 있는 모든 국민 여러분께, 마치 제가 여러분 집의 문턱을 넘어 직접 말씀드리는 것처럼 이 메시지를 전합니다. 우리는 평화를 위해 싸워야 합니다."</p>
+        <p style="text-align: right; font-size: 14px; margin-top: 10px;">- 1939년 9월 3일, 제2차 세계대전 참전 대국민 라디오 연설 中</p>
+      </div>
+
+      <h2>전쟁 속에서 국민의 곁을 지킨 왕</h2>
+      <p>1939년 제2차 세계대전이 발발하자, 조지 6세는 진정한 군주로서의 면모를 보여주기 시작합니다. 독일군의 대대적인 폭격이 런던을 쑥대밭으로 만들 때도, 내각의 피난 권고를 거절하고 버킹엄 궁전에 남아 국민들과 고통을 함께했습니다. 폭격을 맞은 런던의 빈민가를 직접 방문해 위로하는 왕의 모습은 영국인들을 하나로 뭉치게 하는 강력한 구심점이 되었습니다.</p>
+
+      <h2>침묵 속의 헌신</h2>
+      <p>전쟁의 스트레스는 그의 건강을 심각하게 갉아먹었습니다. 결국 1952년 2월, 조지 6세는 56세의 나이로 세상을 떠납니다. 비록 화려하고 영웅적인 리더는 아니었으나, 가장 어두운 시기에 자신의 치명적인 약점을 극복하고 묵묵히 국민의 곁을 지킨 그의 모습은 영국 역사상 가장 존경받는 군주 중 한 명으로 기억되게 했습니다.</p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="logo" style="font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 8px;">ANN<span style="color: var(--gold);">A</span>LS</div>
+    <p style="font-family: 'Cormorant Garamond', serif; font-size: 14px; margin-top: 10px; color: rgba(242,234,216,0.4);">역사 속 인물들의 삶을 깊이 있게 기록하는 아카이브입니다.</p>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 ANNALS. All rights reserved.</p>
+  </div>
+
+</body>
+</html>

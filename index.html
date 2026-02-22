@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentence Archive</title>
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="My Sentence Archive">
-    <meta name="twitter:description" content="나만의 문장 저장소 🦋">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Cinzel:wght@400;600;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
@@ -22,15 +19,15 @@
         h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; text-shadow: 0 0 15px rgba(212,175,55,0.2); }
         .sub-desc { font-family: 'Playfair Display', serif; font-style: italic; color: #888; margin-top: 10px; font-size: 1rem; }
         
-        /* 메인 필터 (대분류) */
+        /* 메인 필터 */
         .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; margin: 0 auto; }
         .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 18px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-size: 0.85rem; font-family: 'Cinzel', 'Noto Serif KR', serif; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: var(--accent); }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
         .btn-special { color: #d4af37 !important; border-color: #d4af37 !important; font-weight: bold; }
 
-        /* 서브 필터 (하위 버튼) */
-        .sub-filter-bar { display: none; padding: 15px 20px 25px; justify-content: center; flex-wrap: wrap; gap: 8px; background: transparent; border-bottom: 1px dashed var(--border); max-width: 800px; margin: 0 auto 30px; }
+        /* 서브 필터 */
+        .sub-filter-bar { display: none; padding: 15px 20px 25px; justify-content: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px dashed var(--border); max-width: 800px; margin: 0 auto 30px; }
         .sub-filter-bar.open { display: flex; animation: fadeIn 0.3s ease; }
         .sub-tag-btn { background: #1a1a1a; border: 1px solid #444; color: #aaa; font-family: 'Noto Serif KR', serif; font-size: 0.85rem; padding: 6px 16px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
         .sub-tag-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -38,26 +35,24 @@
 
         /* 스페셜 전용 서브 메뉴 */
         #sub-special { border-bottom: none; margin-bottom: 0; }
-        #sub-special button { font-family: 'Cinzel', sans-serif; font-size: 0.8rem; border-radius: 4px; border: 1px solid; }
+        #sub-special button { font-family: 'Cinzel', sans-serif; font-size: 0.8rem; border-radius: 4px; border: 1px solid; padding: 8px 16px; opacity: 0.5; transition: 0.3s; }
+        #sub-special button.active { opacity: 1; transform: scale(1.05); }
 
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
 
         /* 글쓰기 게시판 */
         .write-board { background: var(--card-bg); border: 1px solid var(--accent); padding: 35px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .write-board h2 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--accent); margin-bottom: 25px; text-align: center; letter-spacing: 3px; }
-        
         .input-group { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
         .input-group > div { flex: 1; min-width: 200px; }
-        
         label { display: block; font-family: 'Cinzel', serif; font-size: 0.75rem; color: #aaa; margin-bottom: 8px; letter-spacing: 1.5px; }
         input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; box-sizing: border-box; outline: none; transition: 0.3s; }
         input:focus, textarea:focus, select:focus { border-color: var(--accent); }
         textarea { min-height: 180px; line-height: 1.8; resize: vertical; margin-bottom: 20px; }
-        
         .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 16px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         .btn-submit:hover { background: #fff; }
 
-        /* 📜 목차 서랍 */
+        /* 목차 서랍 */
         .archive-index { background: #111; border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 25px; margin-bottom: 50px; display: none; }
         .archive-index.show { display: block; animation: fadeIn 0.5s ease; }
         .archive-index h3 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--accent); margin-top: 0; margin-bottom: 15px; letter-spacing: 2px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
@@ -71,19 +66,13 @@
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--border); flex-wrap: wrap; gap: 15px; }
         .card-meta { font-family: 'Cinzel', 'Noto Serif KR', serif; font-size: 0.9rem; color: var(--accent); letter-spacing: 1px; line-height: 1.4; }
         .card-meta-sub { color: #888; font-size: 0.8rem; margin-top: 5px; display: block; }
-        
-        /* 🚨 수정 / 삭제 버튼 명확하게 */
         .card-actions { display: flex; gap: 8px; }
         .btn-action { background: #222; border: 1px solid #444; color: #eee; font-size: 0.75rem; padding: 6px 12px; cursor: pointer; font-family: 'Noto Serif KR', serif; letter-spacing: 1px; border-radius: 4px; transition: 0.2s; }
         .btn-action:hover { border-color: var(--accent); color: var(--accent); }
         .btn-action.del:hover { border-color: #c0392b; background: #c0392b; color: #fff; }
-        
         .lyric-text { font-size: 1.1rem; line-height: 2.2; margin-bottom: 30px; white-space: pre-wrap; font-style: italic; color: #dfdfdf; word-break: keep-all; }
-        
-        /* 🚨 사진 영역 */
         .photo-frame-main { margin-bottom: 30px; text-align: center; }
         .photo-frame-main img { width: 100%; max-height: 450px; object-fit: cover; border: 1px solid var(--border); }
-        
         .tw-btn { display: block; border: 1px solid var(--border); background: #000; color: #fff; padding: 14px; text-decoration: none; font-size: 0.85rem; font-weight: bold; text-align: center; letter-spacing: 2px; transition: 0.3s; }
         .tw-btn:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -96,14 +85,71 @@
         .btn-cancel { background: #333; color: #fff; }
 
         /* ==========================================
-           2. 스페셜 페이지 숨김처리용
+           2. 스페셜 페이지 CSS (키아누 리브스)
            ========================================== */
-        #special-content-wrapper { display: none; }
-        #main-archive-wrapper { display: block; }
-        #keanu-poster-wrapper, #george-wrapper, #philosophy-wrapper { display: none; }
+        #keanu-poster-wrapper { display: none; --cream: #f2ead8; --rust: #c0392b; --gold: #b8860b; --dark: #0e0c0a; --mid: #2a2420; --warm-gray: #8a7f74; background: var(--dark); font-family: 'DM Mono', monospace; color: var(--cream); width: 100%; position: relative; padding: 40px 20px 80px;}
+        #keanu-poster-wrapper::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
+        #keanu-poster-wrapper .poster { width: 100%; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+        #keanu-poster-wrapper .top-band { background: var(--rust); padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cream); animation: fadeDown 0.6s forwards; }
+        #keanu-poster-wrapper .hero { position: relative; padding: 60px 50px 0; display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
+        #keanu-poster-wrapper .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 50px; animation: fadeUp 0.9s forwards; }
+        #keanu-poster-wrapper .label-small { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--rust); margin-bottom: 18px; }
+        #keanu-poster-wrapper .main-title-s { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 10vw, 8rem); line-height: 0.88; color: var(--cream); text-shadow: 6px 6px 0 var(--rust); margin: 0; }
+        #keanu-poster-wrapper .main-title-s span { display: block; color: var(--gold); text-shadow: 4px 4px 0 var(--dark); }
+        #keanu-poster-wrapper .hero-sub { margin-top: 24px; font-size: 0.72rem; letter-spacing: 0.25em; color: var(--warm-gray); line-height: 2; max-width: 280px; }
+        #keanu-poster-wrapper .hero-right { animation: fadeUp 0.9s forwards; }
+        #keanu-poster-wrapper .portrait-frame { width: 100%; height: 100%; min-height: 480px; position: relative; overflow: hidden; }
+        #keanu-poster-wrapper .portrait-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.25) 0%, transparent 50%), linear-gradient(to bottom, transparent 60%, var(--dark) 100%); z-index: 2; }
+        #keanu-poster-wrapper .silhouette { width: 100%; height: 100%; min-height: 480px; display: flex; align-items: flex-end; justify-content: center; background: radial-gradient(ellipse 60% 80% at 50% 30%, #2a2420 0%, var(--dark) 100%); }
+        #keanu-poster-wrapper .figure { position: relative; width: 160px; height: 420px; }
+        #keanu-poster-wrapper .figure-head { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 56px; height: 62px; background: #3a3028; border-radius: 50% 50% 42% 42%; box-shadow: inset -6px -8px 18px rgba(0,0,0,0.5), 0 0 40px rgba(184,134,11,0.15); }
+        #keanu-poster-wrapper .figure-neck { position: absolute; top: 58px; left: 50%; transform: translateX(-50%); width: 22px; height: 20px; background: #2e2620; }
+        #keanu-poster-wrapper .figure-coat { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); width: 110px; height: 280px; background: linear-gradient(170deg, #1c1814 0%, #0e0c0a 100%); clip-path: polygon(18% 0%, 82% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%); box-shadow: inset -10px 0 30px rgba(0,0,0,0.6); }
+        #keanu-poster-wrapper .figure-legs { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 95px; display: flex; gap: 8px; }
+        #keanu-poster-wrapper .leg { flex: 1; background: linear-gradient(180deg, #181512 0%, #0e0c0a 100%); }
+        #keanu-poster-wrapper .deco-rule { display: flex; align-items: center; gap: 16px; padding: 0 50px; margin: 50px 0 0; }
+        #keanu-poster-wrapper .rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        #keanu-poster-wrapper .rule-text { font-size: 0.6rem; letter-spacing: 0.5em; color: var(--gold); text-transform: uppercase; }
+        #keanu-poster-wrapper .tagline-banner { background: var(--rust); margin: 20px 50px 0; padding: 16px 30px; display: flex; align-items: center; gap: 20px; }
+        #keanu-poster-wrapper .tag-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--cream); }
+        #keanu-poster-wrapper .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 40px 50px 0; background: rgba(184,134,11,0.15); border: 1px solid rgba(184,134,11,0.15); }
+        #keanu-poster-wrapper .story-card { background: var(--mid); padding: 32px 28px; position: relative; overflow: hidden; }
+        #keanu-poster-wrapper .card-title-s { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 12px; }
+        #keanu-poster-wrapper .card-amount { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); display: block; margin-bottom: 10px; }
+        #keanu-poster-wrapper .card-body { font-size: 0.78rem; line-height: 1.8; color: #9e9188; }
+        #keanu-poster-wrapper .quote-section { margin: 40px 50px 0; padding: 50px 60px; background: var(--dark); border: 1px solid rgba(184,134,11,0.2); border-left: 4px solid var(--rust); }
+        #keanu-poster-wrapper .quote-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.7; color: var(--cream); font-style: italic; }
 
-        /* (스페셜 페이지 디자인 코드는 공간 제약상 그대로 유지된다고 가정합니다. 이전 답변의 CSS와 동일하게 작동합니다.) */
+        /* ==========================================
+           3. 스페셜 페이지 CSS (철학자들)
+           ========================================== */
+        #philosophy-wrapper { display: none; width: 100%; padding: 40px 20px 80px; background: #0a0a0a; color: #e0e0e0; }
+        #philosophy-wrapper .phil-header { text-align: center; margin-bottom: 60px; }
+        #philosophy-wrapper .phil-subtitle { font-family: 'Cinzel', serif; color: #c5a880; letter-spacing: 0.4em; font-size: 0.85rem; margin-bottom: 15px; }
+        #philosophy-wrapper .phil-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #f5f5f0; margin: 0; }
+        #philosophy-wrapper .phil-intro { max-width: 700px; margin: 20px auto; color: #888; line-height: 1.8; font-size: 0.95rem; word-break: keep-all; }
+        #philosophy-wrapper .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        #philosophy-wrapper .phil-card { background: #141414; border: 1px solid #2a2a2a; padding: 40px 30px; transition: 0.4s; position: relative; overflow: hidden; }
+        #philosophy-wrapper .card-hobbes { --theme-color: #4a69bd; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .card-locke { --theme-color: #78e08f; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .card-rousseau { --theme-color: #e55039; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .phil-card:hover { transform: translateY(-10px); border-color: var(--theme-color); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+        #philosophy-wrapper .p-name { font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin: 0 0 5px 0; }
+        #philosophy-wrapper .p-years { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: #666; margin-bottom: 25px; }
+        #philosophy-wrapper .p-quote { font-size: 1.05rem; font-style: italic; line-height: 1.6; color: #e0e0e0; margin-bottom: 20px; padding-left: 15px; border-left: 2px solid var(--theme-color); word-break: keep-all; }
+        #philosophy-wrapper .p-desc { font-size: 0.95rem; line-height: 1.8; color: #a0a0a0; word-break: keep-all; }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 800px) {
+            #keanu-poster-wrapper .hero { grid-template-columns: 1fr; }
+            #philosophy-wrapper .phil-grid { grid-template-columns: 1fr; max-width: 500px; }
+            .input-group { flex-direction: column; }
+            .card-header { flex-direction: column; align-items: flex-start; }
+            .card-actions { margin-top: 15px; width: 100%; justify-content: flex-end; }
+        }
     </style>
 </head>
 <body>
@@ -125,7 +171,6 @@
 
 <div id="sub-special" class="sub-filter-bar">
     <button onclick="loadSpecial('keanu', this)" style="color: #f2ead8; background: #c0392b; border-color: #c0392b;">#KEANU REEVES</button>
-    <button onclick="loadSpecial('george', this)" style="color: #F9F6F0; background: #1B263B; border-color: #C5A880;">#GEORGE VI</button>
     <button onclick="loadSpecial('philosophy', this)" style="color: #fff; background: #1a1a1a; border-color: #888;">#PHILOSOPHY</button>
 </div>
 
@@ -134,7 +179,6 @@
         
         <div class="write-board">
             <h2>ADD NEW RECORD</h2>
-            
             <div class="input-group">
                 <div>
                     <label>MAIN CATEGORY (대분류)</label>
@@ -163,15 +207,80 @@
         </div>
 
         <div id="archiveIndex" class="archive-index"></div>
-
         <div id="archiveList"></div>
     </div>
 </div>
 
 <div id="special-content-wrapper">
-    <div style="text-align:center; color:#888; padding:50px;">
-        <p>Special pages are preserved here.</p>
+    
+    <div id="keanu-poster-wrapper" class="special-page">
+        <div class="poster">
+            <div class="top-band"><span>A Portrait of Quiet Greatness</span><span>★ ★ ★ ★ ★</span><span>Est. 1964 — Beirut</span></div>
+            <div class="hero">
+                <div class="hero-left">
+                    <p class="label-small">The World Presents</p>
+                    <h1 class="main-title-s">KEANU<span>REEVES</span></h1>
+                    <p class="hero-sub">배우 · 인간 · 시대의 증인<br>그가 가진 것보다<br>그가 나눈 것으로 기억되다</p>
+                </div>
+                <div class="hero-right">
+                    <div class="portrait-frame">
+                        <div class="silhouette">
+                            <div class="figure">
+                                <div class="figure-head"></div><div class="figure-neck"></div><div class="figure-coat"></div>
+                                <div class="figure-legs"><div class="leg"></div><div class="leg"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="deco-rule"><div class="rule-line"></div><span class="rule-text">The True Story Behind The Icon</span><div class="rule-line"></div></div>
+            <div class="tagline-banner">
+                <span class="tag-text">"이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."</span>
+            </div>
+            <div class="story-grid">
+                <div class="story-card">
+                    <div class="card-title-s">Matrix Crew Gift</div><span class="card-amount">$50,000,000+</span>
+                    <p class="card-body">트릴로지 종영 후, 의상팀과 특수효과팀 스태프들에게 5천만 달러 이상을 나눠주었다.</p>
+                </div>
+                <div class="story-card">
+                    <div class="card-title-s">Salary Sacrifice</div><span class="card-amount">90% 자진 반납</span>
+                    <p class="card-body">더 좋은 배우들을 섭외하기 위해 자신의 출연료 중 90%를 자진 반납했다.</p>
+                </div>
+            </div>
+            <div class="quote-section">
+                <p class="quote-text">"대부분의 스타들은 자선을 베풀 때 미디어에 선언한다. 그는 한 번도 그런 적이 없다. 그냥 도덕적 원칙으로 선함을 행할 뿐이다."</p>
+            </div>
+        </div>
     </div>
+
+    <div id="philosophy-wrapper" class="special-page">
+        <div class="phil-header">
+            <div class="phil-subtitle">The Social Contract Theory</div>
+            <h1 class="phil-title">TRINITY OF MODERNITY</h1>
+            <p class="phil-intro">사회계약론은 국가의 기원과 정당성을 시민의 합의에서 찾는 현대 정치 철학의 근간입니다.</p>
+        </div>
+        <div class="phil-grid">
+            <div class="phil-card card-hobbes">
+                <h2 class="p-name">Thomas Hobbes</h2>
+                <div class="p-years">1588 – 1679</div>
+                <div class="p-quote">"만인의 만인에 대한 투쟁 상태에서 인간의 삶은 고독하고, 험악하며, 짧다."</div>
+                <div class="p-desc">절대군주제를 옹호하며, 평화를 유지하기 위해 시민들이 강력한 절대 권력(리바이어던)에게 권리를 양도해야 한다고 보았습니다.</div>
+            </div>
+            <div class="phil-card card-locke">
+                <h2 class="p-name">John Locke</h2>
+                <div class="p-years">1632 – 1704</div>
+                <div class="p-quote">"법이 없는 곳에는 자유도 없다. 국가의 주된 목적은 재산과 생명의 보존이다."</div>
+                <div class="p-desc">정부는 인권 보호를 위한 대리인이며, 국가가 계약을 어기면 시민은 저항권(혁명)을 행사할 수 있다고 주장했습니다.</div>
+            </div>
+            <div class="phil-card card-rousseau">
+                <h2 class="p-name">J.J. Rousseau</h2>
+                <div class="p-years">1712 – 1778</div>
+                <div class="p-quote">"인간은 자유롭게 태어났으나, 모든 곳에서 쇠사슬에 묶여 있다."</div>
+                <div class="p-desc">공동체 전체의 선을 지향하는 '일반의지'에 따른 직접 민주주의를 주장하며 주권은 인민에게 있음을 천명했습니다.</div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="modal-bg" id="modalBg">
@@ -209,9 +318,7 @@
     let currentSubCat = 'ALL';
     let editTargetId = null;
 
-    // 🌸 기존 데이터를 하위 태그에 맞게 영혼 끌어모아 복원
     let archives = JSON.parse(localStorage.getItem('sentence_archive_v3') || '[]');
-    
     if(archives.length === 0) {
         archives = [
             { id: 101, category: 'MUSIC', sub: 'BTS', source: '방탄소년단 - 봄날 🌸', quote: '여긴 온통 겨울 뿐이야 8월에도 겨울이 와\n마음은 시간을 달려가네 홀로 남은 설국열차', img: '' },
@@ -227,7 +334,49 @@
         localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
     }
 
-    // 하위 필터 바 그리기
+    // ==========================================
+    // 탭 이동 제어
+    // ==========================================
+    function filterMain(cat, btn) {
+        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.getElementById('sub-special').classList.remove('open');
+        document.getElementById('special-content-wrapper').style.display = 'none';
+        document.getElementById('main-archive-wrapper').style.display = 'block';
+
+        currentMainCat = cat;
+        currentSubCat = 'ALL';
+        
+        renderSubFilters();
+        renderList();
+    }
+
+    function showSpecialMenu(btn) {
+        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.getElementById('subFilterBar').classList.remove('open');
+        document.getElementById('main-archive-wrapper').style.display = 'none';
+        document.getElementById('sub-special').classList.add('open'); // 서브메뉴 보이기
+
+        // 스페셜 버튼 누르면 기본으로 키아누 첫 번째로 띄우기
+        const keanuBtn = document.querySelector('#sub-special button:first-child');
+        loadSpecial('keanu', keanuBtn);
+    }
+
+    function loadSpecial(id, btn) {
+        document.querySelectorAll('#sub-special button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.getElementById('special-content-wrapper').style.display = 'block';
+        document.querySelectorAll('.special-page').forEach(p => p.style.display = 'none');
+        document.getElementById(id + '-wrapper').style.display = 'block';
+    }
+
+    // ==========================================
+    // 게시판 로직
+    // ==========================================
     function renderSubFilters() {
         const subBar = document.getElementById('subFilterBar');
         if(currentMainCat === 'ALL') {
@@ -248,22 +397,15 @@
         subBar.innerHTML = html;
     }
 
-    // 리스트 및 목차 서랍 그리기
     function renderList() {
         const list = document.getElementById('archiveList');
         const indexBox = document.getElementById('archiveIndex');
         list.innerHTML = '';
         
-        // 필터링 적용
         let filtered = archives;
-        if(currentMainCat !== 'ALL') {
-            filtered = filtered.filter(a => a.category === currentMainCat);
-        }
-        if(currentSubCat !== 'ALL') {
-            filtered = filtered.filter(a => a.sub && a.sub.includes(currentSubCat));
-        }
+        if(currentMainCat !== 'ALL') filtered = filtered.filter(a => a.category === currentMainCat);
+        if(currentSubCat !== 'ALL') filtered = filtered.filter(a => a.sub && a.sub.includes(currentSubCat));
 
-        // 📜 목차 서랍 생성
         if(filtered.length > 0 && currentMainCat !== 'ALL') {
             let indexHtml = `<h3>📜 INDEX (${filtered.length} sentences)</h3><ul class="index-list">`;
             filtered.forEach(a => {
@@ -277,7 +419,6 @@
             indexBox.innerHTML = '';
         }
         
-        // 카드 렌더링
         filtered.forEach(a => {
             const tweetText = encodeURIComponent(`"${a.quote}"\n- ${a.source}\n\n#SentenceArchive`);
             const subDisplay = a.sub ? `<span class="card-meta-sub">🏷️ ${a.sub}</span>` : '';
@@ -302,43 +443,13 @@
         });
     }
 
-    // 카테고리 클릭 시
-    function filterMain(cat, btn) {
-        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        document.getElementById('sub-special').classList.remove('active');
-        document.getElementById('special-content-wrapper').style.display = 'none';
-        document.getElementById('main-archive-wrapper').style.display = 'block';
-
-        currentMainCat = cat;
-        currentSubCat = 'ALL'; // 메인 카테고리가 바뀌면 서브는 전체로 초기화
-        
-        renderSubFilters();
-        renderList();
-    }
-
-    // 서브 카테고리 클릭 시
     function filterSub(sub, btn) {
-        document.querySelectorAll('.sub-filter-bar .sub-tag-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#subFilterBar .sub-tag-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentSubCat = sub;
         renderList();
     }
 
-    // 스페셜 전시관
-    function showSpecialMenu(btn) {
-        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        document.getElementById('subFilterBar').classList.remove('open');
-        document.getElementById('main-archive-wrapper').style.display = 'none';
-        document.getElementById('sub-special').classList.add('active');
-    }
-
-    // ==========================================
-    // 데이터 저장/수정/삭제 로직
-    // ==========================================
     function handleSaveNew() {
         const quote = document.getElementById('new-quote').value;
         if(!quote) return alert("문장을 입력해 주세요.");
@@ -353,22 +464,16 @@
         });
         
         localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
-        
-        document.getElementById('new-sub').value = ''; 
-        document.getElementById('new-source').value = ''; 
-        document.getElementById('new-quote').value = ''; 
-        document.getElementById('new-img').value = '';
-        
+        document.getElementById('new-sub').value = ''; document.getElementById('new-source').value = ''; 
+        document.getElementById('new-quote').value = ''; document.getElementById('new-img').value = '';
         renderList();
     }
 
     function openEditModal(id) {
         editTargetId = id;
         const a = archives.find(i => i.id === id);
-        document.getElementById('edit-category').value = a.category; 
-        document.getElementById('edit-sub').value = a.sub || ''; 
-        document.getElementById('edit-source').value = a.source; 
-        document.getElementById('edit-quote').value = a.quote; 
+        document.getElementById('edit-category').value = a.category; document.getElementById('edit-sub').value = a.sub || ''; 
+        document.getElementById('edit-source').value = a.source; document.getElementById('edit-quote').value = a.quote; 
         document.getElementById('edit-img').value = a.img || '';
         document.getElementById('modalBg').classList.add('open');
     }
@@ -376,14 +481,7 @@
 
     function handleSaveEdit() {
         const idx = archives.findIndex(a => a.id === editTargetId);
-        archives[idx] = { 
-            id: editTargetId, 
-            category: document.getElementById('edit-category').value, 
-            sub: document.getElementById('edit-sub').value, 
-            source: document.getElementById('edit-source').value, 
-            quote: document.getElementById('edit-quote').value, 
-            img: document.getElementById('edit-img').value 
-        };
+        archives[idx] = { id: editTargetId, category: document.getElementById('edit-category').value, sub: document.getElementById('edit-sub').value, source: document.getElementById('edit-source').value, quote: document.getElementById('edit-quote').value, img: document.getElementById('edit-img').value };
         localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
         renderList(); closeModal();
     }
@@ -396,6 +494,7 @@
         }
     }
 
+    // 초기 실행
     renderList();
 </script>
 </body>

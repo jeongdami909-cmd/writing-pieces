@@ -9,146 +9,122 @@
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Cinzel:wght@400;600;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
 
         /* ==========================================
-           1. 메인 아카이브 및 게시판 스타일 (블랙 & 골드)
+           1. 공통 및 메인 UI 스타일
            ========================================== */
         :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
         html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', 'serif'; margin: 0; min-height: 100vh; overflow-x: hidden; }
         
-        header { padding: 50px 20px 30px; text-align: center; }
+        header { padding: 40px 20px 20px; text-align: center; }
         h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; text-shadow: 0 0 15px rgba(212,175,55,0.2); }
         .sub-desc { font-family: 'Playfair Display', serif; font-style: italic; color: #888; margin-top: 10px; font-size: 1rem; }
         
-        /* 메인 필터 */
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; margin: 0 auto; }
-        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 18px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-size: 0.85rem; font-family: 'Cinzel', 'Noto Serif KR', serif; letter-spacing: 1px; }
+        /* 메인 메뉴 */
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-size: 0.85rem; font-family: 'Cinzel', 'Noto Serif KR', serif; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: var(--accent); }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
+        .btn-add-new { color: #fff !important; border-color: #555 !important; }
         .btn-special { color: #d4af37 !important; border-color: #d4af37 !important; font-weight: bold; }
 
-        /* 서브 필터 */
-        .sub-filter-bar { display: none; padding: 15px 20px 25px; justify-content: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px dashed var(--border); max-width: 800px; margin: 0 auto 30px; }
+        /* 서브 태그 메뉴 */
+        .sub-filter-bar { display: none; padding: 15px 20px; justify-content: center; flex-wrap: wrap; gap: 8px; max-width: 800px; margin: 0 auto 20px; }
         .sub-filter-bar.open { display: flex; animation: fadeIn 0.3s ease; }
-        .sub-tag-btn { background: #1a1a1a; border: 1px solid #444; color: #aaa; font-family: 'Noto Serif KR', serif; font-size: 0.85rem; padding: 6px 16px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
-        .sub-tag-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .sub-tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
+        .sub-tag-btn { background: #1a1a1a; border: 1px solid #444; color: #aaa; font-family: 'Noto Serif KR', serif; font-size: 0.85rem; padding: 8px 18px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+        .sub-tag-btn:hover, .sub-tag-btn.active { border-color: var(--accent); color: var(--accent); }
 
-        /* 스페셜 전용 서브 메뉴 */
-        #sub-special { border-bottom: none; margin-bottom: 0; }
-        #sub-special button { font-family: 'Cinzel', sans-serif; font-size: 0.8rem; border-radius: 4px; border: 1px solid; padding: 8px 16px; opacity: 0.5; transition: 0.3s; }
-        #sub-special button.active { opacity: 1; transform: scale(1.05); }
+        /* 아이템(제목) 리스트 */
+        .item-list-container { display: none; max-width: 800px; margin: 0 auto 50px; padding: 0 20px; }
+        .item-list-container.open { display: block; animation: fadeIn 0.4s ease; }
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .item-btn { background: #111; border: 1px dashed var(--border); color: #dfdfdf; padding: 15px; text-align: left; cursor: pointer; border-left: 3px solid var(--accent); transition: 0.2s; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; }
+        .item-btn:hover { background: #1a1a1a; border-color: var(--accent); transform: translateY(-2px); }
 
-        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
+        /* ==========================================
+           2. 💛 클래식 플래시카드 리더기 (노란 버튼)
+           ========================================== */
+        .reader-container { display: none; flex-direction: column; align-items: center; padding: 20px; width: 100%; max-width: 600px; margin: 0 auto 50px; }
+        .reader-container.open { display: flex; animation: fadeIn 0.5s ease; }
+        
+        .card { background: var(--card-bg); color: var(--text); padding: 50px 30px; width: 100%; border: 1px solid var(--accent); box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: center; position: relative; margin-bottom: 20px; }
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 30px; font-family: 'Cinzel', serif; font-size: 0.8rem; color: #888; border-bottom: 1px solid #333; padding-bottom: 15px; }
+        
+        .emoji { font-size: 2.5rem; margin-bottom: 25px; }
+        .lyric-title { font-size: 1.2rem; font-weight: bold; color: var(--accent); margin-bottom: 30px; letter-spacing: 1px; }
+        .lyric-text { font-size: 1.15rem; line-height: 2.2; margin-bottom: 40px; white-space: pre-wrap; font-style: italic; word-break: keep-all; color: #eee; min-height: 150px; display: flex; align-items: center; justify-content: center; }
+        
+        .photo-frame-main img { width: 100%; max-height: 300px; object-fit: cover; border: 1px solid var(--border); margin-bottom: 30px; }
+        
+        /* 수정/삭제 아이콘 버튼 */
+        .edit-controls { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; }
+        .icon-btn { background: none; border: none; color: #666; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
+        .icon-btn:hover { color: var(--accent); }
+        .icon-btn.del:hover { color: #c0392b; }
 
-        /* 글쓰기 게시판 */
-        .write-board { background: var(--card-bg); border: 1px solid var(--accent); padding: 35px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .write-board h2 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--accent); margin-bottom: 25px; text-align: center; letter-spacing: 3px; }
+        .btn-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        /* 핵심: 노란 버튼 */
+        #refresh-btn { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', 'Noto Serif KR', serif; font-weight: bold; font-size: 1rem; cursor: pointer; letter-spacing: 2px; transition: 0.2s; }
+        #refresh-btn:hover { background: #fff; }
+        .tw-btn { border: 1px solid var(--accent); background: #000; color: #fff; padding: 15px; text-decoration: none; font-weight: bold; font-size: 0.85rem; cursor: pointer; text-align: center; letter-spacing: 1px; transition: 0.2s; }
+        .tw-btn:hover { background: var(--accent); color: #000; }
+
+        /* ==========================================
+           3. 글쓰기/수정 게시판
+           ========================================== */
+        .board-container { display: none; max-width: 800px; margin: 0 auto 50px; padding: 20px; }
+        .board-container.open { display: block; animation: fadeIn 0.5s ease; }
+        .write-board { background: var(--card-bg); border: 1px solid var(--accent); padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .write-board h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--accent); margin-bottom: 25px; text-align: center; letter-spacing: 3px; }
+        
         .input-group { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
         .input-group > div { flex: 1; min-width: 200px; }
         label { display: block; font-family: 'Cinzel', serif; font-size: 0.75rem; color: #aaa; margin-bottom: 8px; letter-spacing: 1.5px; }
-        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; box-sizing: border-box; outline: none; transition: 0.3s; margin-bottom: 20px;}
         input:focus, textarea:focus, select:focus { border-color: var(--accent); }
-        textarea { min-height: 180px; line-height: 1.8; resize: vertical; margin-bottom: 20px; }
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 16px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+        textarea { min-height: 250px; line-height: 1.8; resize: vertical; }
+        
+        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         .btn-submit:hover { background: #fff; }
 
-        /* 목차 서랍 */
-        .archive-index { background: #111; border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 25px; margin-bottom: 50px; display: none; }
-        .archive-index.show { display: block; animation: fadeIn 0.5s ease; }
-        .archive-index h3 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--accent); margin-top: 0; margin-bottom: 15px; letter-spacing: 2px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
-        .index-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
-        .index-item { font-size: 0.95rem; color: #ccc; cursor: pointer; padding-left: 15px; position: relative; transition: color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .index-item::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; top: 2px; }
-        .index-item:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
-
-        /* 문장 카드 */
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 50px; scroll-margin-top: 80px; }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--border); flex-wrap: wrap; gap: 15px; }
-        .card-meta { font-family: 'Cinzel', 'Noto Serif KR', serif; font-size: 0.9rem; color: var(--accent); letter-spacing: 1px; line-height: 1.4; }
-        .card-meta-sub { color: #888; font-size: 0.8rem; margin-top: 5px; display: block; }
-        .card-actions { display: flex; gap: 8px; }
-        .btn-action { background: #222; border: 1px solid #444; color: #eee; font-size: 0.75rem; padding: 6px 12px; cursor: pointer; font-family: 'Noto Serif KR', serif; letter-spacing: 1px; border-radius: 4px; transition: 0.2s; }
-        .btn-action:hover { border-color: var(--accent); color: var(--accent); }
-        .btn-action.del:hover { border-color: #c0392b; background: #c0392b; color: #fff; }
-        .lyric-text { font-size: 1.1rem; line-height: 2.2; margin-bottom: 30px; white-space: pre-wrap; font-style: italic; color: #dfdfdf; word-break: keep-all; }
-        .photo-frame-main { margin-bottom: 30px; text-align: center; }
-        .photo-frame-main img { width: 100%; max-height: 450px; object-fit: cover; border: 1px solid var(--border); }
-        .tw-btn { display: block; border: 1px solid var(--border); background: #000; color: #fff; padding: 14px; text-decoration: none; font-size: 0.85rem; font-weight: bold; text-align: center; letter-spacing: 2px; transition: 0.3s; }
-        .tw-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* 수정 모달 */
-        .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-bg.open { display: flex; }
-        .modal { background: var(--card-bg); width: 100%; max-width: 600px; padding: 40px; border: 1px solid var(--accent); max-height: 90vh; overflow-y: auto; }
-        .modal-btns { display: flex; gap: 10px; }
-        .modal-btns button { flex: 1; padding: 15px; border: none; font-family: 'Noto Serif KR', serif; cursor: pointer; font-weight: bold; }
-        .btn-cancel { background: #333; color: #fff; }
+        .helper-text { font-size: 0.8rem; color: #c0392b; margin-top: -15px; margin-bottom: 20px; display: block; }
 
         /* ==========================================
-           2. 스페셜 페이지 CSS (키아누 리브스)
+           4. 스페셜 페이지 (키아누, 철학)
            ========================================== */
-        #keanu-poster-wrapper { display: none; --cream: #f2ead8; --rust: #c0392b; --gold: #b8860b; --dark: #0e0c0a; --mid: #2a2420; --warm-gray: #8a7f74; background: var(--dark); font-family: 'DM Mono', monospace; color: var(--cream); width: 100%; position: relative; padding: 40px 20px 80px;}
-        #keanu-poster-wrapper::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
-        #keanu-poster-wrapper .poster { width: 100%; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
-        #keanu-poster-wrapper .top-band { background: var(--rust); padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cream); animation: fadeDown 0.6s forwards; }
-        #keanu-poster-wrapper .hero { position: relative; padding: 60px 50px 0; display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
-        #keanu-poster-wrapper .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 50px; animation: fadeUp 0.9s forwards; }
-        #keanu-poster-wrapper .label-small { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--rust); margin-bottom: 18px; }
-        #keanu-poster-wrapper .main-title-s { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 10vw, 8rem); line-height: 0.88; color: var(--cream); text-shadow: 6px 6px 0 var(--rust); margin: 0; }
-        #keanu-poster-wrapper .main-title-s span { display: block; color: var(--gold); text-shadow: 4px 4px 0 var(--dark); }
-        #keanu-poster-wrapper .hero-sub { margin-top: 24px; font-size: 0.72rem; letter-spacing: 0.25em; color: var(--warm-gray); line-height: 2; max-width: 280px; }
-        #keanu-poster-wrapper .hero-right { animation: fadeUp 0.9s forwards; }
-        #keanu-poster-wrapper .portrait-frame { width: 100%; height: 100%; min-height: 480px; position: relative; overflow: hidden; }
-        #keanu-poster-wrapper .portrait-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.25) 0%, transparent 50%), linear-gradient(to bottom, transparent 60%, var(--dark) 100%); z-index: 2; }
-        #keanu-poster-wrapper .silhouette { width: 100%; height: 100%; min-height: 480px; display: flex; align-items: flex-end; justify-content: center; background: radial-gradient(ellipse 60% 80% at 50% 30%, #2a2420 0%, var(--dark) 100%); }
-        #keanu-poster-wrapper .figure { position: relative; width: 160px; height: 420px; }
-        #keanu-poster-wrapper .figure-head { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 56px; height: 62px; background: #3a3028; border-radius: 50% 50% 42% 42%; box-shadow: inset -6px -8px 18px rgba(0,0,0,0.5), 0 0 40px rgba(184,134,11,0.15); }
-        #keanu-poster-wrapper .figure-neck { position: absolute; top: 58px; left: 50%; transform: translateX(-50%); width: 22px; height: 20px; background: #2e2620; }
-        #keanu-poster-wrapper .figure-coat { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); width: 110px; height: 280px; background: linear-gradient(170deg, #1c1814 0%, #0e0c0a 100%); clip-path: polygon(18% 0%, 82% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%); box-shadow: inset -10px 0 30px rgba(0,0,0,0.6); }
-        #keanu-poster-wrapper .figure-legs { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 95px; display: flex; gap: 8px; }
-        #keanu-poster-wrapper .leg { flex: 1; background: linear-gradient(180deg, #181512 0%, #0e0c0a 100%); }
-        #keanu-poster-wrapper .deco-rule { display: flex; align-items: center; gap: 16px; padding: 0 50px; margin: 50px 0 0; }
-        #keanu-poster-wrapper .rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-        #keanu-poster-wrapper .rule-text { font-size: 0.6rem; letter-spacing: 0.5em; color: var(--gold); text-transform: uppercase; }
-        #keanu-poster-wrapper .tagline-banner { background: var(--rust); margin: 20px 50px 0; padding: 16px 30px; display: flex; align-items: center; gap: 20px; }
-        #keanu-poster-wrapper .tag-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--cream); }
-        #keanu-poster-wrapper .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 40px 50px 0; background: rgba(184,134,11,0.15); border: 1px solid rgba(184,134,11,0.15); }
-        #keanu-poster-wrapper .story-card { background: var(--mid); padding: 32px 28px; position: relative; overflow: hidden; }
-        #keanu-poster-wrapper .card-title-s { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 12px; }
-        #keanu-poster-wrapper .card-amount { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); display: block; margin-bottom: 10px; }
-        #keanu-poster-wrapper .card-body { font-size: 0.78rem; line-height: 1.8; color: #9e9188; }
-        #keanu-poster-wrapper .quote-section { margin: 40px 50px 0; padding: 50px 60px; background: var(--dark); border: 1px solid rgba(184,134,11,0.2); border-left: 4px solid var(--rust); }
-        #keanu-poster-wrapper .quote-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.7; color: var(--cream); font-style: italic; }
+        .special-page { display: none; }
+        .special-page.open { display: block; animation: fadeIn 0.5s ease; }
 
-        /* ==========================================
-           3. 스페셜 페이지 CSS (철학자들)
-           ========================================== */
-        #philosophy-wrapper { display: none; width: 100%; padding: 40px 20px 80px; background: #0a0a0a; color: #e0e0e0; }
-        #philosophy-wrapper .phil-header { text-align: center; margin-bottom: 60px; }
-        #philosophy-wrapper .phil-subtitle { font-family: 'Cinzel', serif; color: #c5a880; letter-spacing: 0.4em; font-size: 0.85rem; margin-bottom: 15px; }
-        #philosophy-wrapper .phil-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #f5f5f0; margin: 0; }
-        #philosophy-wrapper .phil-intro { max-width: 700px; margin: 20px auto; color: #888; line-height: 1.8; font-size: 0.95rem; word-break: keep-all; }
-        #philosophy-wrapper .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin: 0 auto; }
-        #philosophy-wrapper .phil-card { background: #141414; border: 1px solid #2a2a2a; padding: 40px 30px; transition: 0.4s; position: relative; overflow: hidden; }
-        #philosophy-wrapper .card-hobbes { --theme-color: #4a69bd; border-top: 4px solid var(--theme-color); }
-        #philosophy-wrapper .card-locke { --theme-color: #78e08f; border-top: 4px solid var(--theme-color); }
-        #philosophy-wrapper .card-rousseau { --theme-color: #e55039; border-top: 4px solid var(--theme-color); }
-        #philosophy-wrapper .phil-card:hover { transform: translateY(-10px); border-color: var(--theme-color); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
-        #philosophy-wrapper .p-name { font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin: 0 0 5px 0; }
-        #philosophy-wrapper .p-years { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: #666; margin-bottom: 25px; }
-        #philosophy-wrapper .p-quote { font-size: 1.05rem; font-style: italic; line-height: 1.6; color: #e0e0e0; margin-bottom: 20px; padding-left: 15px; border-left: 2px solid var(--theme-color); word-break: keep-all; }
-        #philosophy-wrapper .p-desc { font-size: 0.95rem; line-height: 1.8; color: #a0a0a0; word-break: keep-all; }
+        /* 키아누 리브스 */
+        #keanu-wrapper { --cream: #f2ead8; --rust: #c0392b; --gold: #b8860b; --dark: #0e0c0a; --mid: #2a2420; background: var(--dark); font-family: 'DM Mono', monospace; color: var(--cream); width: 100%; padding: 0 0 80px; position: relative; }
+        #keanu-wrapper .poster { max-width: 900px; margin: 0 auto; padding-top: 40px;}
+        #keanu-wrapper .main-title-s { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 10vw, 8rem); line-height: 0.88; color: var(--cream); text-shadow: 4px 4px 0 var(--rust); margin: 0 0 20px 20px; }
+        #keanu-wrapper .main-title-s span { display: block; color: var(--gold); }
+        #keanu-wrapper .hero-sub { margin: 0 0 40px 20px; font-size: 0.8rem; letter-spacing: 0.2em; color: #8a7f74; line-height: 2; }
+        #keanu-wrapper .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(184,134,11,0.2); border: 1px solid rgba(184,134,11,0.2); margin: 0 20px; }
+        #keanu-wrapper .story-card { background: var(--mid); padding: 30px; }
+        #keanu-wrapper .card-title-s { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 10px; letter-spacing: 1px;}
+        #keanu-wrapper .card-amount { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); display: block; margin-bottom: 10px; }
+        #keanu-wrapper .quote-section { margin: 40px 20px; padding: 40px; background: var(--dark); border-left: 4px solid var(--rust); border: 1px solid rgba(184,134,11,0.2); border-left-width: 4px; }
+        #keanu-wrapper .quote-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.8; color: var(--cream); font-style: italic; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        /* 철학자들 */
+        #philosophy-wrapper { background: #0a0a0a; padding: 40px 20px 80px; }
+        #philosophy-wrapper .phil-header { text-align: center; margin-bottom: 50px; }
+        #philosophy-wrapper .phil-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: #f5f5f0; margin: 10px 0; }
+        #philosophy-wrapper .phil-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1000px; margin: 0 auto; }
+        #philosophy-wrapper .phil-card { background: #141414; border: 1px solid #2a2a2a; padding: 35px 25px; transition: 0.3s; }
+        #philosophy-wrapper .phil-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.8); }
+        #philosophy-wrapper .card-hobbes { border-top: 4px solid #4a69bd; }
+        #philosophy-wrapper .card-locke { border-top: 4px solid #78e08f; }
+        #philosophy-wrapper .card-rousseau { border-top: 4px solid #e55039; }
+        #philosophy-wrapper .p-name { font-family: 'Cinzel', serif; font-size: 1.8rem; color: #fff; margin: 0 0 5px 0; }
+        #philosophy-wrapper .p-quote { font-size: 1rem; font-style: italic; line-height: 1.7; color: #e0e0e0; margin: 20px 0; padding-left: 15px; border-left: 2px solid; word-break: keep-all; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        @media (max-width: 800px) {
-            #keanu-poster-wrapper .hero { grid-template-columns: 1fr; }
-            #philosophy-wrapper .phil-grid { grid-template-columns: 1fr; max-width: 500px; }
+        @media (max-width: 768px) {
+            #keanu-wrapper .story-grid { grid-template-columns: 1fr; }
             .input-group { flex-direction: column; }
-            .card-header { flex-direction: column; align-items: flex-start; }
-            .card-actions { margin-top: 15px; width: 100%; justify-content: flex-end; }
         }
     </style>
 </head>
@@ -160,342 +136,419 @@
 </header> 
 
 <div class="category-menu">
-    <button class="tag-btn active" onclick="filterMain('ALL', this)">ALL</button>
-    <button class="tag-btn" onclick="filterMain('MUSIC', this)">MUSIC</button>
-    <button class="tag-btn" onclick="filterMain('LITERATURE', this)">LITERATURE</button>
-    <button class="tag-btn" onclick="filterMain('BIBLE', this)">BIBLE</button>
+    <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
+    <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
+    <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
+    <button class="tag-btn btn-add-new" onclick="showWriteBoard(this)">+ ADD RECORD</button>
     <button class="tag-btn btn-special" onclick="showSpecialMenu(this)">SPECIAL EXHIBITION</button>
 </div> 
 
 <div class="sub-filter-bar" id="subFilterBar"></div>
 
-<div id="sub-special" class="sub-filter-bar">
-    <button onclick="loadSpecial('keanu', this)" style="color: #f2ead8; background: #c0392b; border-color: #c0392b;">#KEANU REEVES</button>
-    <button onclick="loadSpecial('philosophy', this)" style="color: #fff; background: #1a1a1a; border-color: #888;">#PHILOSOPHY</button>
+<div class="item-list-container" id="itemListContainer">
+    <div class="item-grid" id="itemGrid"></div>
 </div>
 
-<div id="main-archive-wrapper">
-    <div class="main-container">
+<div class="reader-container" id="readerContainer">
+    <div class="card">
+        <div class="edit-controls">
+            <button class="icon-btn" onclick="editCurrentItem()" title="수정">✏️</button>
+            <button class="icon-btn del" onclick="deleteCurrentItem()" title="삭제">🗑️</button>
+        </div>
+        <div class="card-header">
+            <span id="read-meta">CATEGORY | SUB</span>
+            <span id="read-chunk-count">1 / 1</span>
+        </div>
+        <div id="read-emoji" class="emoji">🌸</div>
+        <div id="read-title" class="lyric-title">제목</div>
         
-        <div class="write-board">
-            <h2>ADD NEW RECORD</h2>
-            <div class="input-group">
-                <div>
-                    <label>MAIN CATEGORY (대분류)</label>
-                    <select id="new-category">
-                        <option value="MUSIC">MUSIC (음악)</option>
-                        <option value="LITERATURE">LITERATURE (문학)</option>
-                        <option value="BIBLE">BIBLE (말씀)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>SUB-TAG (하위태그)</label>
-                    <input type="text" id="new-sub" placeholder="예: BTS, 발라드, 시, 소설">
-                </div>
-            </div>
-
-            <label>TITLE / SOURCE (출처 혹은 제목)</label>
-            <input type="text" id="new-source" placeholder="예: 방탄소년단 - 봄날, 햄릿">
-            
-            <label>SENTENCE (문장)</label>
-            <textarea id="new-quote" placeholder="마음에 남은 문장을 이곳에 기록하세요."></textarea>
-            
-            <label>📸 IMAGE URL (사진 링크 빈칸)</label>
-            <input type="text" id="new-img" placeholder="JPG, PNG 등 이미지 링크를 넣으세요 (선택사항)">
-            
-            <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE (저장하기)</button>
+        <div id="read-photo" class="photo-frame-main" style="display:none;">
+            <img id="read-img-src" src="" alt="사진">
         </div>
 
-        <div id="archiveIndex" class="archive-index"></div>
-        <div id="archiveList"></div>
+        <div id="read-lyric" class="lyric-text">문장 내용</div>
+        
+        <div class="btn-box">
+            <button id="refresh-btn" onclick="showNextChunk()">NEXT SENTENCE (다음 문장)</button>
+            <a id="tw-btn" href="#" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
+        </div>
     </div>
 </div>
 
-<div id="special-content-wrapper">
-    
-    <div id="keanu-poster-wrapper" class="special-page">
-        <div class="poster">
-            <div class="top-band"><span>A Portrait of Quiet Greatness</span><span>★ ★ ★ ★ ★</span><span>Est. 1964 — Beirut</span></div>
-            <div class="hero">
-                <div class="hero-left">
-                    <p class="label-small">The World Presents</p>
-                    <h1 class="main-title-s">KEANU<span>REEVES</span></h1>
-                    <p class="hero-sub">배우 · 인간 · 시대의 증인<br>그가 가진 것보다<br>그가 나눈 것으로 기억되다</p>
-                </div>
-                <div class="hero-right">
-                    <div class="portrait-frame">
-                        <div class="silhouette">
-                            <div class="figure">
-                                <div class="figure-head"></div><div class="figure-neck"></div><div class="figure-coat"></div>
-                                <div class="figure-legs"><div class="leg"></div><div class="leg"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="deco-rule"><div class="rule-line"></div><span class="rule-text">The True Story Behind The Icon</span><div class="rule-line"></div></div>
-            <div class="tagline-banner">
-                <span class="tag-text">"이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."</span>
-            </div>
-            <div class="story-grid">
-                <div class="story-card">
-                    <div class="card-title-s">Matrix Crew Gift</div><span class="card-amount">$50,000,000+</span>
-                    <p class="card-body">트릴로지 종영 후, 의상팀과 특수효과팀 스태프들에게 5천만 달러 이상을 나눠주었다.</p>
-                </div>
-                <div class="story-card">
-                    <div class="card-title-s">Salary Sacrifice</div><span class="card-amount">90% 자진 반납</span>
-                    <p class="card-body">더 좋은 배우들을 섭외하기 위해 자신의 출연료 중 90%를 자진 반납했다.</p>
-                </div>
-            </div>
-            <div class="quote-section">
-                <p class="quote-text">"대부분의 스타들은 자선을 베풀 때 미디어에 선언한다. 그는 한 번도 그런 적이 없다. 그냥 도덕적 원칙으로 선함을 행할 뿐이다."</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="philosophy-wrapper" class="special-page">
-        <div class="phil-header">
-            <div class="phil-subtitle">The Social Contract Theory</div>
-            <h1 class="phil-title">TRINITY OF MODERNITY</h1>
-            <p class="phil-intro">사회계약론은 국가의 기원과 정당성을 시민의 합의에서 찾는 현대 정치 철학의 근간입니다.</p>
-        </div>
-        <div class="phil-grid">
-            <div class="phil-card card-hobbes">
-                <h2 class="p-name">Thomas Hobbes</h2>
-                <div class="p-years">1588 – 1679</div>
-                <div class="p-quote">"만인의 만인에 대한 투쟁 상태에서 인간의 삶은 고독하고, 험악하며, 짧다."</div>
-                <div class="p-desc">절대군주제를 옹호하며, 평화를 유지하기 위해 시민들이 강력한 절대 권력(리바이어던)에게 권리를 양도해야 한다고 보았습니다.</div>
-            </div>
-            <div class="phil-card card-locke">
-                <h2 class="p-name">John Locke</h2>
-                <div class="p-years">1632 – 1704</div>
-                <div class="p-quote">"법이 없는 곳에는 자유도 없다. 국가의 주된 목적은 재산과 생명의 보존이다."</div>
-                <div class="p-desc">정부는 인권 보호를 위한 대리인이며, 국가가 계약을 어기면 시민은 저항권(혁명)을 행사할 수 있다고 주장했습니다.</div>
-            </div>
-            <div class="phil-card card-rousseau">
-                <h2 class="p-name">J.J. Rousseau</h2>
-                <div class="p-years">1712 – 1778</div>
-                <div class="p-quote">"인간은 자유롭게 태어났으나, 모든 곳에서 쇠사슬에 묶여 있다."</div>
-                <div class="p-desc">공동체 전체의 선을 지향하는 '일반의지'에 따른 직접 민주주의를 주장하며 주권은 인민에게 있음을 천명했습니다.</div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div class="modal-bg" id="modalBg">
-    <div class="modal">
-        <h2 style="font-family:'Cinzel', serif; text-align:center; margin-bottom:25px; color:var(--accent);">EDIT RECORD (수정)</h2>
+<div class="board-container" id="boardContainer">
+    <div class="write-board">
+        <h2 id="boardTitle">ADD NEW RECORD</h2>
         <div class="input-group">
             <div>
-                <label>CATEGORY</label>
-                <select id="edit-category">
-                    <option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option>
+                <label>CATEGORY (대분류)</label>
+                <select id="f-category">
+                    <option value="MUSIC">MUSIC</option>
+                    <option value="LITERATURE">LITERATURE</option>
+                    <option value="BIBLE">BIBLE</option>
+                    <option value="ETC">ETC</option>
                 </select>
             </div>
-            <div><label>SUB-TAG</label><input type="text" id="edit-sub"></div>
+            <div>
+                <label>SUB-TAG (하위분류)</label>
+                <input type="text" id="f-sub" placeholder="예: BTS, 힙합, 시...">
+            </div>
         </div>
-        <label>TITLE / SOURCE</label><input type="text" id="edit-source">
-        <label>SENTENCE</label><textarea id="edit-quote" style="min-height:250px;"></textarea>
-        <label>📸 IMAGE URL (사진 링크)</label><input type="text" id="edit-img">
+
+        <div class="input-group">
+            <div>
+                <label>TITLE / SOURCE (출처/제목)</label>
+                <input type="text" id="f-source" placeholder="예: 방탄소년단 - 봄날">
+            </div>
+            <div>
+                <label>EMOJI (이모지 1개)</label>
+                <input type="text" id="f-emoji" placeholder="예: 🌸">
+            </div>
+        </div>
         
-        <div class="modal-btns">
-            <button class="btn-submit" onclick="handleSaveEdit()">UPDATE (수정 완료)</button>
-            <button class="btn-cancel" onclick="closeModal()">CANCEL (취소)</button>
+        <label>SENTENCE (문장)</label>
+        <span class="helper-text">* 문단을 두 번 줄바꿈(엔터 2번)하면 '노란 버튼'을 누를 때 쪼개져서 보입니다!</span>
+        <textarea id="f-quote" placeholder="전체 가사나 시 전문을 듬뿍 적어주세요."></textarea>
+        
+        <label>📸 IMAGE URL (사진 링크 빈칸)</label>
+        <input type="text" id="f-img" placeholder="JPG, PNG 등 이미지 주소">
+        
+        <button class="btn-submit" id="btn-save" onclick="handleSave()">SAVE TO ARCHIVE</button>
+    </div>
+</div>
+
+<div id="keanu-wrapper" class="special-page">
+    <div class="poster">
+        <div class="top-band"><span>A Portrait of Quiet Greatness</span><span>★ ★ ★ ★ ★</span></div>
+        <h1 class="main-title-s">KEANU<span>REEVES</span></h1>
+        <p class="hero-sub">배우 · 인간 · 시대의 증인<br>그가 가진 것보다 그가 나눈 것으로 기억되다</p>
+        
+        <div class="story-grid">
+            <div class="story-card">
+                <div class="card-title-s">Matrix Crew Gift</div><span class="card-amount">$50,000,000+</span>
+                <p class="card-body">트릴로지 종영 후, 의상팀과 특수효과팀 스태프들에게 5천만 달러 이상을 나눠주었다.</p>
+            </div>
+            <div class="story-card">
+                <div class="card-title-s">Salary Sacrifice</div><span class="card-amount">90% Return</span>
+                <p class="card-body">더 좋은 배우들을 섭외하기 위해 자신의 출연료 중 90%를 자진 반납했다.</p>
+            </div>
+        </div>
+        <div class="quote-section">
+            <p class="quote-text">"대부분의 스타들은 자선을 베풀 때 미디어에 선언한다. 그는 한 번도 그런 적이 없다. 그저 도덕적 원칙으로 선함을 행할 뿐이다."</p>
         </div>
     </div>
 </div>
 
+<div id="philosophy-wrapper" class="special-page">
+    <div class="phil-header">
+        <div class="phil-subtitle">The Social Contract Theory</div>
+        <h1 class="phil-title">TRINITY OF MODERNITY</h1>
+        <p class="phil-intro">사회계약론은 국가의 기원과 정당성을 시민의 합의에서 찾는 현대 정치 철학의 근간입니다.</p>
+    </div>
+    <div class="phil-grid">
+        <div class="phil-card card-hobbes">
+            <h2 class="p-name">Thomas Hobbes</h2><div class="p-years">1588 – 1679</div>
+            <div class="p-quote" style="border-left-color:#4a69bd;">"만인의 만인에 대한 투쟁 상태에서 인간의 삶은 고독하고, 험악하며, 짧다."</div>
+            <div class="p-desc">절대군주제를 옹호하며, 평화를 유지하기 위해 시민들이 강력한 절대 권력에게 권리를 양도해야 한다고 보았습니다.</div>
+        </div>
+        <div class="phil-card card-locke">
+            <h2 class="p-name">John Locke</h2><div class="p-years">1632 – 1704</div>
+            <div class="p-quote" style="border-left-color:#78e08f;">"법이 없는 곳에는 자유도 없다. 국가의 주된 목적은 재산과 생명의 보존이다."</div>
+            <div class="p-desc">정부는 인권 보호를 위한 대리인이며, 국가가 계약을 어기면 시민은 저항권(혁명)을 행사할 수 있다고 주장했습니다.</div>
+        </div>
+        <div class="phil-card card-rousseau">
+            <h2 class="p-name">J.J. Rousseau</h2><div class="p-years">1712 – 1778</div>
+            <div class="p-quote" style="border-left-color:#e55039;">"인간은 자유롭게 태어났으나, 모든 곳에서 쇠사슬에 묶여 있다."</div>
+            <div class="p-desc">공동체 전체의 선을 지향하는 '일반의지'에 따른 직접 민주주의를 주장하며 주권은 인민에게 있음을 천명했습니다.</div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-    // 🚨 대분류별 하위 태그 매핑 데이터
+    // ==========================================
+    // 🌸 완전체 데이터 복구 (덩어리 청크 포함)
+    // ==========================================
     const subCategoryMap = {
-        'MUSIC': ['BTS', '발라드', '아이돌', '힙합', '팝', '일본곡', '락'],
+        'MUSIC': ['BTS', '아이돌', '힙합', '발라드', '팝', '일본곡', '락'],
         'LITERATURE': ['시', '소설', '고전문학'],
-        'BIBLE': ['시편', '잠언', '복음서']
+        'BIBLE': ['시편', '잠언', '복음서'],
+        'SPECIAL': ['키아누 리브스', '철학자들']
     };
 
-    let currentMainCat = 'ALL';
-    let currentSubCat = 'ALL';
-    let editTargetId = null;
-
-    let archives = JSON.parse(localStorage.getItem('sentence_archive_v3') || '[]');
+    let archives = JSON.parse(localStorage.getItem('sentence_archive_v4') || '[]');
+    
+    // 데이터가 없으면 예전 전문들을 통째로 배열(chunks) 형태로 넣습니다.
     if(archives.length === 0) {
         archives = [
-            { id: 101, category: 'MUSIC', sub: 'BTS', source: '방탄소년단 - 봄날 🌸', quote: '여긴 온통 겨울 뿐이야 8월에도 겨울이 와\n마음은 시간을 달려가네 홀로 남은 설국열차', img: '' },
-            { id: 102, category: 'MUSIC', sub: 'BTS', source: '방탄소년단 - BUTTERFLY 🦋', quote: '시간을 멈출래 이 순간이 지나면\n없었던 일이 될까 널 잃을까\n겁나 겁나 겁나', img: '' },
-            { id: 108, category: 'MUSIC', sub: '아이돌', source: 'NCT - PIANO 🎹', quote: '햇살 아래 부서지는 하얀 건반\n그 위를 걷는 너의 손가락 끝에', img: '' },
-            { id: 109, category: 'MUSIC', sub: '힙합', source: '이센스 - 독 🐍', quote: '시간 지나면서 내 몸에 쌓인 독\n자유롭고 싶은 게 전보다 훨씬 더 심해진 요즘', img: '' },
-            { id: 110, category: 'MUSIC', sub: '힙합', source: '에픽하이 - 빈차 🚕', quote: '갈 길이 먼데\n빈차가 없네\n비가 올 것 같은데', img: '' },
-            { id: 113, category: 'MUSIC', sub: '발라드', source: '전람회 - 이방인 🍂', quote: '쉴곳을 찾아서\n결국 또 난 여기까지 왔지', img: '' },
-            { id: 201, category: 'LITERATURE', sub: '고전문학', source: '셰익스피어 - 햄릿 💀', quote: 'To be, or not to be, that is the question.', img: '' },
-            { id: 204, category: 'LITERATURE', sub: '시', source: '김남주 - 돌멩이 🪨', quote: '친구와 나 제방을 걸으며\n돌멩이 하나 되자고 했다', img: '' },
-            { id: 301, category: 'BIBLE', sub: '시편', source: '시편 1편 📜', quote: '복 있는 사람은 악인들의 꾀를 따르지 아니하며...', img: '' }
+            { id: 1, category: 'MUSIC', sub: 'BTS', source: '방탄소년단 - 봄날', emoji: '🌸', img: '',
+              chunks: [
+                "보고 싶다 이렇게 말하니까 더 보고 싶다\n너희 사진을 보고 있어도 보고 싶다\n너무 야속한 시간 나는 우리가 밉다\n이젠 얼굴 한 번 보는 것 조차 힘들어진 우리가",
+                "여긴 온통 겨울 뿐이야 8월에도 겨울이 와\n마음은 시간을 달려가네 홀로 남은 설국열차\n니 손 잡고 지구 반대편까지 가 이 겨울을 끝내고파\n그리움들이 얼마나 눈처럼 내려야 그 봄날이 올까, friend?",
+                "허공을 떠도는 작은\n먼지처럼, 작은 먼지처럼\n날리는 눈이 나라면\n조금 더 빨리 네게 닿을 수 있을 텐데?",
+                "눈꽃이 떨어져요\n또 조금씩 멀어져요\n보고 싶다 (보고 싶다)\n보고 싶다 (보고 싶다)",
+                "추운 겨울 끝을 지나\n다시 봄날이 올 때까지\n꽃 피울 때까지\n그곳에 좀 더 머물러줘, 머물러줘"
+              ] 
+            },
+            { id: 2, category: 'MUSIC', sub: 'BTS', source: '방탄소년단 - 전하지 못한 진심', emoji: '🥀', img: '',
+              chunks: [
+                "외로움이 가득히 피어있는 이 garden\n가시투성이 이 모래성에 난 날 매었어\n너의 이름은 뭔지 갈 곳이 있긴 한지\nOh could you tell me? 이 정원에 숨어든 널 봤어",
+                "And I know 너의 온긴 모두 다 진짜란 걸\n푸른 꽃을 꺾는 손 잡고 싶지만\n내 운명인 걸 Don't smile on me Light on me\n너에게 다가설 수 없으니까\n내겐 불러줄 이름이 없어",
+                "You know that I can't Show you me Give you me\n초라한 모습 보여줄 순 없어\n또 가면을 쓰고 널 만나러 가 But I still want you",
+                "어쩌면 그때 조금만 이만큼만 용기 내서 너의 앞에 섰더라면\n지금 모든 건 달라졌을까"
+              ]
+            },
+            { id: 3, category: 'MUSIC', sub: '힙합', source: '이센스 - 독', emoji: '🐍', img: '',
+              chunks: [
+                "시간 지나 먼지 덮인 많은 기억\n시간 지나면서 내 몸에 쌓인 독\n자유롭고 싶은 게 전보다 훨씬 더 심해진 요즘\n난 정확히 반쯤 죽어있어",
+                "지금까지의 긴 여행 꽉 쥔 주먹에\n신념이 가진 것의 전부라 말한 시절엔\n겁먹고 낡아 버린 모두를 비웃었지 반대로 그들은 날 겁 줬지",
+                "내 믿음이 이끄는 곳 그 곳이 바로 내 집이며 내가 완성되는 곳\n기회란 것도 온다면 옆으로 치워놓은 꿈 때문에\n텅 빈 껍데기뿐인 너 보단 나에게"
+              ]
+            },
+            { id: 4, category: 'MUSIC', sub: '힙합', source: '에픽하이 - 빈차', emoji: '🚕', img: '',
+              chunks: [
+                "갈 길이 먼데\n빈차가 없네\n비가 올 것 같은데\n처진 어깨엔 오늘의 무게\n잠시 내려놓고 싶어\nHome is far away",
+                "달라진 게 없네\n홀로 남은 놀이터에서 그 높은 턱걸이에 오른 뒤\n여태 까치발 인생",
+                "내가 해야 할 일\n벌어야 할 돈 말고도 뭐가 있었는데\n내가 가야 할 길\n나에게도 꿈같은 게 뭐가 있었는데"
+              ]
+            },
+            { id: 5, category: 'LITERATURE', sub: '고전문학', source: '셰익스피어 - 햄릿', emoji: '💀', img: '',
+              chunks: [
+                "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them.",
+                "To die, to sleep—\nNo more—and by a sleep to say we end\nThe heartache and the thousand natural shocks\nThat flesh is heir to—'tis a consummation\nDevoutly to be wish'd."
+              ]
+            },
+            { id: 6, category: 'BIBLE', sub: '시편', source: '시편 23편', emoji: '🌿', img: '',
+              chunks: [
+                "여호와는 나의 목자시니 내게 부족함이 없으리로다\n그가 나를 푸른 풀밭에 누이시며\n쉴 만한 물 가로 인도하시는도다 (시편 23:1-2)",
+                "내 영혼을 소생시키시고\n자기 이름을 위하여 의의 길로 인도하시는도다\n내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은\n주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다 (시편 23:3-4)",
+                "주께서 내 원수의 목전에서 내게 상을 차려 주시고\n기름을 내 머리에 부으셨으니 내 잔이 넘치나이다\n내 평생에 선하심과 인자하심이 반드시 나를 따르리니\n내가 여호와의 집에 영원히 살리로다 (시편 23:5-6)"
+              ]
+            }
         ];
-        localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
+        localStorage.setItem('sentence_archive_v4', JSON.stringify(archives));
     }
 
     // ==========================================
-    // 탭 이동 제어
+    // 앱 상태 변수
     // ==========================================
-    function filterMain(cat, btn) {
+    let currentMainCat = '';
+    let currentSubCat = '';
+    let currentItem = null;
+    let currentChunkIndex = 0;
+    let editModeId = null;
+
+    function hideAll() {
+        document.getElementById('subFilterBar').classList.remove('open');
+        document.getElementById('itemListContainer').classList.remove('open');
+        document.getElementById('readerContainer').classList.remove('open');
+        document.getElementById('boardContainer').classList.remove('open');
+        document.querySelectorAll('.special-page').forEach(p => p.classList.remove('open'));
+    }
+
+    // ==========================================
+    // 네비게이션 제어
+    // ==========================================
+    function showMainCategory(cat, btn) {
         document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
-        document.getElementById('sub-special').classList.remove('open');
-        document.getElementById('special-content-wrapper').style.display = 'none';
-        document.getElementById('main-archive-wrapper').style.display = 'block';
+        hideAll();
 
         currentMainCat = cat;
         currentSubCat = 'ALL';
         
-        renderSubFilters();
-        renderList();
-    }
-
-    function showSpecialMenu(btn) {
-        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        document.getElementById('subFilterBar').classList.remove('open');
-        document.getElementById('main-archive-wrapper').style.display = 'none';
-        document.getElementById('sub-special').classList.add('open'); // 서브메뉴 보이기
-
-        // 스페셜 버튼 누르면 기본으로 키아누 첫 번째로 띄우기
-        const keanuBtn = document.querySelector('#sub-special button:first-child');
-        loadSpecial('keanu', keanuBtn);
-    }
-
-    function loadSpecial(id, btn) {
-        document.querySelectorAll('#sub-special button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        document.getElementById('special-content-wrapper').style.display = 'block';
-        document.querySelectorAll('.special-page').forEach(p => p.style.display = 'none');
-        document.getElementById(id + '-wrapper').style.display = 'block';
-    }
-
-    // ==========================================
-    // 게시판 로직
-    // ==========================================
-    function renderSubFilters() {
         const subBar = document.getElementById('subFilterBar');
-        if(currentMainCat === 'ALL') {
-            subBar.classList.remove('open');
-            return;
-        }
+        const subs = subCategoryMap[cat] || [];
         
-        subBar.classList.add('open');
-        const subs = subCategoryMap[currentMainCat] || [];
-        
-        let html = `<button class="sub-tag-btn ${currentSubCat === 'ALL' ? 'active' : ''}" onclick="filterSub('ALL', this)">전체 보기</button>`;
-        
+        let html = `<button class="sub-tag-btn active" onclick="filterSub('ALL', this)">전체 보기</button>`;
         subs.forEach(sub => {
-            const isActive = currentSubCat === sub ? 'active' : '';
-            html += `<button class="sub-tag-btn ${isActive}" onclick="filterSub('${sub}', this)">${sub}</button>`;
+            html += `<button class="sub-tag-btn" onclick="filterSub('${sub}', this)">${sub}</button>`;
         });
-        
         subBar.innerHTML = html;
-    }
-
-    function renderList() {
-        const list = document.getElementById('archiveList');
-        const indexBox = document.getElementById('archiveIndex');
-        list.innerHTML = '';
+        subBar.classList.add('open');
         
-        let filtered = archives;
-        if(currentMainCat !== 'ALL') filtered = filtered.filter(a => a.category === currentMainCat);
-        if(currentSubCat !== 'ALL') filtered = filtered.filter(a => a.sub && a.sub.includes(currentSubCat));
-
-        if(filtered.length > 0 && currentMainCat !== 'ALL') {
-            let indexHtml = `<h3>📜 INDEX (${filtered.length} sentences)</h3><ul class="index-list">`;
-            filtered.forEach(a => {
-                indexHtml += `<li class="index-item" onclick="document.getElementById('card-${a.id}').scrollIntoView({behavior: 'smooth'})">${a.source}</li>`;
-            });
-            indexHtml += `</ul>`;
-            indexBox.innerHTML = indexHtml;
-            indexBox.classList.add('show');
-        } else {
-            indexBox.classList.remove('show');
-            indexBox.innerHTML = '';
-        }
-        
-        filtered.forEach(a => {
-            const tweetText = encodeURIComponent(`"${a.quote}"\n- ${a.source}\n\n#SentenceArchive`);
-            const subDisplay = a.sub ? `<span class="card-meta-sub">🏷️ ${a.sub}</span>` : '';
-            
-            list.innerHTML += `
-                <div class="card" id="card-${a.id}">
-                    <div class="card-header">
-                        <div>
-                            <span class="card-meta">${a.category} | ${a.source}</span>
-                            ${subDisplay}
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-action" onclick="openEditModal(${a.id})">✏️ EDIT (수정)</button>
-                            <button class="btn-action del" onclick="deleteArchive(${a.id})">🗑️ ERASE (삭제)</button>
-                        </div>
-                    </div>
-                    <div class="lyric-text">${a.quote}</div>
-                    ${a.img ? `<div class="photo-frame-main"><img src="${a.img}" onerror="this.style.display='none'"></div>` : ''}
-                    <a href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
-                </div>
-            `;
-        });
+        renderItemList();
     }
 
     function filterSub(sub, btn) {
         document.querySelectorAll('#subFilterBar .sub-tag-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentSubCat = sub;
-        renderList();
+        renderItemList();
     }
 
-    function handleSaveNew() {
-        const quote = document.getElementById('new-quote').value;
-        if(!quote) return alert("문장을 입력해 주세요.");
-
-        archives.unshift({
-            id: Date.now(),
-            category: document.getElementById('new-category').value,
-            sub: document.getElementById('new-sub').value || '',
-            source: document.getElementById('new-source').value || 'Unknown',
-            quote: quote,
-            img: document.getElementById('new-img').value
-        });
+    function renderItemList() {
+        const list = document.getElementById('itemGrid');
+        const container = document.getElementById('itemListContainer');
+        list.innerHTML = '';
         
-        localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
-        document.getElementById('new-sub').value = ''; document.getElementById('new-source').value = ''; 
-        document.getElementById('new-quote').value = ''; document.getElementById('new-img').value = '';
-        renderList();
-    }
+        let filtered = archives.filter(a => a.category === currentMainCat);
+        if(currentSubCat !== 'ALL') filtered = filtered.filter(a => a.sub === currentSubCat);
 
-    function openEditModal(id) {
-        editTargetId = id;
-        const a = archives.find(i => i.id === id);
-        document.getElementById('edit-category').value = a.category; document.getElementById('edit-sub').value = a.sub || ''; 
-        document.getElementById('edit-source').value = a.source; document.getElementById('edit-quote').value = a.quote; 
-        document.getElementById('edit-img').value = a.img || '';
-        document.getElementById('modalBg').classList.add('open');
-    }
-    function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
-
-    function handleSaveEdit() {
-        const idx = archives.findIndex(a => a.id === editTargetId);
-        archives[idx] = { id: editTargetId, category: document.getElementById('edit-category').value, sub: document.getElementById('edit-sub').value, source: document.getElementById('edit-source').value, quote: document.getElementById('edit-quote').value, img: document.getElementById('edit-img').value };
-        localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
-        renderList(); closeModal();
-    }
-
-    function deleteArchive(id) {
-        if(confirm("이 문장을 영구히 삭제하시겠습니까?")) {
-            archives = archives.filter(a => a.id !== id);
-            localStorage.setItem('sentence_archive_v3', JSON.stringify(archives));
-            renderList();
+        if(filtered.length > 0) {
+            filtered.forEach(a => {
+                list.innerHTML += `<div class="item-btn" onclick="openReader(${a.id})">${a.emoji} ${a.source}</div>`;
+            });
+            container.classList.add('open');
+            document.getElementById('readerContainer').classList.remove('open'); // 리스트 띄우면 리더기 닫기
+        } else {
+            container.classList.remove('open');
         }
     }
 
-    // 초기 실행
-    renderList();
+    // ==========================================
+    // 💛 플래시카드 리더기 로직
+    // ==========================================
+    function openReader(id) {
+        currentItem = archives.find(a => a.id === id);
+        currentChunkIndex = Math.floor(Math.random() * currentItem.chunks.length); // 처음엔 랜덤으로 띄움
+        
+        document.getElementById('itemListContainer').classList.remove('open');
+        document.getElementById('readerContainer').classList.add('open');
+        
+        updateReaderUI();
+    }
+
+    function showNextChunk() {
+        if(!currentItem || currentItem.chunks.length <= 1) return;
+        currentChunkIndex = (currentChunkIndex + 1) % currentItem.chunks.length; // 다음 덩어리로
+        updateReaderUI();
+    }
+
+    function updateReaderUI() {
+        document.getElementById('read-meta').innerText = `${currentItem.category} | ${currentItem.sub}`;
+        document.getElementById('read-chunk-count').innerText = `[ ${currentChunkIndex + 1} / ${currentItem.chunks.length} ]`;
+        document.getElementById('read-emoji').innerText = currentItem.emoji || '✨';
+        document.getElementById('read-title').innerText = currentItem.source;
+        
+        // 사진 처리
+        const imgBox = document.getElementById('read-photo');
+        if(currentItem.img) {
+            document.getElementById('read-img-src').src = currentItem.img;
+            imgBox.style.display = 'block';
+        } else {
+            imgBox.style.display = 'none';
+        }
+
+        const chunkText = currentItem.chunks[currentChunkIndex];
+        document.getElementById('read-lyric').innerText = chunkText;
+
+        // 트위터 버튼 갱신
+        const tweetText = encodeURIComponent(`"${chunkText}"\n\n- ${currentItem.source}\n#SentenceArchive`);
+        document.getElementById('tw-btn').href = `https://twitter.com/intent/tweet?text=${tweetText}`;
+    }
+
+    // ==========================================
+    // 게시판 (작성/수정/삭제) 로직
+    // ==========================================
+    function showWriteBoard(btn) {
+        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+        hideAll();
+        
+        editModeId = null;
+        document.getElementById('boardTitle').innerText = "ADD NEW RECORD";
+        document.getElementById('f-category').value = 'MUSIC';
+        document.getElementById('f-sub').value = '';
+        document.getElementById('f-source').value = '';
+        document.getElementById('f-emoji').value = '';
+        document.getElementById('f-quote').value = '';
+        document.getElementById('f-img').value = '';
+        
+        document.getElementById('boardContainer').classList.add('open');
+    }
+
+    function editCurrentItem() {
+        if(!currentItem) return;
+        editModeId = currentItem.id;
+        hideAll();
+        
+        document.getElementById('boardTitle').innerText = "EDIT RECORD (수정)";
+        document.getElementById('f-category').value = currentItem.category;
+        document.getElementById('f-sub').value = currentItem.sub || '';
+        document.getElementById('f-source').value = currentItem.source;
+        document.getElementById('f-emoji').value = currentItem.emoji || '';
+        document.getElementById('f-img').value = currentItem.img || '';
+        
+        // 청크 배열을 다시 엔터 2개 문자열로 합쳐서 텍스트에어리어에 넣기
+        document.getElementById('f-quote').value = currentItem.chunks.join('\n\n');
+        
+        document.getElementById('boardContainer').classList.add('open');
+    }
+
+    function handleSave() {
+        const rawText = document.getElementById('f-quote').value;
+        if(!rawText.trim()) return alert("문장을 입력해 주세요.");
+
+        // 핵심: 엔터 2번(\n\n)을 기준으로 문장을 쪼개서 배열(chunks)로 만듭니다.
+        const chunkArray = rawText.split(/\n\s*\n/).filter(c => c.trim() !== '');
+
+        const data = {
+            id: editModeId || Date.now(),
+            category: document.getElementById('f-category').value,
+            sub: document.getElementById('f-sub').value,
+            source: document.getElementById('f-source').value || 'Unknown',
+            emoji: document.getElementById('f-emoji').value,
+            chunks: chunkArray,
+            img: document.getElementById('f-img').value
+        };
+
+        if(editModeId) {
+            const idx = archives.findIndex(a => a.id === editModeId);
+            archives[idx] = data;
+        } else {
+            archives.unshift(data);
+        }
+        
+        localStorage.setItem('sentence_archive_v4', JSON.stringify(archives));
+        alert("저장되었습니다!");
+        
+        // 방금 저장/수정한 카테고리로 이동
+        const catBtn = Array.from(document.querySelectorAll('.category-menu button')).find(b => b.innerText === data.category);
+        if(catBtn) showMainCategory(data.category, catBtn);
+    }
+
+    function deleteCurrentItem() {
+        if(!currentItem) return;
+        if(confirm("이 문장 전체를 삭제하시겠습니까?")) {
+            archives = archives.filter(a => a.id !== currentItem.id);
+            localStorage.setItem('sentence_archive_v4', JSON.stringify(archives));
+            
+            // 삭제 후 해당 카테고리로 돌아가기
+            const catBtn = Array.from(document.querySelectorAll('.category-menu button')).find(b => b.innerText === currentItem.category);
+            if(catBtn) showMainCategory(currentItem.category, catBtn);
+        }
+    }
+
+    // ==========================================
+    // 스페셜 전시관 로직
+    // ==========================================
+    function showSpecialMenu(btn) {
+        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        hideAll();
+        
+        const subBar = document.getElementById('subFilterBar');
+        subBar.innerHTML = `
+            <button class="sub-tag-btn" onclick="openSpecial('keanu', this)" style="color: #f2ead8; border-color: #c0392b;">#KEANU REEVES</button>
+            <button class="sub-tag-btn" onclick="openSpecial('philosophy', this)" style="color: #fff; border-color: #888;">#PHILOSOPHY</button>
+        `;
+        subBar.classList.add('open');
+    }
+
+    function openSpecial(id, btn) {
+        document.querySelectorAll('#subFilterBar button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.querySelectorAll('.special-page').forEach(p => p.classList.remove('open'));
+        document.getElementById(id + '-wrapper').classList.add('open');
+    }
+
+    // 접속 시 기본 화면 (MUSIC 띄우기)
+    window.onload = () => {
+        const musicBtn = document.querySelector('.category-menu button:nth-child(1)');
+        showMainCategory('MUSIC', musicBtn);
+    }
+
 </script>
 </body>
 </html>

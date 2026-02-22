@@ -11,79 +11,142 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Cinzel:wght@400;600;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
 
-        :root { 
-            --bg: #0b0b0b; 
-            --card-bg: #141414; 
-            --text: #e0e0e0; 
-            --accent: #d4af37; 
-            --border: #333;
-        }
-        
+        /* ==========================================
+           1. 메인 아카이브 및 게시판 스타일
+           ========================================== */
+        :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
         html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', 'serif'; margin: 0; min-height: 100vh; overflow-x: hidden; }
         
-        header { padding: 60px 20px 40px; text-align: center; }
+        header { padding: 60px 20px 30px; text-align: center; }
         h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; text-shadow: 0 0 15px rgba(212,175,55,0.2); }
         .sub-desc { font-family: 'Playfair Display', serif; font-style: italic; color: #888; margin-top: 10px; font-size: 1rem; }
         
-        /* 필터 바 */
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 40px; max-width: 900px; margin: 0 auto; }
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 20px; max-width: 900px; margin: 0 auto; }
         .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 18px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-size: 0.85rem; font-family: 'Cinzel', 'Noto Serif KR', serif; letter-spacing: 1px; }
         .category-menu button:hover { border-color: var(--accent); color: var(--accent); }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
         .btn-special { color: #d4af37 !important; border-color: #d4af37 !important; font-weight: bold; }
 
+        .sub-menu { display: none; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 0 20px 40px; }
+        .sub-menu.active { display: flex; }
+        .sub-menu button { padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; font-family: 'Cinzel', sans-serif; cursor: pointer; border: 1px solid; transition: 0.3s; }
+
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
 
-        /* 글쓰기 보드 */
         .write-board { background: var(--card-bg); border: 1px solid var(--accent); padding: 35px; margin-bottom: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .write-board h2 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--accent); margin-bottom: 25px; text-align: center; letter-spacing: 3px; }
-        
         .input-group { display: flex; gap: 15px; margin-bottom: 20px; }
         .input-group > div { flex: 1; }
         label { display: block; font-family: 'Cinzel', serif; font-size: 0.75rem; color: #888; margin-bottom: 8px; letter-spacing: 2px; }
-        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid var(--border); background: #000; color: #fff; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input, select, textarea { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid var(--border); background: #000; color: #fff; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; box-sizing: border-box; outline: none; }
         input:focus, textarea:focus, select:focus { border-color: var(--accent); }
         textarea { min-height: 150px; line-height: 1.8; resize: vertical; }
-
         .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 15px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
         .btn-submit:hover { background: #fff; }
 
-        /* 문장 카드 */
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 40px; position: relative; transition: 0.3s; }
-        .card:hover { border-color: #555; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 40px; }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--border); }
         .card-meta { font-family: 'Cinzel', 'Noto Serif KR', serif; font-size: 0.85rem; color: var(--accent); letter-spacing: 1px; }
         .card-actions { display: flex; gap: 10px; }
         .btn-action { background: none; border: none; color: #666; font-size: 0.75rem; cursor: pointer; font-family: 'Cinzel', serif; letter-spacing: 1px; }
         .btn-action:hover { color: var(--accent); }
         .btn-action.del:hover { color: #c0392b; }
-        
         .lyric-text { font-size: 1.1rem; line-height: 2; margin-bottom: 25px; white-space: pre-wrap; font-style: italic; color: #ccc; }
-        
-        .photo-frame { margin-bottom: 25px; max-width: 100%; text-align: center; }
-        .photo-frame img { width: 100%; max-height: 400px; object-fit: cover; border: 1px solid var(--border); opacity: 0.8; transition: 0.3s; }
-        .photo-frame img:hover { opacity: 1; }
-
-        .tw-btn { display: block; border: 1px solid var(--border); background: #000; color: #fff; padding: 12px; text-decoration: none; font-size: 0.8rem; font-weight: bold; text-align: center; transition: 0.3s; letter-spacing: 1px; }
+        .photo-frame-main { margin-bottom: 25px; text-align: center; }
+        .photo-frame-main img { width: 100%; max-height: 400px; object-fit: cover; border: 1px solid var(--border); opacity: 0.8; }
+        .tw-btn { display: block; border: 1px solid var(--border); background: #000; color: #fff; padding: 12px; text-decoration: none; font-size: 0.8rem; font-weight: bold; text-align: center; letter-spacing: 1px; }
         .tw-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* 수정 모달 */
         .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .modal-bg.open { display: flex; }
         .modal { background: var(--card-bg); width: 100%; max-width: 600px; padding: 40px; border: 1px solid var(--accent); max-height: 90vh; overflow-y: auto; }
         .modal-btns { display: flex; gap: 10px; }
-        .modal-btns button { flex: 1; padding: 15px; border: none; font-family: 'Cinzel', serif; cursor: pointer; font-weight: bold; letter-spacing: 1px; }
+        .modal-btns button { flex: 1; padding: 15px; border: none; font-family: 'Cinzel', serif; cursor: pointer; font-weight: bold; }
         .btn-cancel { background: #333; color: #fff; }
 
-        /* 스페셜 페이지 래퍼 */
-        #special-content-wrapper { display: none; }
-        #main-archive-wrapper { display: block; }
-        
-        /* 기존 스페셜 페이지 스타일 (숨김 처리용) */
-        #keanu-poster-wrapper, #george-wrapper, #philosophy-wrapper { display: none; }
+        /* ==========================================
+           2. 스페셜 1: 키아누 리브스 포스터
+           ========================================== */
+        #keanu-poster-wrapper { display: none; --cream: #f2ead8; --rust: #c0392b; --gold: #b8860b; --dark: #0e0c0a; --mid: #2a2420; --warm-gray: #8a7f74; background: var(--dark); font-family: 'DM Mono', monospace; color: var(--cream); width: 100%; position: relative; padding-bottom: 50px;}
+        #keanu-poster-wrapper::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); background-size: 200px; }
+        #keanu-poster-wrapper .poster { width: 100%; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+        #keanu-poster-wrapper .top-band { background: var(--rust); padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cream); animation: fadeDown 0.6s 0.1s forwards; }
+        #keanu-poster-wrapper .hero { position: relative; padding: 60px 50px 0; display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
+        #keanu-poster-wrapper .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 50px; animation: fadeUp 0.9s 0.3s forwards; }
+        #keanu-poster-wrapper .label-small { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--rust); margin-bottom: 18px; }
+        #keanu-poster-wrapper .main-title-s { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 10vw, 8rem); line-height: 0.88; color: var(--cream); text-shadow: 6px 6px 0 var(--rust); margin: 0; }
+        #keanu-poster-wrapper .main-title-s span { display: block; color: var(--gold); text-shadow: 4px 4px 0 var(--dark); }
+        #keanu-poster-wrapper .hero-sub { margin-top: 24px; font-size: 0.72rem; letter-spacing: 0.25em; color: var(--warm-gray); line-height: 2; max-width: 280px; }
+        #keanu-poster-wrapper .hero-right { animation: fadeUp 0.9s 0.5s forwards; }
+        #keanu-poster-wrapper .portrait-frame { width: 100%; height: 100%; min-height: 480px; position: relative; overflow: hidden; }
+        #keanu-poster-wrapper .portrait-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(192,57,43,0.25) 0%, transparent 50%), linear-gradient(to bottom, transparent 60%, var(--dark) 100%); z-index: 2; }
+        #keanu-poster-wrapper .silhouette { width: 100%; height: 100%; min-height: 480px; display: flex; align-items: flex-end; justify-content: center; background: radial-gradient(ellipse 60% 80% at 50% 30%, #2a2420 0%, var(--dark) 100%); }
+        #keanu-poster-wrapper .figure { position: relative; width: 160px; height: 420px; }
+        #keanu-poster-wrapper .figure-head { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 56px; height: 62px; background: #3a3028; border-radius: 50% 50% 42% 42%; box-shadow: inset -6px -8px 18px rgba(0,0,0,0.5), 0 0 40px rgba(184,134,11,0.15); }
+        #keanu-poster-wrapper .figure-neck { position: absolute; top: 58px; left: 50%; transform: translateX(-50%); width: 22px; height: 20px; background: #2e2620; }
+        #keanu-poster-wrapper .figure-coat { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); width: 110px; height: 280px; background: linear-gradient(170deg, #1c1814 0%, #0e0c0a 100%); clip-path: polygon(18% 0%, 82% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%); box-shadow: inset -10px 0 30px rgba(0,0,0,0.6); }
+        #keanu-poster-wrapper .figure-coat::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 90px; background: linear-gradient(180deg, #292420 0%, transparent 100%); clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        #keanu-poster-wrapper .figure-legs { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 95px; display: flex; gap: 8px; }
+        #keanu-poster-wrapper .leg { flex: 1; background: linear-gradient(180deg, #181512 0%, #0e0c0a 100%); }
+        #keanu-poster-wrapper .deco-rule { display: flex; align-items: center; gap: 16px; padding: 0 50px; margin: 50px 0 0; }
+        #keanu-poster-wrapper .rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        #keanu-poster-wrapper .rule-text { font-size: 0.6rem; letter-spacing: 0.5em; color: var(--gold); text-transform: uppercase; }
+        #keanu-poster-wrapper .tagline-banner { background: var(--rust); margin: 20px 50px 0; padding: 16px 30px; display: flex; align-items: center; gap: 20px; }
+        #keanu-poster-wrapper .tag-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--cream); }
+        #keanu-poster-wrapper .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 40px 50px 0; background: rgba(184,134,11,0.15); border: 1px solid rgba(184,134,11,0.15); }
+        #keanu-poster-wrapper .story-card { background: var(--mid); padding: 32px 28px; position: relative; overflow: hidden; }
+        #keanu-poster-wrapper .card-title-s { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 12px; }
+        #keanu-poster-wrapper .card-amount { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); display: block; margin-bottom: 10px; }
+        #keanu-poster-wrapper .card-body { font-size: 0.78rem; line-height: 1.8; color: #9e9188; }
+        #keanu-poster-wrapper .quote-section { margin: 40px 50px 0; padding: 50px 60px; background: var(--dark); border: 1px solid rgba(184,134,11,0.2); border-left: 4px solid var(--rust); }
+        #keanu-poster-wrapper .quote-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.7; color: var(--cream); font-style: italic; }
 
-        /* (여기에 기존 스페셜 1, 2, 3의 CSS 코드가 그대로 존재한다고 가정 - 스크롤 길이를 위해 디자인 코드는 생략하지 않고 하단에 포함해야 합니다) */
+        /* ==========================================
+           3. 스페셜 2: 조지 6세 포스터
+           ========================================== */
+        #george-wrapper { display: none; --g-navy: #1B263B; --g-gold: #C5A880; --g-cream: #F9F6F0; --g-red: #8B0000; --g-dark: #0D1321; background: var(--g-dark); color: var(--g-cream); width: 100%; padding: 40px 20px 80px; position: relative; }
+        #george-wrapper .g-poster { max-width: 900px; margin: 0 auto; background: var(--g-navy); border: 8px solid var(--g-gold); outline: 2px solid var(--g-navy); outline-offset: -12px; padding: 60px 50px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        #george-wrapper .g-header { text-align: center; margin-bottom: 50px; border-bottom: 2px solid rgba(197, 168, 128, 0.3); padding-bottom: 40px; }
+        #george-wrapper .g-royal-seal { font-size: 3rem; color: var(--g-gold); margin-bottom: 10px; }
+        #george-wrapper .g-title { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--g-cream); letter-spacing: 0.1em; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        #george-wrapper .g-subtitle { font-family: 'Cinzel', serif; color: var(--g-gold); font-size: 1rem; letter-spacing: 0.3em; margin-top: 15px; text-transform: uppercase; }
+        #george-wrapper .g-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; }
+        #george-wrapper .g-block { background: rgba(255, 255, 255, 0.03); padding: 25px; border-left: 3px solid var(--g-red); margin-bottom: 25px; }
+        #george-wrapper .g-block-num { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--g-gold); margin-bottom: 10px; display: block; }
+        #george-wrapper .g-block-text { font-size: 0.95rem; line-height: 1.8; color: #d1d5db; word-break: keep-all; }
+        #george-wrapper .g-polaroid { background: #F9F6F0; padding: 15px 15px 60px 15px; box-shadow: 5px 15px 30px rgba(0,0,0,0.7); transform: rotate(3deg); position: relative; }
+        #george-wrapper .g-polaroid img { width: 100%; display: block; filter: sepia(0.4) contrast(1.1); }
+        #george-wrapper .g-caption { position: absolute; bottom: 20px; left: 0; width: 100%; text-align: center; font-family: 'Playfair Display', serif; color: #1a1a1a; font-size: 1.1rem; font-style: italic; font-weight: bold; }
+        #george-wrapper .g-quote-box { background: var(--g-dark); padding: 40px; text-align: center; border-left: 4px solid var(--g-gold); border-right: 4px solid var(--g-gold); margin: 50px 0; }
+        #george-wrapper .g-quote { font-size: 1.3rem; line-height: 1.8; font-style: italic; color: var(--g-cream); }
+
+        /* ==========================================
+           4. 스페셜 3: 철학자들 (홉스, 로크, 루소)
+           ========================================== */
+        #philosophy-wrapper { display: none; width: 100%; padding: 40px 20px 80px; background: #0a0a0a; color: #e0e0e0; }
+        #philosophy-wrapper .phil-header { text-align: center; margin-bottom: 60px; }
+        #philosophy-wrapper .phil-subtitle { font-family: 'Cinzel', serif; color: #c5a880; letter-spacing: 0.4em; font-size: 0.85rem; margin-bottom: 15px; }
+        #philosophy-wrapper .phil-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #f5f5f0; margin: 0; }
+        #philosophy-wrapper .phil-intro { max-width: 700px; margin: 20px auto; color: #888; line-height: 1.8; font-size: 0.95rem; }
+        #philosophy-wrapper .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        #philosophy-wrapper .phil-card { background: #141414; border: 1px solid #2a2a2a; padding: 40px 30px; transition: 0.4s; position: relative; overflow: hidden; }
+        #philosophy-wrapper .card-hobbes { --theme-color: #4a69bd; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .card-locke { --theme-color: #78e08f; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .card-rousseau { --theme-color: #e55039; border-top: 4px solid var(--theme-color); }
+        #philosophy-wrapper .phil-card:hover { transform: translateY(-10px); border-color: var(--theme-color); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+        #philosophy-wrapper .p-name { font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin: 0 0 5px 0; }
+        #philosophy-wrapper .p-years { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: #666; margin-bottom: 25px; }
+        #philosophy-wrapper .p-quote { font-size: 1.05rem; font-style: italic; line-height: 1.6; color: #e0e0e0; margin-bottom: 20px; padding-left: 15px; border-left: 2px solid var(--theme-color); }
+        #philosophy-wrapper .p-desc { font-size: 0.95rem; line-height: 1.8; color: #a0a0a0; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 800px) {
+            #keanu-poster-wrapper .hero, #george-wrapper .g-layout { grid-template-columns: 1fr; }
+            #philosophy-wrapper .phil-grid { grid-template-columns: 1fr; max-width: 500px; }
+        }
     </style>
 </head>
 <body>
@@ -94,13 +157,19 @@
 </header> 
 
 <div class="category-menu">
-    <button class="tag-btn active" onclick="filterCategory('ALL', this)">ALL</button>
-    <button class="tag-btn" onclick="filterCategory('MUSIC', this)">MUSIC</button>
-    <button class="tag-btn" onclick="filterCategory('LITERATURE', this)">LITERATURE</button>
-    <button class="tag-btn" onclick="filterCategory('MOVIE', this)">MOVIE</button>
-    <button class="tag-btn" onclick="filterCategory('BIBLE', this)">BIBLE</button>
-    <button class="tag-btn btn-special" onclick="showSpecialPages(this)">SPECIAL EXHIBITION</button>
+    <button class="tag-btn active" onclick="showMainArchive('ALL', this)">ALL</button>
+    <button class="tag-btn" onclick="showMainArchive('MUSIC', this)">MUSIC</button>
+    <button class="tag-btn" onclick="showMainArchive('LITERATURE', this)">LITERATURE</button>
+    <button class="tag-btn" onclick="showMainArchive('MOVIE', this)">MOVIE</button>
+    <button class="tag-btn" onclick="showMainArchive('BIBLE', this)">BIBLE</button>
+    <button class="tag-btn btn-special" onclick="showSpecialMenu(this)">SPECIAL EXHIBITION</button>
 </div> 
+
+<div id="sub-special" class="sub-menu">
+    <button onclick="loadSpecial('keanu', this)" style="color: #f2ead8; background: #c0392b; border-color: #c0392b;">#KEANU REEVES</button>
+    <button onclick="loadSpecial('george', this)" style="color: #F9F6F0; background: #1B263B; border-color: #C5A880;">#GEORGE VI</button>
+    <button onclick="loadSpecial('philosophy', this)" style="color: #fff; background: #1a1a1a; border-color: #888;">#PHILOSOPHY</button>
+</div>
 
 <div id="main-archive-wrapper">
     <div class="main-container">
@@ -134,10 +203,108 @@
     </div>
 </div>
 
-<div id="special-content-wrapper">
-    <div style="text-align: center; color: #888; padding: 50px;">
-        <h2 style="font-family: 'Cinzel', serif; color: var(--accent);">SPECIAL EXHIBITION ROOM</h2>
-        <p>이곳에 기존에 작성하셨던 키아누 리브스, 조지 6세, 철학자 섹션의 HTML 코드를 그대로 붙여넣어 보존할 수 있습니다.</p>
+<div id="keanu-poster-wrapper">
+    <div class="poster">
+        <div class="top-band">
+            <span>A Portrait of Quiet Greatness</span><span>★ ★ ★ ★ ★</span><span>Est. 1964 — Beirut</span>
+        </div>
+        <div class="hero">
+            <div class="hero-left">
+                <p class="label-small">The World Presents</p>
+                <h1 class="main-title-s">KEANU<span>REEVES</span></h1>
+                <p class="hero-sub">배우 · 인간 · 시대의 증인<br>그가 가진 것보다<br>그가 나눈 것으로 기억되다</p>
+            </div>
+            <div class="hero-right">
+                <div class="portrait-frame">
+                    <div class="silhouette">
+                        <div class="figure">
+                            <div class="figure-head"></div><div class="figure-neck"></div><div class="figure-coat"></div>
+                            <div class="figure-legs"><div class="leg"></div><div class="leg"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="deco-rule"><div class="rule-line"></div><span class="rule-text">The True Story Behind The Icon</span><div class="rule-line"></div></div>
+        <div class="tagline-banner">
+            <span class="tag-text">"이 사람은 모든 것을 살 수 있었다. 그래서 그는 선함을 선택했다."</span>
+        </div>
+        <div class="story-grid">
+            <div class="story-card">
+                <div class="card-title-s">Matrix Crew Gift</div><span class="card-amount">$50,000,000+</span>
+                <p class="card-body">트릴로지 종영 후, 특수효과팀 스태프들에게 5천만 달러 이상을 나눠주었다.</p>
+            </div>
+            <div class="story-card">
+                <div class="card-title-s">Salary Sacrifice</div><span class="card-amount">90% 자진 반납</span>
+                <p class="card-body">더 좋은 배우들을 섭외하기 위해 자신의 출연료 중 90%를 자진 반납했다.</p>
+            </div>
+        </div>
+        <div class="quote-section">
+            <p class="quote-text">"대부분의 스타들은 자선을 베풀 때 미디어에 선언한다. 그는 한 번도 그런 적이 없다. 그냥 선함을 행할 뿐이다."</p>
+        </div>
+    </div>
+</div>
+
+<div id="george-wrapper">
+    <div class="g-poster">
+        <div class="g-header">
+            <div class="g-royal-seal">♔</div>
+            <h1 class="g-title">GEORGE VI</h1>
+            <p class="g-subtitle">The Reluctant King · The Voice of Courage</p>
+        </div>
+        <div class="g-layout">
+            <div>
+                <div class="g-block">
+                    <span class="g-block-num">I. 준비되지 않았던 왕</span>
+                    <div class="g-block-text">내성적이고 대중 앞에 서는 것을 두려워했던 차남이었으나, 에드워드 8세의 퇴위로 갑작스럽게 왕위에 올랐습니다.</div>
+                </div>
+                <div class="g-block">
+                    <span class="g-block-num">II. 말더듬이를 극복한 용기</span>
+                    <div class="g-block-text">언어 치료사의 도움을 받아 말더듬이를 극복하고, 라디오를 통해 대중과 소통했습니다. (영화 '킹스 스피치')</div>
+                </div>
+                <div class="g-block">
+                    <span class="g-block-num">III. 제2차 세계대전의 지주</span>
+                    <div class="g-block-text">독일군의 폭격 속에서도 버킹엄 궁전을 떠나지 않고 런던 시민들과 고통을 함께하며 승리의 상징이 되었습니다.</div>
+                </div>
+            </div>
+            <div>
+                <div class="g-polaroid">
+                    <img src="https://via.placeholder.com/400x500/1B263B/F9F6F0?text=Wembley+1925" alt="조지 6세">
+                    <div class="g-caption">Wembley Exhibition, 1925</div>
+                </div>
+            </div>
+        </div>
+        <div class="g-quote-box">
+            <div class="g-quote">"이제야 이웃들(런던 시민들)의 얼굴을 똑바로 볼 수 있겠다."</div>
+        </div>
+    </div>
+</div>
+
+<div id="philosophy-wrapper">
+    <div class="phil-header">
+        <div class="phil-subtitle">The Social Contract Theory</div>
+        <h1 class="phil-title">TRINITY OF MODERNITY</h1>
+        <p class="phil-intro">사회계약론은 국가의 기원과 정당성을 시민의 합의에서 찾는 현대 정치 철학의 근간입니다.</p>
+    </div>
+    <div class="phil-grid">
+        <div class="phil-card card-hobbes">
+            <h2 class="p-name">Thomas Hobbes</h2>
+            <div class="p-years">1588 – 1679</div>
+            <div class="p-quote">"만인의 만인에 대한 투쟁 상태에서 인간의 삶은 고독하고, 험악하며, 짧다."</div>
+            <div class="p-desc">절대군주제를 옹호하며, 평화를 유지하기 위해 시민들이 강력한 절대 권력(리바이어던)에게 권리를 양도해야 한다고 보았습니다.</div>
+        </div>
+        <div class="phil-card card-locke">
+            <h2 class="p-name">John Locke</h2>
+            <div class="p-years">1632 – 1704</div>
+            <div class="p-quote">"법이 없는 곳에는 자유도 없다. 국가의 주된 목적은 재산과 생명의 보존이다."</div>
+            <div class="p-desc">정부는 인권 보호를 위한 대리인이며, 국가가 계약을 어기면 시민은 저항권(혁명)을 행사할 수 있다고 주장했습니다.</div>
+        </div>
+        <div class="phil-card card-rousseau">
+            <h2 class="p-name">J.J. Rousseau</h2>
+            <div class="p-years">1712 – 1778</div>
+            <div class="p-quote">"인간은 자유롭게 태어났으나, 모든 곳에서 쇠사슬에 묶여 있다."</div>
+            <div class="p-desc">공동체 전체의 선을 지향하는 '일반의지'에 따른 직접 민주주의를 주장하며 주권은 인민에게 있음을 천명했습니다.</div>
+        </div>
     </div>
 </div>
 
@@ -164,10 +331,54 @@
 </div>
 
 <script>
+    // ==========================================
+    // 탭 이동 제어
+    // ==========================================
+    function hideAllSpecial() {
+        document.getElementById('keanu-poster-wrapper').style.display = 'none';
+        document.getElementById('george-wrapper').style.display = 'none';
+        document.getElementById('philosophy-wrapper').style.display = 'none';
+    }
+
+    function showMainArchive(cat, btn) {
+        // 메뉴 활성화
+        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // 화면 전환
+        document.getElementById('sub-special').classList.remove('active');
+        hideAllSpecial();
+        document.getElementById('main-archive-wrapper').style.display = 'block';
+
+        currentCategory = cat;
+        renderList();
+    }
+
+    function showSpecialMenu(btn) {
+        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.getElementById('main-archive-wrapper').style.display = 'none';
+        hideAllSpecial();
+        
+        // 하위 메뉴 보여주기
+        document.getElementById('sub-special').classList.add('active');
+    }
+
+    function loadSpecial(id, btn) {
+        document.querySelectorAll('.sub-menu button').forEach(b => b.style.opacity = '0.5');
+        btn.style.opacity = '1';
+        
+        hideAllSpecial();
+        document.getElementById(id + '-wrapper').style.display = 'block';
+    }
+
+    // ==========================================
+    // 동적 아카이브 (CRUD)
+    // ==========================================
     let currentCategory = 'ALL';
     let editTargetId = null;
 
-    // 초기 샘플 데이터
     let archives = JSON.parse(localStorage.getItem('sentence_archive_v1') || '[]');
     if(archives.length === 0) {
         archives = [
@@ -185,7 +396,6 @@
         
         filtered.forEach(a => {
             const tweetText = encodeURIComponent(`"${a.quote}"\n- ${a.source}\n\n#SentenceArchive`);
-            
             list.innerHTML += `
                 <div class="card">
                     <div class="card-header">
@@ -196,29 +406,11 @@
                         </div>
                     </div>
                     <div class="lyric-text">${a.quote}</div>
-                    ${a.img ? `<div class="photo-frame"><img src="${a.img}" onerror="this.style.display='none'"></div>` : ''}
+                    ${a.img ? `<div class="photo-frame-main"><img src="${a.img}" onerror="this.style.display='none'"></div>` : ''}
                     <a href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
                 </div>
             `;
         });
-    }
-
-    function filterCategory(cat, btn) {
-        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        document.getElementById('special-content-wrapper').style.display = 'none';
-        document.getElementById('main-archive-wrapper').style.display = 'block';
-
-        currentCategory = cat;
-        renderList();
-    }
-
-    function showSpecialPages(btn) {
-        document.querySelectorAll('.category-menu button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('main-archive-wrapper').style.display = 'none';
-        document.getElementById('special-content-wrapper').style.display = 'block';
     }
 
     function handleSaveNew() {
@@ -235,35 +427,21 @@
         });
         
         localStorage.setItem('sentence_archive_v1', JSON.stringify(archives));
-        
-        document.getElementById('new-source').value = '';
-        document.getElementById('new-quote').value = '';
-        document.getElementById('new-img').value = '';
-        
+        document.getElementById('new-source').value = ''; document.getElementById('new-quote').value = ''; document.getElementById('new-img').value = '';
         renderList();
     }
 
     function openEditModal(id) {
         editTargetId = id;
         const a = archives.find(i => i.id === id);
-        document.getElementById('edit-category').value = a.category;
-        document.getElementById('edit-source').value = a.source;
-        document.getElementById('edit-quote').value = a.quote;
-        document.getElementById('edit-img').value = a.img || '';
+        document.getElementById('edit-category').value = a.category; document.getElementById('edit-source').value = a.source; document.getElementById('edit-quote').value = a.quote; document.getElementById('edit-img').value = a.img || '';
         document.getElementById('modalBg').classList.add('open');
     }
-
     function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
 
     function handleSaveEdit() {
         const idx = archives.findIndex(a => a.id === editTargetId);
-        archives[idx] = {
-            id: editTargetId,
-            category: document.getElementById('edit-category').value,
-            source: document.getElementById('edit-source').value,
-            quote: document.getElementById('edit-quote').value,
-            img: document.getElementById('edit-img').value
-        };
+        archives[idx] = { id: editTargetId, category: document.getElementById('edit-category').value, source: document.getElementById('edit-source').value, quote: document.getElementById('edit-quote').value, img: document.getElementById('edit-img').value };
         localStorage.setItem('sentence_archive_v1', JSON.stringify(archives));
         renderList(); closeModal();
     }
@@ -276,7 +454,6 @@
         }
     }
 
-    // 초기 실행
     renderList();
 </script>
 </body>

@@ -106,8 +106,7 @@
     <div id="archiveList"></div>
 </div>
 
-<div id="special-content-wrapper">
-    </div>
+<div id="special-content-wrapper"></div>
 
 <script>
     const subCategoryMap = { 'MUSIC': ['BTS', '아이돌', '힙합', '발라드', '팝', '일본곡', '락'], 'LITERATURE': ['시', '소설', '고전문학'], 'BIBLE': ['시편', '잠언', '복음서'] };
@@ -116,10 +115,9 @@
     let chunkState = {}; 
     let archives = JSON.parse(localStorage.getItem('sentence_archive_v4') || '[]');
     
-    // 💡 수정을 위한 전역 변수 추가
+    // 수정을 위한 전역 변수
     let currentEditId = null;
 
-    // 리스트 렌더링 (목소리 버튼 제거, 수정 버튼 추가)
     function renderList() {
         const list = document.getElementById('archiveList');
         list.innerHTML = '';
@@ -155,7 +153,6 @@
         });
     }
 
-    // 다음 문장 넘기기
     function nextChunk(id) {
         let state = chunkState[id];
         if(state.max <= 1) return;
@@ -167,7 +164,6 @@
         document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${tweetText}`;
     }
 
-    // 카테고리/태그 제어 로직
     function showMainCategory(cat, btn) {
         document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -182,13 +178,13 @@
         }
         renderList();
     }
+    
     function filterSub(sub, btn) {
         document.querySelectorAll('.sub-tag-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentSubCat = sub; renderList();
     }
 
-    // 💡 저장 로직 (새 글 작성 및 수정 모두 지원하도록 변경)
     function handleSaveNew() {
         const rawText = document.getElementById('new-quote').value;
         if(!rawText.trim()) return alert("문장을 입력하세요.");
@@ -201,56 +197,65 @@
             source: document.getElementById('new-source').value || 'Unknown',
             emoji: document.getElementById('new-emoji').value,
             chunks: chunkArray,
-            img: document.getElementById('new-img').value
+            img: document.getElementById('new-img') ? document.getElementById('new-img').value : ''
         };
 
         if(currentEditId) {
-            // 기존 데이터 수정
-            const idx = archives.findIndex(a => a.id === currentEditId);
-            archives[idx] = data;
-            currentEditId = null; // 수정 모드 해제
+            const idx = archives.findIndex(a => a.id == currentEditId);
+            if(idx > -1) archives[idx] = data;
+            currentEditId = null; 
             document.querySelector('.write-board h2').innerText = 'ADD NEW RECORD';
             document.querySelector('.btn-submit').innerText = 'SAVE TO ARCHIVE';
         } else {
-            // 새 데이터 추가
             archives.unshift(data);
         }
 
         localStorage.setItem('sentence_archive_v4', JSON.stringify(archives));
         renderList();
         
-        // 폼 초기화
         document.getElementById('new-quote').value = '';
         document.getElementById('new-sub').value = '';
         document.getElementById('new-source').value = '';
         document.getElementById('new-emoji').value = '';
-        document.getElementById('new-img').value = '';
+        if (document.getElementById('new-img')) document.getElementById('new-img').value = '';
     }
 
-    // 💡 수정 기능 로직 추가
+    // 💡 완벽하게 복구 및 개선된 수정 기능
     function editArchive(id) {
-        const item = archives.find(a => a.id === id);
-        if(!item) return;
+        // 데이터 타입이 다를 수 있어 '==' 를 사용하여 완벽하게 찾아냅니다.
+        const item = archives.find(a => a.id == id);
+        if(!item) {
+            alert("데이터를 찾을 수 없습니다.");
+            return;
+        }
 
-        currentEditId = id;
+        currentEditId = item.id;
         document.getElementById('new-category').value = item.category || 'MUSIC';
         document.getElementById('new-sub').value = item.sub || '';
         document.getElementById('new-source').value = item.source || '';
         document.getElementById('new-emoji').value = item.emoji || '';
-        document.getElementById('new-img').value = item.img || '';
-        document.getElementById('new-quote').value = item.chunks.join('\n\n'); // 엔터 2번으로 다시 묶어줌
+        if (document.getElementById('new-img')) document.getElementById('new-img').value = item.img || '';
+        
+        // 문장 배열을 다시 엔터 2번으로 묶어서 텍스트창에 띄워줍니다.
+        let textContent = '';
+        if (Array.isArray(item.chunks)) {
+            textContent = item.chunks.join('\n\n');
+        } else {
+            textContent = item.chunks || '';
+        }
+        document.getElementById('new-quote').value = textContent;
 
-        // 폼 타이틀 및 버튼 변경
+        // 폼 타이틀 변경
         document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
         document.querySelector('.btn-submit').innerText = 'UPDATE RECORD';
 
-        // 입력창으로 부드럽게 스크롤
-        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
+        // 💡 수정 버튼을 누르면 위쪽 텍스트 입력창으로 화면이 부드럽게 스크롤 됩니다!
+        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function deleteArchive(id) {
         if(confirm("이 기록을 삭제할까요?")) {
-            archives = archives.filter(a => a.id !== id);
+            archives = archives.filter(a => a.id != id);
             localStorage.setItem('sentence_archive_v4', JSON.stringify(archives));
             renderList();
         }

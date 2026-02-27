@@ -10,25 +10,26 @@
         body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
         header { padding: 40px 20px; text-align: center; }
         h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
-        .sub-desc { font-style: italic; color: #888; margin-top: 10px; text-align: center; }
         .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
         .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; transition: 0.3s; }
         .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
         .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
         input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; margin-bottom: 20px; box-sizing: border-box; outline: none; }
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; width: 100%; }
+        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 30px; position: relative; }
-        .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; }
-        .error-msg { color: #ff4444; font-size: 0.8rem; margin-top: 10px; text-align: center; font-weight: bold; }
-        .btn-delete { background: none; border: 1px solid #444; color: #666; cursor: pointer; padding: 5px 10px; margin-top: 20px; }
+        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
+        .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+        .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
+        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
+        .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
+        .error-msg { color: #ff4444; font-size: 0.85rem; text-align: center; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>SENTENCE ARCHIVE</h1>
-    <p class="sub-desc">기록되지 않은 문장은 사라진다</p>
 </header>
 
 <div class="category-menu">
@@ -39,10 +40,11 @@
 </div>
 
 <div class="main-container">
-    <div class="write-board">
+    <div class="write-board" id="writeBoard">
+        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel';">ADD RECORD</h2>
         <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
-        <input type="text" id="new-source" placeholder="출처를 입력하세요">
-        <textarea id="new-quote" placeholder="문장을 입력하세요"></textarea>
+        <input type="text" id="new-source" placeholder="출처 (가수/제목)">
+        <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
         <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
         <div id="storage-error" class="error-msg"></div>
     </div>
@@ -52,30 +54,39 @@
 <script>
     const STORAGE_KEY = 'sentence_archive_v4';
     let archives = [];
+    let chunkState = {}; 
     let currentFilter = 'ALL';
+    let currentEditId = null;
 
-    // 데이터 불러오기 (에러 방어 로직 포함)
+    // 💡 이미지 가이드: 안전한 데이터 불러오기
     function init() {
         try {
             const data = localStorage.getItem(STORAGE_KEY);
             archives = data ? JSON.parse(data) : [];
-            if (!Array.isArray(archives)) archives = [];
         } catch (e) {
-            console.error("데이터 로딩 실패:", e);
-            archives = []; // 깨진 데이터 처리
+            console.error("Storage parsing error:", e);
+            archives = [];
         }
         renderList();
     }
 
-    // 저장 기능 (용량 초과 방어 로직)
     window.handleSaveNew = function() {
         const source = document.getElementById('new-source').value;
         const quote = document.getElementById('new-quote').value;
         const category = document.getElementById('new-category').value;
-        if(!quote) return alert("내용을 입력해주세요.");
+        if(!quote.trim()) return alert("내용을 입력해주세요.");
 
-        const newData = { id: Date.now(), category: category, source, chunks: [quote] };
-        archives.unshift(newData);
+        const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
+        const newData = { id: currentEditId || Date.now(), category, source, chunks: chunkArray };
+
+        if(currentEditId) {
+            const idx = archives.findIndex(a => a.id == currentEditId);
+            if(idx > -1) archives[idx] = newData;
+            currentEditId = null;
+            document.querySelector('.write-board h2').innerText = 'ADD RECORD';
+        } else {
+            archives.unshift(newData);
+        }
 
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
@@ -83,14 +94,71 @@
             document.getElementById('new-quote').value = "";
             renderList();
         } catch (e) {
-            // 용량 부족 시 대처
             archives.shift();
-            document.getElementById('storage-error').innerText = "⚠️ 저장 공간이 부족합니다! 기존 자료를 몇 개 삭제해주세요.";
-            alert("저장 실패: 브라우저 용량이 가득 찼습니다.");
+            document.getElementById('storage-error').innerText = "⚠️ 저장 공간 부족! 기존 자료를 삭제해주세요.";
         }
     };
 
-    // 필터링 기능 정상화
+    // 💡 이미지 가이드: 문장 재생 및 트위터 복구
+    function renderList() {
+        const list = document.getElementById('archiveList');
+        list.innerHTML = '';
+        const filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
+
+        filtered.forEach(a => {
+            chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
+            const firstChunk = a.chunks[0];
+            const tweetText = encodeURIComponent(`"${firstChunk}"\n- ${a.source}\n#SentenceArchive`);
+            
+            list.innerHTML += `
+                <div class="card">
+                    <div class="card-header">
+                        <span style="color:#888;">${a.category}</span>
+                        <div>
+                            <button onclick="editArchive(${a.id})" style="background:none; border:none; cursor:pointer;">✏️</button>
+                            <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
+                        </div>
+                    </div>
+                    <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${a.source}</div>
+                    <div id="counter-${a.id}" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">[ 1 / ${a.chunks.length} ]</div>
+                    <div class="lyric-text" id="lyric-${a.id}">${firstChunk}</div>
+                    <div class="btn-box">
+                        <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
+                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
+                    </div>
+                </div>`;
+        });
+    }
+
+    window.nextChunk = function(id) {
+        let state = chunkState[id];
+        if(!state || state.max <= 1) return;
+        state.index = (state.index + 1) % state.max;
+        const currentText = state.chunks[state.index];
+        document.getElementById(`lyric-${id}`).innerText = currentText;
+        document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
+        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText + "\n- " + state.source)}`;
+    };
+
+    window.editArchive = function(id) {
+        const item = archives.find(a => a.id == id);
+        if(!item) return;
+        currentEditId = item.id;
+        document.getElementById('new-category').value = item.category;
+        document.getElementById('new-source').value = item.source;
+        document.getElementById('new-quote').value = item.chunks.join('\n\n');
+        document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
+        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.deleteItem = function(id) {
+        if(confirm("삭제하시겠습니까?")) {
+            archives = archives.filter(a => a.id !== id);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
+            renderList();
+        }
+    };
+
     window.showMainCategory = function(cat, btn) {
         document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -98,32 +166,7 @@
         renderList();
     };
 
-    function renderList() {
-        const list = document.getElementById('archiveList');
-        list.innerHTML = '';
-        
-        const filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
-
-        filtered.forEach(a => {
-            list.innerHTML += `
-                <div class="card">
-                    <div style="color:var(--accent); font-weight:bold; margin-bottom:10px;">${a.category} | ${a.source || 'Unknown'}</div>
-                    <div class="lyric-text">${a.chunks[0]}</div>
-                    <button class="btn-delete" onclick="deleteItem(${a.id})">삭제</button>
-                </div>`;
-        });
-    }
-
-    window.deleteItem = function(id) {
-        if(confirm("이 항목을 삭제하여 용량을 확보할까요?")) {
-            archives = archives.filter(a => a.id !== id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            renderList();
-        }
-    };
-
     window.onload = init;
 </script>
-
 </body>
 </html>

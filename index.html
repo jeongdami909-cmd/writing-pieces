@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive</title>
+    <title>Sentence Archive - Unlimited Storage</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
         :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
@@ -16,14 +16,13 @@
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
         .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
         input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; margin-bottom: 20px; box-sizing: border-box; outline: none; }
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
+        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; width: 100%; }
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 30px; position: relative; }
         .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
         .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 100px; display: flex; align-items: center; justify-content: center; }
         .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
         .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
         .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
-        .error-msg { color: #ff4444; font-size: 0.85rem; text-align: center; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -41,65 +40,90 @@
 
 <div class="main-container">
     <div class="write-board" id="writeBoard">
-        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel';">ADD RECORD</h2>
+        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel';">ADD RECORD (Unlimited)</h2>
         <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
         <input type="text" id="new-source" placeholder="출처 (가수/제목)">
         <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
         <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
-        <div id="storage-error" class="error-msg"></div>
     </div>
     <div id="archiveList"></div>
 </div>
 
 <script>
-    const STORAGE_KEY = 'sentence_archive_v4';
+    const DB_NAME = 'SentenceDB';
+    const STORE_NAME = 'sentences';
+    let db;
     let archives = [];
-    let chunkState = {}; 
+    let chunkState = {};
     let currentFilter = 'ALL';
     let currentEditId = null;
 
-    // 💡 이미지 가이드: 안전한 데이터 불러오기
-    function init() {
-        try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            archives = data ? JSON.parse(data) : [];
-        } catch (e) {
-            console.error("Storage parsing error:", e);
-            archives = [];
-        }
-        renderList();
+    // 💡 IndexedDB 초기화 및 데이터 이사 로직
+    async function initDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, 1);
+            request.onupgradeneeded = (e) => {
+                db = e.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = async (e) => {
+                db = e.target.result;
+                await migrateFromLocalStorage(); // 기존 데이터 이사
+                await loadData();
+                resolve();
+            };
+            request.onerror = (e) => reject(e.target.error);
+        });
     }
 
-    window.handleSaveNew = function() {
+    // 💡 localStorage 자료를 IndexedDB로 안전하게 이동
+    async function migrateFromLocalStorage() {
+        const oldData = localStorage.getItem('sentence_archive_v4');
+        if (oldData) {
+            const parsed = JSON.parse(oldData);
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            for (const item of parsed) {
+                store.put(item);
+            }
+            localStorage.removeItem('sentence_archive_v4'); // 이사 완료 후 삭제
+            console.log("Migration complete!");
+        }
+    }
+
+    async function loadData() {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.getAll();
+        request.onsuccess = () => {
+            archives = request.result.sort((a, b) => b.id - a.id);
+            renderList();
+        };
+    }
+
+    window.handleSaveNew = async function() {
         const source = document.getElementById('new-source').value;
         const quote = document.getElementById('new-quote').value;
         const category = document.getElementById('new-category').value;
-        if(!quote.trim()) return alert("내용을 입력해주세요.");
+        if (!quote.trim()) return alert("내용을 입력해주세요.");
 
         const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
         const newData = { id: currentEditId || Date.now(), category, source, chunks: chunkArray };
 
-        if(currentEditId) {
-            const idx = archives.findIndex(a => a.id == currentEditId);
-            if(idx > -1) archives[idx] = newData;
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put(newData);
+
+        tx.oncomplete = () => {
+            document.getElementById('new-quote').value = "";
             currentEditId = null;
             document.querySelector('.write-board h2').innerText = 'ADD RECORD';
-        } else {
-            archives.unshift(newData);
-        }
-
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            document.getElementById('storage-error').innerText = "";
-            document.getElementById('new-quote').value = "";
-            renderList();
-        } catch (e) {
-            archives.shift();
-            document.getElementById('storage-error').innerText = "⚠️ 저장 공간 부족! 기존 자료를 삭제해주세요.";
-        }
+            loadData();
+        };
     };
 
-    // 💡 이미지 가이드: 문장 재생 및 트위터 복구
     function renderList() {
         const list = document.getElementById('archiveList');
         list.innerHTML = '';
@@ -153,9 +177,10 @@
 
     window.deleteItem = function(id) {
         if(confirm("삭제하시겠습니까?")) {
-            archives = archives.filter(a => a.id !== id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            renderList();
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            store.delete(id);
+            tx.oncomplete = () => loadData();
         }
     };
 
@@ -166,7 +191,7 @@
         renderList();
     };
 
-    window.onload = init;
+    window.onload = initDB;
 </script>
 </body>
 </html>

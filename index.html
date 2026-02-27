@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive - Search & Highlight</title>
+    <title>Sentence Archive - Full Version</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
         :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
@@ -13,26 +13,26 @@
         h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
         
         .category-menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 15px; }
-        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 16px; border-radius: 20px; font-family: 'Cinzel', serif; font-size: 0.8rem; }
+        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 16px; border-radius: 20px; font-family: 'Cinzel', serif; font-size: 0.8rem; cursor: pointer; }
         .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
 
-        /* 🔎 검색창 디자인 보완 */
         .search-container { max-width: 800px; margin: 0 auto 20px; padding: 0 20px; }
         .search-wrapper { border: 1px solid var(--accent); background: #0a0a0a; display: flex; align-items: center; padding: 2px 15px; }
         .search-input { background: transparent; border: none; color: #fff; width: 100%; padding: 12px; font-family: 'Noto Serif KR', serif; outline: none; }
-        
-        /* ✨ 하이라이팅 스타일 */
         .highlight { background-color: var(--accent); color: #000; font-weight: bold; padding: 0 2px; }
 
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
-        .write-board { background: var(--card-bg); border: 1px solid var(--accent); padding: 25px; margin-bottom: 40px; }
+        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 25px; margin-bottom: 40px; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; margin-bottom: 15px; box-sizing: border-box; outline: none; }
         .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 15px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
         
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; margin-bottom: 25px; }
         .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 10px; margin-bottom: 20px; font-size: 0.8rem; }
         .lyric-text { font-size: 1.1rem; line-height: 2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 15px; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; margin-top: 20px; }
+        
+        .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
+        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 15px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
+        .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
     </style>
 </head>
 <body>
@@ -55,7 +55,7 @@
 
 <div class="main-container">
     <div class="write-board" id="writeBoard">
-        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel'; font-size:1.1rem;">ADD RECORD (Unlimited)</h2>
+        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel'; font-size:1.1rem;">ADD RECORD</h2>
         <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
         <input type="text" id="new-source" placeholder="출처 (가수/제목)">
         <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
@@ -72,6 +72,7 @@
     let chunkState = {};
     let currentFilter = 'ALL';
     let searchQuery = '';
+    let currentEditId = null;
 
     async function initDB() {
         return new Promise((resolve) => {
@@ -82,12 +83,24 @@
                     database.createObjectStore(STORE_NAME, { keyPath: 'id' });
                 }
             };
-            request.onsuccess = (e) => {
+            request.onsuccess = async (e) => {
                 db = e.target.result;
-                loadData();
+                await migrateFromLocalStorage();
+                await loadData();
                 resolve();
             };
         });
+    }
+
+    async function migrateFromLocalStorage() {
+        const oldData = localStorage.getItem('sentence_archive_v4');
+        if (oldData) {
+            const parsed = JSON.parse(oldData);
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            for (const item of parsed) { store.put(item); }
+            localStorage.removeItem('sentence_archive_v4');
+        }
     }
 
     async function loadData() {
@@ -100,12 +113,33 @@
         };
     }
 
+    window.handleSaveNew = async function() {
+        const source = document.getElementById('new-source').value;
+        const quote = document.getElementById('new-quote').value;
+        const category = document.getElementById('new-category').value;
+        if (!quote.trim()) return alert("내용을 입력해주세요.");
+
+        const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
+        const newData = { id: currentEditId || Date.now(), category, source, chunks: chunkArray };
+
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put(newData);
+
+        tx.oncomplete = () => {
+            document.getElementById('new-quote').value = "";
+            document.getElementById('new-source').value = "";
+            currentEditId = null;
+            document.querySelector('.write-board h2').innerText = 'ADD RECORD';
+            loadData();
+        };
+    };
+
     function handleSearch() {
         searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
         renderList();
     }
 
-    // 💡 텍스트 내 검색어에 색상을 입히는 함수
     function highlightText(text, query) {
         if (!query) return text;
         const re = new RegExp(`(${query})`, "gi");
@@ -115,7 +149,6 @@
     function renderList() {
         const list = document.getElementById('archiveList');
         list.innerHTML = '';
-        
         let filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
 
         if (searchQuery) {
@@ -128,49 +161,48 @@
         filtered.forEach(a => {
             chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
             const displaySource = highlightText(a.source, searchQuery);
-            const displayText = highlightText(a.chunks[0], searchQuery);
+            const firstChunk = a.chunks[0];
+            const tweetText = encodeURIComponent(`"${firstChunk}"\n- ${a.source}\n#SentenceArchive`);
             
             list.innerHTML += `
                 <div class="card">
                     <div class="card-header">
                         <span style="color:#888;">${a.category}</span>
-                        <div>
-                            <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer; color:#555;">🗑️</button>
+                        <div style="display:flex; gap:10px;">
+                            <button onclick="editArchive(${a.id})" style="background:none; border:none; cursor:pointer;">✏️</button>
+                            <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
                         </div>
                     </div>
                     <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${displaySource}</div>
-                    <div class="lyric-text" id="lyric-${a.id}">${displayText}</div>
-                    <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
+                    <div id="counter-${a.id}" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">[ 1 / ${a.chunks.length} ]</div>
+                    <div class="lyric-text" id="lyric-${a.id}">${highlightText(firstChunk, searchQuery)}</div>
+                    <div class="btn-box">
+                        <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
+                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
+                    </div>
                 </div>`;
         });
     }
-
-    window.handleSaveNew = async function() {
-        const source = document.getElementById('new-source').value;
-        const quote = document.getElementById('new-quote').value;
-        const category = document.getElementById('new-category').value;
-        if (!quote.trim()) return alert("내용을 입력해주세요.");
-
-        const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
-        const newData = { id: Date.now(), category, source, chunks: chunkArray };
-
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        const store = tx.objectStore(STORE_NAME);
-        store.put(newData);
-
-        tx.oncomplete = () => {
-            document.getElementById('new-quote').value = "";
-            document.getElementById('new-source').value = "";
-            loadData();
-        };
-    };
 
     window.nextChunk = function(id) {
         let state = chunkState[id];
         if(!state || state.max <= 1) return;
         state.index = (state.index + 1) % state.max;
-        const currentText = highlightText(state.chunks[state.index], searchQuery);
-        document.getElementById(`lyric-${id}`).innerHTML = currentText;
+        const currentText = state.chunks[state.index];
+        document.getElementById(`lyric-${id}`).innerHTML = highlightText(currentText, searchQuery);
+        document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
+        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText + "\n- " + state.source)}`;
+    };
+
+    window.editArchive = function(id) {
+        const item = archives.find(a => a.id == id);
+        if(!item) return;
+        currentEditId = item.id;
+        document.getElementById('new-category').value = item.category;
+        document.getElementById('new-source').value = item.source;
+        document.getElementById('new-quote').value = item.chunks.join('\n\n');
+        document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
+        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
     };
 
     window.deleteItem = function(id) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive - Debugged</title>
+    <title>Sentence Archive - Safe Storage</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
@@ -16,17 +16,9 @@
         h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
         .sub-desc { font-style: italic; color: #888; margin-top: 10px; }
         
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
-        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-family: 'Cinzel', serif; }
-        .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
-
-        .sub-filter-bar { display: none; padding: 15px; justify-content: center; gap: 8px; flex-wrap: wrap; }
-        .sub-filter-bar.open { display: flex; }
-        .sub-tag-btn { background: #1a1a1a; border: 1px solid #444; color: #aaa; padding: 8px 18px; border-radius: 4px; cursor: pointer; }
-        .sub-tag-btn.active { border-color: var(--accent); color: var(--accent); }
-
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
 
+        /* 등록 폼 */
         .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
         .write-board h2 { font-family: 'Cinzel', serif; color: var(--accent); text-align: center; margin-bottom: 25px; }
         
@@ -39,21 +31,21 @@
         
         .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
 
+        /* 카드 스타일 */
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 50px; position: relative; }
         .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
         .card-meta { font-family: 'Cinzel', serif; font-size: 0.85rem; color: #888; }
+        .lyric-text { font-size: 1.15rem; line-height: 2.2; margin-bottom: 40px; white-space: pre-wrap; font-style: italic; color: #eee; text-align: center; }
+
+        /* 하단 도구함 (백업/용량체크) */
+        .storage-tools { background: #1a1a1a; padding: 20px; border-top: 1px solid var(--accent); position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; z-index: 100; font-size: 0.8rem; }
+        .tool-btn { background: #333; color: var(--accent); border: 1px solid var(--accent); padding: 8px 15px; cursor: pointer; font-family: 'Cinzel', serif; }
+        #storage-bar { width: 100px; height: 10px; background: #000; border: 1px solid #444; display: inline-block; margin-left: 10px; }
+        #storage-fill { height: 100%; background: var(--accent); width: 0%; }
         
-        .card-title-box { text-align: center; margin-bottom: 30px; }
-        .card-emoji { font-size: 2.5rem; margin-bottom: 10px; }
-        .card-title { font-size: 1.4rem; font-weight: bold; color: var(--accent); }
-
-        .lyric-text { font-size: 1.15rem; line-height: 2.2; margin-bottom: 40px; white-space: pre-wrap; font-style: italic; color: #eee; text-align: center; min-height: 100px; display: flex; align-items: center; justify-content: center; }
-
-        .btn-box { display: flex; flex-direction: column; gap: 10px; }
-        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
-        .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; }
-
-        .btn-action { background: #222; border: 1px solid #444; color: #eee; font-size: 0.75rem; padding: 8px 12px; cursor: pointer; }
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
+        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; }
+        .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -61,185 +53,7 @@
 <header>
     <h1>SENTENCE ARCHIVE</h1>
     <p class="sub-desc">기록되지 않은 문장은 사라진다</p>
-</header> 
+</header>
 
 <div class="category-menu">
-    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button>
-    <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
-    <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
-    <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
-</div> 
-
-<div class="sub-filter-bar" id="subFilterBar"></div>
-
-<div class="main-container">
-    <div class="write-board" id="writeBoard">
-        <h2 id="form-title">ADD NEW RECORD</h2>
-        <div class="input-group">
-            <div><label>CATEGORY</label><select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option><option value="ETC">ETC</option></select></div>
-            <div><label>SUB-TAG</label><input type="text" id="new-sub" placeholder="BTS, 소설 등"></div>
-        </div>
-        <div class="input-group">
-            <div><label>TITLE / SOURCE</label><input type="text" id="new-source" placeholder="출처"></div>
-            <div><label>EMOJI</label><input type="text" id="new-emoji" placeholder="🌸"></div>
-        </div>
-        <textarea id="new-quote" placeholder="문장을 적어주세요. 빈 줄(엔터2번)로 나누면 순차 재생됩니다."></textarea>
-        <input type="text" id="new-img" placeholder="이미지 URL (선택)" style="margin-bottom: 20px;">
-        <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
-    </div>
-
-    <div id="archiveList"></div>
-</div>
-
-<script>
-    const STORAGE_KEY = 'sentence_archive_v4';
-    let archives = [];
-    let currentMainCat = 'ALL';
-    let currentSubCat = 'ALL';
-    let currentEditId = null;
-    let chunkState = {};
-
-    // 💡 이미지 3번 가이드 적용: 데이터 로드 (안전 버전)
-    function init() {
-        try {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            archives = stored ? JSON.parse(stored) : [];
-            if (!Array.isArray(archives)) archives = [];
-        } catch (e) {
-            console.error("Storage parsing error:", e);
-            archives = []; 
-        }
-        renderList();
-    }
-
-    // 💡 글 등록 함수 (window에 명시적으로 연결하여 에러 방지)
-    window.handleSaveNew = function() {
-        try {
-            const quoteElem = document.getElementById('new-quote');
-            const catElem = document.getElementById('new-category');
-            const subElem = document.getElementById('new-sub');
-            const sourceElem = document.getElementById('new-source');
-            const emojiElem = document.getElementById('new-emoji');
-            const imgElem = document.getElementById('new-img');
-
-            if (!quoteElem.value.trim()) {
-                alert("문장을 입력해주세요!");
-                return;
-            }
-
-            const chunkArray = quoteElem.value.split(/\n\s*\n/).filter(c => c.trim() !== '');
-
-            const newData = {
-                id: currentEditId || Date.now(),
-                category: catElem.value,
-                sub: subElem.value || 'ETC',
-                source: sourceElem.value || 'Unknown',
-                emoji: emojiElem.value || '✨',
-                chunks: chunkArray,
-                img: imgElem ? imgElem.value : ''
-            };
-
-            if (currentEditId) {
-                const idx = archives.findIndex(a => a.id == currentEditId);
-                if (idx > -1) archives[idx] = newData;
-                currentEditId = null;
-                document.getElementById('form-title').innerText = 'ADD NEW RECORD';
-            } else {
-                archives.unshift(newData);
-            }
-
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            
-            // 입력창 비우기
-            quoteElem.value = '';
-            subElem.value = '';
-            sourceElem.value = '';
-            emojiElem.value = '';
-            if(imgElem) imgElem.value = '';
-
-            renderList();
-            alert("기록되었습니다!"); // 💡 성공 여부 확인용
-
-        } catch (err) {
-            alert("저장 중 에러가 발생했습니다: " + err.message);
-            console.error(err);
-        }
-    };
-
-    function renderList() {
-        const list = document.getElementById('archiveList');
-        list.innerHTML = '';
-        
-        let filtered = archives;
-        if(currentMainCat !== 'ALL') filtered = filtered.filter(a => a.category === currentMainCat);
-        if(currentSubCat !== 'ALL') filtered = filtered.filter(a => a.sub === currentSubCat);
-
-        filtered.forEach(a => {
-            chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
-            
-            list.innerHTML += `
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-meta">${a.category} | ${a.sub}</span>
-                        <div style="display:flex; gap:8px;">
-                            <button class="btn-action" onclick="editArchive(${a.id})">✏️</button>
-                            <button class="btn-action" onclick="deleteArchive(${a.id})">🗑️</button>
-                        </div>
-                    </div>
-                    <div class="card-title-box">
-                        <div class="card-emoji">${a.emoji}</div>
-                        <div class="card-title">${a.source}</div>
-                        <div id="counter-${a.id}" style="font-size:0.8rem; color:#666; margin-top:5px;">[ 1 / ${a.chunks.length} ]</div>
-                    </div>
-                    <div class="lyric-text" id="lyric-${a.id}">${a.chunks[0]}</div>
-                    <div class="btn-box">
-                        <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
-                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(a.chunks[0])}" target="_blank" class="tw-btn">𝕏 POST</a>
-                    </div>
-                </div>`;
-        });
-    }
-
-    window.nextChunk = function(id) {
-        let state = chunkState[id];
-        if(!state || state.max <= 1) return;
-        state.index = (state.index + 1) % state.max;
-        const txt = state.chunks[state.index];
-        document.getElementById(`lyric-${id}`).innerText = txt;
-        document.getElementById(`counter-${id}`).innerText = `[ ${state.index+1} / ${state.max} ]`;
-        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(txt)}`;
-    };
-
-    window.showMainCategory = function(cat, btn) {
-        document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentMainCat = cat; currentSubCat = 'ALL';
-        renderList();
-    };
-
-    window.editArchive = function(id) {
-        const item = archives.find(a => a.id == id);
-        if(!item) return;
-        currentEditId = item.id;
-        document.getElementById('new-category').value = item.category;
-        document.getElementById('new-sub').value = item.sub;
-        document.getElementById('new-source').value = item.source;
-        document.getElementById('new-emoji').value = item.emoji;
-        document.getElementById('new-quote').value = item.chunks.join('\n\n');
-        if(document.getElementById('new-img')) document.getElementById('new-img').value = item.img || '';
-        document.getElementById('form-title').innerText = 'EDIT RECORD';
-        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
-    };
-
-    window.deleteArchive = function(id) {
-        if(confirm("정말 삭제할까요?")) {
-            archives = archives.filter(a => a.id != id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            renderList();
-        }
-    };
-
-    window.onload = init;
-</script>
-</body>
-</html>
+    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button

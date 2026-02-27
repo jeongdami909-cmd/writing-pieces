@@ -3,54 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive - Fixed</title>
+    <title>Sentence Archive - Debugged</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Cinzel:wght@400;600;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
 
         :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
         html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', 'serif'; margin: 0; min-height: 100vh; }
+        body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
         
-        header { padding: 40px 20px 20px; text-align: center; }
-        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; text-shadow: 0 0 15px rgba(212,175,55,0.2); }
-        .sub-desc { font-family: 'Playfair Display', serif; font-style: italic; color: #888; margin-top: 10px; font-size: 1rem; }
+        header { padding: 40px 20px; text-align: center; }
+        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
+        .sub-desc { font-style: italic; color: #888; margin-top: 10px; }
         
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; max-width: 900px; margin: 0 auto; }
-        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-size: 0.85rem; font-family: 'Cinzel', serif; }
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
+        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.3s; font-family: 'Cinzel', serif; }
         .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
-        .btn-special { color: #d4af37 !important; border-color: #d4af37 !important; font-weight: bold; }
 
-        .sub-filter-bar { display: none; padding: 15px 20px; justify-content: center; flex-wrap: wrap; gap: 8px; max-width: 800px; margin: 0 auto 20px; }
-        .sub-filter-bar.open { display: flex; animation: fadeIn 0.3s ease; }
+        .sub-filter-bar { display: none; padding: 15px; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .sub-filter-bar.open { display: flex; }
         .sub-tag-btn { background: #1a1a1a; border: 1px solid #444; color: #aaa; padding: 8px 18px; border-radius: 4px; cursor: pointer; }
         .sub-tag-btn.active { border-color: var(--accent); color: var(--accent); }
 
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
 
-        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .write-board h2 { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 25px; text-align: center; }
+        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
+        .write-board h2 { font-family: 'Cinzel', serif; color: var(--accent); text-align: center; margin-bottom: 25px; }
         
         .input-group { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
         .input-group > div { flex: 1; min-width: 150px; }
         
-        label { display: block; font-family: 'Cinzel', serif; font-size: 0.75rem; color: #aaa; margin-bottom: 8px; font-weight: bold; }
+        label { display: block; font-size: 0.75rem; color: #aaa; margin-bottom: 8px; font-weight: bold; }
         input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; box-sizing: border-box; outline: none; }
-        textarea { min-height: 180px; line-height: 1.8; resize: vertical; margin-bottom: 20px; }
+        textarea { min-height: 180px; line-height: 1.8; margin-bottom: 20px; }
         
         .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { background: #fff; }
 
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 50px; position: relative; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #444; }
+        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
         .card-meta { font-family: 'Cinzel', serif; font-size: 0.85rem; color: #888; }
         
-        .btn-action { background: #222; border: 1px solid #444; color: #eee; font-size: 0.75rem; padding: 8px 12px; cursor: pointer; border-radius: 4px; }
-        .btn-action:hover { border-color: var(--accent); color: var(--accent); }
-
         .card-title-box { text-align: center; margin-bottom: 30px; }
         .card-emoji { font-size: 2.5rem; margin-bottom: 10px; }
-        .card-title { font-size: 1.4rem; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
+        .card-title { font-size: 1.4rem; font-weight: bold; color: var(--accent); }
 
         .lyric-text { font-size: 1.15rem; line-height: 2.2; margin-bottom: 40px; white-space: pre-wrap; font-style: italic; color: #eee; text-align: center; min-height: 100px; display: flex; align-items: center; justify-content: center; }
 
@@ -58,10 +53,7 @@
         .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
         .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; }
 
-        /* 긴급 복구 버튼 (데이터 꼬였을 때용) */
-        .repair-link { color: #555; font-size: 10px; text-decoration: none; position: fixed; bottom: 10px; right: 10px; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-action { background: #222; border: 1px solid #444; color: #eee; font-size: 0.75rem; padding: 8px 12px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -76,51 +68,103 @@
     <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
     <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
     <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
-    <button class="tag-btn btn-special" onclick="alert('특별 전시는 준비 중입니다!')">SPECIAL EXHIBITION</button>
 </div> 
 
 <div class="sub-filter-bar" id="subFilterBar"></div>
 
-<div id="main-archive-wrapper" class="main-container">
+<div class="main-container">
     <div class="write-board" id="writeBoard">
-        <h2>ADD NEW RECORD</h2>
+        <h2 id="form-title">ADD NEW RECORD</h2>
         <div class="input-group">
             <div><label>CATEGORY</label><select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option><option value="ETC">ETC</option></select></div>
-            <div><label>SUB-TAG</label><input type="text" id="new-sub" placeholder="예: BTS, 락..."></div>
+            <div><label>SUB-TAG</label><input type="text" id="new-sub" placeholder="BTS, 소설 등"></div>
         </div>
         <div class="input-group">
             <div><label>TITLE / SOURCE</label><input type="text" id="new-source" placeholder="출처"></div>
             <div><label>EMOJI</label><input type="text" id="new-emoji" placeholder="🌸"></div>
         </div>
         <textarea id="new-quote" placeholder="문장을 적어주세요. 빈 줄(엔터2번)로 나누면 순차 재생됩니다."></textarea>
+        <input type="text" id="new-img" placeholder="이미지 URL (선택)" style="margin-bottom: 20px;">
         <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
     </div>
+
     <div id="archiveList"></div>
 </div>
 
-<a href="#" class="repair-link" onclick="forceReset()">[데이터 초기화 복구]</a>
-
 <script>
     const STORAGE_KEY = 'sentence_archive_v4';
-    const subCategoryMap = { 'MUSIC': ['BTS', '아이돌', '힙합', '발라드', '팝', '일본곡', '락'], 'LITERATURE': ['시', '소설', '고전문학'], 'BIBLE': ['시편', '잠언', '복음서'] };
-    
     let archives = [];
     let currentMainCat = 'ALL';
     let currentSubCat = 'ALL';
     let currentEditId = null;
-    let chunkState = {}; 
+    let chunkState = {};
 
-    // ✅ 이미지 2, 3번 가이드: 데이터 로딩 안정화
-    function loadArchives() {
+    // 💡 이미지 3번 가이드 적용: 데이터 로드 (안전 버전)
+    function init() {
         try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            archives = data ? JSON.parse(data) : [];
+            const stored = localStorage.getItem(STORAGE_KEY);
+            archives = stored ? JSON.parse(stored) : [];
             if (!Array.isArray(archives)) archives = [];
         } catch (e) {
-            console.error("Storage Error:", e);
-            archives = []; // 깨졌으면 안전하게 빈 배열로 시작
+            console.error("Storage parsing error:", e);
+            archives = []; 
         }
+        renderList();
     }
+
+    // 💡 글 등록 함수 (window에 명시적으로 연결하여 에러 방지)
+    window.handleSaveNew = function() {
+        try {
+            const quoteElem = document.getElementById('new-quote');
+            const catElem = document.getElementById('new-category');
+            const subElem = document.getElementById('new-sub');
+            const sourceElem = document.getElementById('new-source');
+            const emojiElem = document.getElementById('new-emoji');
+            const imgElem = document.getElementById('new-img');
+
+            if (!quoteElem.value.trim()) {
+                alert("문장을 입력해주세요!");
+                return;
+            }
+
+            const chunkArray = quoteElem.value.split(/\n\s*\n/).filter(c => c.trim() !== '');
+
+            const newData = {
+                id: currentEditId || Date.now(),
+                category: catElem.value,
+                sub: subElem.value || 'ETC',
+                source: sourceElem.value || 'Unknown',
+                emoji: emojiElem.value || '✨',
+                chunks: chunkArray,
+                img: imgElem ? imgElem.value : ''
+            };
+
+            if (currentEditId) {
+                const idx = archives.findIndex(a => a.id == currentEditId);
+                if (idx > -1) archives[idx] = newData;
+                currentEditId = null;
+                document.getElementById('form-title').innerText = 'ADD NEW RECORD';
+            } else {
+                archives.unshift(newData);
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
+            
+            // 입력창 비우기
+            quoteElem.value = '';
+            subElem.value = '';
+            sourceElem.value = '';
+            emojiElem.value = '';
+            if(imgElem) imgElem.value = '';
+
+            renderList();
+            alert("기록되었습니다!"); // 💡 성공 여부 확인용
+
+        } catch (err) {
+            alert("저장 중 에러가 발생했습니다: " + err.message);
+            console.error(err);
+        }
+    };
 
     function renderList() {
         const list = document.getElementById('archiveList');
@@ -131,98 +175,46 @@
         if(currentSubCat !== 'ALL') filtered = filtered.filter(a => a.sub === currentSubCat);
 
         filtered.forEach(a => {
-            if (!a.chunks || a.chunks.length === 0) return;
-            
             chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
-            const firstChunk = a.chunks[0];
-            const tweetText = encodeURIComponent(`"${firstChunk}"\n\n- ${a.source}\n#SentenceArchive`);
             
             list.innerHTML += `
-                <div class="card" id="card-${a.id}">
+                <div class="card">
                     <div class="card-header">
-                        <span class="card-meta">${a.category} | ${a.sub || 'ETC'}</span>
+                        <span class="card-meta">${a.category} | ${a.sub}</span>
                         <div style="display:flex; gap:8px;">
                             <button class="btn-action" onclick="editArchive(${a.id})">✏️</button>
                             <button class="btn-action" onclick="deleteArchive(${a.id})">🗑️</button>
                         </div>
                     </div>
                     <div class="card-title-box">
-                        <div class="card-emoji">${a.emoji || '✨'}</div>
+                        <div class="card-emoji">${a.emoji}</div>
                         <div class="card-title">${a.source}</div>
-                        <div class="chunk-counter" id="counter-${a.id}">[ 1 / ${a.chunks.length} ]</div>
+                        <div id="counter-${a.id}" style="font-size:0.8rem; color:#666; margin-top:5px;">[ 1 / ${a.chunks.length} ]</div>
                     </div>
-                    <div class="lyric-text" id="lyric-${a.id}">${firstChunk}</div>
+                    <div class="lyric-text" id="lyric-${a.id}">${a.chunks[0]}</div>
                     <div class="btn-box">
                         <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
-                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST</a>
+                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(a.chunks[0])}" target="_blank" class="tw-btn">𝕏 POST</a>
                     </div>
                 </div>`;
         });
     }
 
-    // 💡 이미지 3번 에러 방지: handleSaveNew 정의 확실히
-    window.handleSaveNew = function() {
-        const quoteElem = document.getElementById('new-quote');
-        const rawText = quoteElem.value.trim();
-        if(!rawText) return alert("문장을 입력하세요.");
-        
-        const chunkArray = rawText.split(/\n\s*\n/).filter(c => c.trim() !== '');
-        
-        const data = {
-            id: currentEditId || Date.now(),
-            category: document.getElementById('new-category').value,
-            sub: document.getElementById('new-sub').value,
-            source: document.getElementById('new-source').value || 'Unknown',
-            emoji: document.getElementById('new-emoji').value,
-            chunks: chunkArray
-        };
-
-        if(currentEditId) {
-            const idx = archives.findIndex(a => a.id == currentEditId);
-            if(idx > -1) archives[idx] = data;
-            currentEditId = null; 
-            document.querySelector('.write-board h2').innerText = 'ADD NEW RECORD';
-        } else {
-            archives.unshift(data);
-        }
-
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-        quoteElem.value = '';
-        renderList();
-        alert("저장되었습니다.");
-    };
-
     window.nextChunk = function(id) {
         let state = chunkState[id];
-        if(!state) return;
+        if(!state || state.max <= 1) return;
         state.index = (state.index + 1) % state.max;
-        const currentText = state.chunks[state.index];
-        document.getElementById(`lyric-${id}`).innerText = currentText;
-        document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
-        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText)}`;
+        const txt = state.chunks[state.index];
+        document.getElementById(`lyric-${id}`).innerText = txt;
+        document.getElementById(`counter-${id}`).innerText = `[ ${state.index+1} / ${state.max} ]`;
+        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(txt)}`;
     };
 
     window.showMainCategory = function(cat, btn) {
         document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentMainCat = cat; currentSubCat = 'ALL';
-        
-        const subBar = document.getElementById('subFilterBar');
-        const subs = subCategoryMap[cat] || [];
-        if(cat === 'ALL' || subs.length === 0) {
-            subBar.classList.remove('open');
-        } else {
-            let html = `<button class="sub-tag-btn active" onclick="filterSub('ALL', this)">전체</button>`;
-            subs.forEach(s => html += `<button class="sub-tag-btn" onclick="filterSub('${s}', this)">${s}</button>`);
-            subBar.innerHTML = html; subBar.classList.add('open');
-        }
         renderList();
-    };
-
-    window.filterSub = function(sub, btn) {
-        document.querySelectorAll('.sub-tag-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentSubCat = sub; renderList();
     };
 
     window.editArchive = function(id) {
@@ -234,30 +226,20 @@
         document.getElementById('new-source').value = item.source;
         document.getElementById('new-emoji').value = item.emoji;
         document.getElementById('new-quote').value = item.chunks.join('\n\n');
-        document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
+        if(document.getElementById('new-img')) document.getElementById('new-img').value = item.img || '';
+        document.getElementById('form-title').innerText = 'EDIT RECORD';
         document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
     };
 
     window.deleteArchive = function(id) {
-        if(confirm("삭제하시겠습니까?")) {
+        if(confirm("정말 삭제할까요?")) {
             archives = archives.filter(a => a.id != id);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
             renderList();
         }
     };
 
-    // 긴급 복구: 데이터가 너무 꼬여서 아무것도 안될 때만 사용하세요
-    window.forceReset = function() {
-        if(confirm("주의! 모든 데이터가 삭제됩니다. 그래도 초기화할까요?")) {
-            localStorage.removeItem(STORAGE_KEY);
-            location.reload();
-        }
-    };
-
-    window.onload = () => {
-        loadArchives();
-        renderList();
-    };
+    window.onload = init;
 </script>
 </body>
 </html>

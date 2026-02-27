@@ -3,265 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows</title>
+    <title>Sentence Archive - Unlimited Storage</title>
     <style>
-        :root {
-            --glass: rgba(255, 255, 255, 0.1);
-            --btn-gray: rgba(150, 150, 150, 0.3);
-            --text-gray: rgba(200, 200, 200, 0.5);
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0a0a0f;
-            font-family: 'Pretendard', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-        }
-
-        /* 🌆 배경 사진 */
-        .building-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            opacity: 0.6; z-index: -2;
-        }
-
-        /* 🌑 배경 업로드 칸 (반투명 회색) */
-        .bg-setting {
-            position: fixed;
-            bottom: 20px; right: 20px;
-            z-index: 1000;
-            background: var(--btn-gray);
-            padding: 5px 10px;
-            border-radius: 4px;
-            backdrop-filter: blur(5px);
-        }
-        .bg-setting label {
-            cursor: pointer;
-            color: var(--text-gray);
-            font-size: 10px;
-        }
-
-        /* 🪟 게시판 그리드 (4열 기본) */
-        .facade-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 80px);
-            gap: 50px;
-            padding: 80px 20px;
-            z-index: 10;
-        }
-
-        /* 80x80 미니 유리창 */
-        .glass-board {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 0.5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            height: 80px;
-            overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
-            cursor: pointer;
-        }
-
-        /* 펼쳐졌을 때 (400x650) */
-        .glass-board.expanded {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px; height: 650px;
-            background: rgba(255, 255, 255, 0.98);
-            z-index: 2000;
-            cursor: default;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-        }
-
-        /* 🔘 반투명 작은 버튼들 */
-        .btn-group {
-            position: absolute;
-            top: 10px; right: 10px;
-            display: none;
-            gap: 5px;
-            z-index: 2100;
-        }
-        .glass-board.expanded .btn-group { display: flex; }
-
-        .mini-btn {
-            background: var(--btn-gray);
-            border: none;
-            color: rgba(0, 0, 0, 0.4);
-            font-size: 9px;
-            padding: 4px 8px;
-            border-radius: 2px;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-        }
-        .mini-btn:hover { background: rgba(0,0,0,0.1); color: #3f51b5; }
-
-        /* 사진 & 텍스트 영역 */
-        .photo-space { width: 100%; height: 100%; background: rgba(0,0,0,0.05); overflow: hidden; }
-        .glass-board.expanded .photo-space { height: 260px; cursor: pointer; }
-        .photo-space img { width: 100%; height: 100%; object-fit: cover; }
-
-        .text-space { padding: 30px; display: none; }
-        .glass-board.expanded .text-space { display: block; }
-        .text-space h3 { margin: 0 0 10px 0; color: #3f51b5; outline: none; }
-        .text-space p { font-size: 14px; line-height: 1.8; color: #333; outline: none; white-space: pre-wrap; max-height: 280px; overflow-y: auto; }
-
-        /* ➕ 늘리기 버튼 (2개씩 추가) */
-        .add-row-container {
-            padding-bottom: 100px;
-            z-index: 10;
-        }
-        .add-btn {
-            background: var(--btn-gray);
-            border: none;
-            color: var(--text-gray);
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            backdrop-filter: blur(5px);
-        }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); display: none; z-index: 1500;
-        }
-        .overlay.active { display: block; }
-
-        input[type="file"] { display: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
+        :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
+        body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
+        header { padding: 40px 20px; text-align: center; }
+        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
+        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
+        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; transition: 0.3s; }
+        .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
+        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
+        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
+        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; margin-bottom: 20px; box-sizing: border-box; outline: none; }
+        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; width: 100%; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 30px; position: relative; }
+        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
+        .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+        .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
+        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
+        .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
     </style>
 </head>
 <body>
 
-<div class="building-bg" id="bgLayer"></div>
-<div class="overlay" id="overlay"></div>
+<header>
+    <h1>SENTENCE ARCHIVE</h1>
+</header>
 
-<div class="bg-setting">
-    <label for="bgUpload">BG PHOTO +</label>
-    <input type="file" id="bgUpload" accept="image/*">
+<div class="category-menu">
+    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button>
+    <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
+    <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
+    <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
 </div>
 
-<div class="facade-grid" id="mainGrid"></div>
-
-<div class="add-row-container">
-    <button class="add-btn" onclick="addTwoBoards()">+ ADD 2 WINDOWS</button>
+<div class="main-container">
+    <div class="write-board" id="writeBoard">
+        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel';">ADD RECORD (Unlimited)</h2>
+        <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
+        <input type="text" id="new-source" placeholder="출처 (가수/제목)">
+        <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
+        <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
+    </div>
+    <div id="archiveList"></div>
 </div>
 
 <script>
-    const grid = document.getElementById('mainGrid');
-    const bgLayer = document.getElementById('bgLayer');
-    const overlay = document.getElementById('overlay');
+    const DB_NAME = 'SentenceDB';
+    const STORE_NAME = 'sentences';
+    let db;
+    let archives = [];
+    let chunkState = {};
+    let currentFilter = 'ALL';
+    let currentEditId = null;
 
-    // 배경 로드
-    const savedBg = localStorage.getItem('win-site-bg');
-    if (savedBg) bgLayer.style.backgroundImage = `url(${savedBg})`;
-
-    document.getElementById('bgUpload').addEventListener('change', (e) => {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            bgLayer.style.backgroundImage = `url(${ev.target.result})`;
-            localStorage.setItem('win-site-bg', ev.target.result);
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    });
-
-    // 초기 보드 개수 확인 (기본 8개)
-    let boardCount = parseInt(localStorage.getItem('board-count')) || 8;
-
-    function renderBoards() {
-        grid.innerHTML = '';
-        for (let i = 1; i <= boardCount; i++) {
-            createBoard(i);
-        }
-    }
-
-    function createBoard(id) {
-        const board = document.createElement('div');
-        board.className = 'glass-board';
-        board.id = `board-${id}`;
-        
-        const saved = JSON.parse(localStorage.getItem(`win-data-${id}`)) || { title: `Windows ${id}`, text: '내용을 입력하세요.', img: '' };
-
-        board.innerHTML = `
-            <div class="btn-group">
-                <button class="mini-btn" onclick="saveData(${id}, event)">고정</button>
-                <button class="mini-btn" onclick="deleteData(${id}, event)">삭제</button>
-            </div>
-            <input type="file" id="file-${id}" accept="image/*">
-            <div class="photo-space" onclick="triggerFile(${id}, event)">
-                <img src="${saved.img}" id="img-${id}" style="${saved.img ? 'display:block' : 'display:none'}">
-            </div>
-            <div class="text-space">
-                <h3 contenteditable="true" id="title-${id}">${saved.title}</h3>
-                <p contenteditable="true" id="text-${id}">${saved.text}</p>
-            </div>
-        `;
-
-        board.onclick = function(e) {
-            if (!this.classList.contains('expanded') && e.target.tagName !== 'BUTTON') {
-                this.classList.add('expanded');
-                overlay.classList.add('active');
-            }
-        };
-
-        grid.appendChild(board);
-
-        board.querySelector('input').addEventListener('change', (e) => {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                document.getElementById(`img-${id}`).src = ev.target.result;
-                document.getElementById(`img-${id}`).style.display = 'block';
+    // 💡 IndexedDB 초기화 및 데이터 이사 로직
+    async function initDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, 1);
+            request.onupgradeneeded = (e) => {
+                db = e.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                }
             };
-            reader.readAsDataURL(e.target.files[0]);
+            request.onsuccess = async (e) => {
+                db = e.target.result;
+                await migrateFromLocalStorage(); // 기존 데이터 이사
+                await loadData();
+                resolve();
+            };
+            request.onerror = (e) => reject(e.target.error);
         });
     }
 
-    function addTwoBoards() {
-        boardCount += 2;
-        localStorage.setItem('board-count', boardCount);
-        createBoard(boardCount - 1);
-        createBoard(boardCount);
-    }
-
-    function triggerFile(id, e) {
-        if (document.getElementById(`board-${id}`).classList.contains('expanded')) {
-            e.stopPropagation();
-            document.getElementById(`file-${id}`).click();
+    // 💡 localStorage 자료를 IndexedDB로 안전하게 이동
+    async function migrateFromLocalStorage() {
+        const oldData = localStorage.getItem('sentence_archive_v4');
+        if (oldData) {
+            const parsed = JSON.parse(oldData);
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            for (const item of parsed) {
+                store.put(item);
+            }
+            localStorage.removeItem('sentence_archive_v4'); // 이사 완료 후 삭제
+            console.log("Migration complete!");
         }
     }
 
-    function saveData(id, e) {
-        e.stopPropagation();
-        const title = document.getElementById(`title-${id}`).innerText;
-        const text = document.getElementById(`text-${id}`).innerText;
-        const img = document.getElementById(`img-${id}`).src;
-        const data = { title, text, img: img.startsWith('data:') ? img : '' };
-        localStorage.setItem(`win-data-${id}`, JSON.stringify(data));
-        alert('Windows에 고정되었습니다.');
+    async function loadData() {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.getAll();
+        request.onsuccess = () => {
+            archives = request.result.sort((a, b) => b.id - a.id);
+            renderList();
+        };
     }
 
-    function deleteData(id, e) {
-        e.stopPropagation();
-        if(confirm('이 칸의 내용을 초기화할까요?')) {
-            localStorage.removeItem(`win-data-${id}`);
-            location.reload();
-        }
-    }
+    window.handleSaveNew = async function() {
+        const source = document.getElementById('new-source').value;
+        const quote = document.getElementById('new-quote').value;
+        const category = document.getElementById('new-category').value;
+        if (!quote.trim()) return alert("내용을 입력해주세요.");
 
-    overlay.onclick = function() {
-        const expanded = document.querySelector('.glass-board.expanded');
-        if (expanded) expanded.classList.remove('expanded');
-        this.classList.remove('active');
+        const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
+        const newData = { id: currentEditId || Date.now(), category, source, chunks: chunkArray };
+
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put(newData);
+
+        tx.oncomplete = () => {
+            document.getElementById('new-quote').value = "";
+            currentEditId = null;
+            document.querySelector('.write-board h2').innerText = 'ADD RECORD';
+            loadData();
+        };
     };
 
-    renderBoards();
+    function renderList() {
+        const list = document.getElementById('archiveList');
+        list.innerHTML = '';
+        const filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
+
+        filtered.forEach(a => {
+            chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
+            const firstChunk = a.chunks[0];
+            const tweetText = encodeURIComponent(`"${firstChunk}"\n- ${a.source}\n#SentenceArchive`);
+            
+            list.innerHTML += `
+                <div class="card">
+                    <div class="card-header">
+                        <span style="color:#888;">${a.category}</span>
+                        <div>
+                            <button onclick="editArchive(${a.id})" style="background:none; border:none; cursor:pointer;">✏️</button>
+                            <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
+                        </div>
+                    </div>
+                    <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${a.source}</div>
+                    <div id="counter-${a.id}" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">[ 1 / ${a.chunks.length} ]</div>
+                    <div class="lyric-text" id="lyric-${a.id}">${firstChunk}</div>
+                    <div class="btn-box">
+                        <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
+                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
+                    </div>
+                </div>`;
+        });
+    }
+
+    window.nextChunk = function(id) {
+        let state = chunkState[id];
+        if(!state || state.max <= 1) return;
+        state.index = (state.index + 1) % state.max;
+        const currentText = state.chunks[state.index];
+        document.getElementById(`lyric-${id}`).innerText = currentText;
+        document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
+        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText + "\n- " + state.source)}`;
+    };
+
+    window.editArchive = function(id) {
+        const item = archives.find(a => a.id == id);
+        if(!item) return;
+        currentEditId = item.id;
+        document.getElementById('new-category').value = item.category;
+        document.getElementById('new-source').value = item.source;
+        document.getElementById('new-quote').value = item.chunks.join('\n\n');
+        document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
+        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.deleteItem = function(id) {
+        if(confirm("삭제하시겠습니까?")) {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            store.delete(id);
+            tx.oncomplete = () => loadData();
+        }
+    };
+
+    window.showMainCategory = function(cat, btn) {
+        document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = cat;
+        renderList();
+    };
+
+    window.onload = initDB;
 </script>
 </body>
 </html>

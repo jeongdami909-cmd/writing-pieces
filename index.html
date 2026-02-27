@@ -3,49 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive - Safe Storage</title>
-    
+    <title>Sentence Archive</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
-
         :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
-        html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
-        
         header { padding: 40px 20px; text-align: center; }
         h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
-        .sub-desc { font-style: italic; color: #888; margin-top: 10px; }
-        
-        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
-
-        /* 등록 폼 */
-        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
-        .write-board h2 { font-family: 'Cinzel', serif; color: var(--accent); text-align: center; margin-bottom: 25px; }
-        
-        .input-group { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-        .input-group > div { flex: 1; min-width: 150px; }
-        
-        label { display: block; font-size: 0.75rem; color: #aaa; margin-bottom: 8px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; box-sizing: border-box; outline: none; }
-        textarea { min-height: 180px; line-height: 1.8; margin-bottom: 20px; }
-        
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
-
-        /* 카드 스타일 */
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 50px; position: relative; }
-        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
-        .card-meta { font-family: 'Cinzel', serif; font-size: 0.85rem; color: #888; }
-        .lyric-text { font-size: 1.15rem; line-height: 2.2; margin-bottom: 40px; white-space: pre-wrap; font-style: italic; color: #eee; text-align: center; }
-
-        /* 하단 도구함 (백업/용량체크) */
-        .storage-tools { background: #1a1a1a; padding: 20px; border-top: 1px solid var(--accent); position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; z-index: 100; font-size: 0.8rem; }
-        .tool-btn { background: #333; color: var(--accent); border: 1px solid var(--accent); padding: 8px 15px; cursor: pointer; font-family: 'Cinzel', serif; }
-        #storage-bar { width: 100px; height: 10px; background: #000; border: 1px solid #444; display: inline-block; margin-left: 10px; }
-        #storage-fill { height: 100%; background: var(--accent); width: 0%; }
-        
+        .sub-desc { font-style: italic; color: #888; margin-top: 10px; text-align: center; }
         .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
-        .category-menu button { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; }
-        .category-menu button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; transition: 0.3s; }
+        .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
+        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
+        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
+        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; margin-bottom: 20px; box-sizing: border-box; outline: none; }
+        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; width: 100%; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 30px; position: relative; }
+        .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; }
+        .error-msg { color: #ff4444; font-size: 0.8rem; margin-top: 10px; text-align: center; font-weight: bold; }
+        .btn-delete { background: none; border: 1px solid #444; color: #666; cursor: pointer; padding: 5px 10px; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -56,4 +32,98 @@
 </header>
 
 <div class="category-menu">
-    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button
+    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button>
+    <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
+    <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
+    <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
+</div>
+
+<div class="main-container">
+    <div class="write-board">
+        <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
+        <input type="text" id="new-source" placeholder="출처를 입력하세요">
+        <textarea id="new-quote" placeholder="문장을 입력하세요"></textarea>
+        <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
+        <div id="storage-error" class="error-msg"></div>
+    </div>
+    <div id="archiveList"></div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'sentence_archive_v4';
+    let archives = [];
+    let currentFilter = 'ALL';
+
+    // 데이터 불러오기 (에러 방어 로직 포함)
+    function init() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            archives = data ? JSON.parse(data) : [];
+            if (!Array.isArray(archives)) archives = [];
+        } catch (e) {
+            console.error("데이터 로딩 실패:", e);
+            archives = []; // 깨진 데이터 처리
+        }
+        renderList();
+    }
+
+    // 저장 기능 (용량 초과 방어 로직)
+    window.handleSaveNew = function() {
+        const source = document.getElementById('new-source').value;
+        const quote = document.getElementById('new-quote').value;
+        const category = document.getElementById('new-category').value;
+        if(!quote) return alert("내용을 입력해주세요.");
+
+        const newData = { id: Date.now(), category: category, source, chunks: [quote] };
+        archives.unshift(newData);
+
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
+            document.getElementById('storage-error').innerText = "";
+            document.getElementById('new-quote').value = "";
+            renderList();
+        } catch (e) {
+            // 용량 부족 시 대처
+            archives.shift();
+            document.getElementById('storage-error').innerText = "⚠️ 저장 공간이 부족합니다! 기존 자료를 몇 개 삭제해주세요.";
+            alert("저장 실패: 브라우저 용량이 가득 찼습니다.");
+        }
+    };
+
+    // 필터링 기능 정상화
+    window.showMainCategory = function(cat, btn) {
+        document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = cat;
+        renderList();
+    };
+
+    function renderList() {
+        const list = document.getElementById('archiveList');
+        list.innerHTML = '';
+        
+        const filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
+
+        filtered.forEach(a => {
+            list.innerHTML += `
+                <div class="card">
+                    <div style="color:var(--accent); font-weight:bold; margin-bottom:10px;">${a.category} | ${a.source || 'Unknown'}</div>
+                    <div class="lyric-text">${a.chunks[0]}</div>
+                    <button class="btn-delete" onclick="deleteItem(${a.id})">삭제</button>
+                </div>`;
+        });
+    }
+
+    window.deleteItem = function(id) {
+        if(confirm("이 항목을 삭제하여 용량을 확보할까요?")) {
+            archives = archives.filter(a => a.id !== id);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
+            renderList();
+        }
+    };
+
+    window.onload = init;
+</script>
+
+</body>
+</html>

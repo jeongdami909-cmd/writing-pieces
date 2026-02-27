@@ -1,172 +1,75 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
-        :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
-        header { padding: 40px 20px; text-align: center; }
-        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
-        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; transition: 0.3s; }
-        .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
-        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
-        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
-        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; margin-bottom: 20px; box-sizing: border-box; outline: none; }
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 30px; position: relative; }
-        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
-        .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 100px; display: flex; align-items: center; justify-content: center; }
-        .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
-        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
-        .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
-        .error-msg { color: #ff4444; font-size: 0.85rem; text-align: center; margin-top: 10px; }
-    </style>
-</head>
-<body>
+Who dat who dat who dat boy
+수많은 사람 속 눈에 띈
+무심한 그 표정 I like that
+내 호기심을 자극하지
+ 
+Oh 시크한 스타일은 덤
+입은 옷은 신경 쓴 듯 안 쓴 듯
+관심 없는 말투 I like that 
+외면해 봐도 끌려
+ 
+달라 도도한 날 웃게 하잖아
+알잖아 요즘 내가 Hot ah ah 
+날 보는 시선 너도 느껴봐
 
-<header>
-    <h1>SENTENCE ARCHIVE</h1>
-</header>
+* 홀린 듯 날 따라와 
+모두 환호해 너도 곧 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+아닌 척해도 넌 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+한 번 내기를 해볼까 
 
-<div class="category-menu">
-    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button>
-    <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
-    <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
-    <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
-</div>
+** 너무 쉽겐 오지 마 
+재미없잖아 거기서 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+밀고 당겨볼까 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+시작할게 Bad boy down 
 
-<div class="main-container">
-    <div class="write-board" id="writeBoard">
-        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel';">ADD RECORD</h2>
-        <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
-        <input type="text" id="new-source" placeholder="출처 (가수/제목)">
-        <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
-        <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
-        <div id="storage-error" class="error-msg"></div>
-    </div>
-    <div id="archiveList"></div>
-</div>
+Whoa whoa 
+지금부터 Bad boy down 
+Whoa whoa 
 
-<script>
-    const STORAGE_KEY = 'sentence_archive_v4';
-    let archives = [];
-    let chunkState = {}; 
-    let currentFilter = 'ALL';
-    let currentEditId = null;
+잠깐 이리 와봐 
+너에게만 할 말이 있어
+가까이 좀 와 
+고갤 숙여 키를 낮춰봐 
+다른 건 신경 쓰지 마
+내 목소리에 집중해
+ 
+상황은 좀 달라져 
+주위를 맴도는 내가 궁금해 
+너도 알게 될 거야 (뭘까?) 
+알 거야 (말해)
+이미 늦어버렸단 걸 
+ 
+맞아 사실 꽤나 자신 있어 난 
+지는 게임 하진 않아 Ha ah ah 
+벌써 반쯤은 넘어왔잖아
+ 
+* REPEAT
+ 
+** REPEAT 
 
-    // 💡 이미지 가이드: 안전한 데이터 불러오기
-    function init() {
-        try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            archives = data ? JSON.parse(data) : [];
-        } catch (e) {
-            console.error("Storage parsing error:", e);
-            archives = [];
-        }
-        renderList();
-    }
+혼란스런 맘이겠지 
+상상조차 못할 거야 
+헤어나려 노력해도 
+어떤 작은 틈도 없어
+정답은 정해져 있어 
+자연스럽게 넌 따라와 
+난 널 선택해 
+난 널 선택했어 이미 
+ 
+홀린 듯 날 따라와 
+모두 환호해 말했지 Ooh ooh 
+(Oh-eh-oh-eh-oh) 
+결관 항상 같아 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+거봐 내가 또 이겼어
 
-    window.handleSaveNew = function() {
-        const source = document.getElementById('new-source').value;
-        const quote = document.getElementById('new-quote').value;
-        const category = document.getElementById('new-category').value;
-        if(!quote.trim()) return alert("내용을 입력해주세요.");
-
-        const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
-        const newData = { id: currentEditId || Date.now(), category, source, chunks: chunkArray };
-
-        if(currentEditId) {
-            const idx = archives.findIndex(a => a.id == currentEditId);
-            if(idx > -1) archives[idx] = newData;
-            currentEditId = null;
-            document.querySelector('.write-board h2').innerText = 'ADD RECORD';
-        } else {
-            archives.unshift(newData);
-        }
-
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            document.getElementById('storage-error').innerText = "";
-            document.getElementById('new-quote').value = "";
-            renderList();
-        } catch (e) {
-            archives.shift();
-            document.getElementById('storage-error').innerText = "⚠️ 저장 공간 부족! 기존 자료를 삭제해주세요.";
-        }
-    };
-
-    // 💡 이미지 가이드: 문장 재생 및 트위터 복구
-    function renderList() {
-        const list = document.getElementById('archiveList');
-        list.innerHTML = '';
-        const filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
-
-        filtered.forEach(a => {
-            chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
-            const firstChunk = a.chunks[0];
-            const tweetText = encodeURIComponent(`"${firstChunk}"\n- ${a.source}\n#SentenceArchive`);
-            
-            list.innerHTML += `
-                <div class="card">
-                    <div class="card-header">
-                        <span style="color:#888;">${a.category}</span>
-                        <div>
-                            <button onclick="editArchive(${a.id})" style="background:none; border:none; cursor:pointer;">✏️</button>
-                            <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
-                        </div>
-                    </div>
-                    <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${a.source}</div>
-                    <div id="counter-${a.id}" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">[ 1 / ${a.chunks.length} ]</div>
-                    <div class="lyric-text" id="lyric-${a.id}">${firstChunk}</div>
-                    <div class="btn-box">
-                        <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
-                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
-                    </div>
-                </div>`;
-        });
-    }
-
-    window.nextChunk = function(id) {
-        let state = chunkState[id];
-        if(!state || state.max <= 1) return;
-        state.index = (state.index + 1) % state.max;
-        const currentText = state.chunks[state.index];
-        document.getElementById(`lyric-${id}`).innerText = currentText;
-        document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
-        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText + "\n- " + state.source)}`;
-    };
-
-    window.editArchive = function(id) {
-        const item = archives.find(a => a.id == id);
-        if(!item) return;
-        currentEditId = item.id;
-        document.getElementById('new-category').value = item.category;
-        document.getElementById('new-source').value = item.source;
-        document.getElementById('new-quote').value = item.chunks.join('\n\n');
-        document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
-        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
-    };
-
-    window.deleteItem = function(id) {
-        if(confirm("삭제하시겠습니까?")) {
-            archives = archives.filter(a => a.id !== id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(archives));
-            renderList();
-        }
-    };
-
-    window.showMainCategory = function(cat, btn) {
-        document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = cat;
-        renderList();
-    };
-
-    window.onload = init;
-</script>
-</body>
-</html>
+너무 쉽겐 오지 마 
+재미없잖아 이제 넌 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+벗어날 수 없어 Ooh ooh 
+(Oh-eh-oh-eh-oh)
+내겐 쉽지 Bad boy down

@@ -3,33 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive - Unlimited Storage</title>
+    <title>Sentence Archive - Full Version</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
         :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
+        html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
-        header { padding: 40px 20px; text-align: center; }
-        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
-        .category-menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 20px; }
-        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 10px 20px; cursor: pointer; border-radius: 20px; font-family: 'Cinzel', serif; transition: 0.3s; }
+        header { padding: 40px 20px 10px; text-align: center; }
+        h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
+        
+        .category-menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 15px; }
+        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 16px; border-radius: 20px; font-family: 'Cinzel', serif; font-size: 0.8rem; cursor: pointer; }
         .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
+
+        .search-container { max-width: 800px; margin: 0 auto 20px; padding: 0 20px; }
+        .search-wrapper { border: 1px solid var(--accent); background: #0a0a0a; display: flex; align-items: center; padding: 2px 15px; }
+        .search-input { background: transparent; border: none; color: #fff; width: 100%; padding: 12px; font-family: 'Noto Serif KR', serif; outline: none; }
+        .highlight { background-color: var(--accent); color: #000; font-weight: bold; padding: 0 2px; }
+
         .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
-        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 35px; margin-bottom: 50px; }
-        input, select, textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; margin-bottom: 20px; box-sizing: border-box; outline: none; }
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 18px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; width: 100%; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; margin-bottom: 30px; position: relative; }
-        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 15px; margin-bottom: 25px; }
-        .lyric-text { font-size: 1.15rem; line-height: 2.2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 25px; margin-bottom: 40px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 15px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
+        
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; margin-bottom: 25px; }
+        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 10px; margin-bottom: 20px; font-size: 0.8rem; }
+        .lyric-text { font-size: 1.1rem; line-height: 2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        
         .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
-        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 18px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
+        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 15px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
         .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>SENTENCE ARCHIVE</h1>
-</header>
+<header><h1>SENTENCE ARCHIVE</h1></header>
 
 <div class="category-menu">
     <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button>
@@ -38,9 +46,16 @@
     <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
 </div>
 
+<div class="search-container">
+    <div class="search-wrapper">
+        <span style="color:var(--accent); font-family:'Cinzel'; font-size:0.7rem; margin-right:10px;">SEARCH</span>
+        <input type="text" id="search-input" class="search-input" placeholder="키워드를 입력하세요..." oninput="handleSearch()">
+    </div>
+</div>
+
 <div class="main-container">
     <div class="write-board" id="writeBoard">
-        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel';">ADD RECORD (Unlimited)</h2>
+        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel'; font-size:1.1rem;">ADD RECORD</h2>
         <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
         <input type="text" id="new-source" placeholder="출처 (가수/제목)">
         <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
@@ -56,40 +71,35 @@
     let archives = [];
     let chunkState = {};
     let currentFilter = 'ALL';
+    let searchQuery = '';
     let currentEditId = null;
 
-    // 💡 IndexedDB 초기화 및 데이터 이사 로직
     async function initDB() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const request = indexedDB.open(DB_NAME, 1);
             request.onupgradeneeded = (e) => {
-                db = e.target.result;
-                if (!db.objectStoreNames.contains(STORE_NAME)) {
-                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                const database = e.target.result;
+                if (!database.objectStoreNames.contains(STORE_NAME)) {
+                    database.createObjectStore(STORE_NAME, { keyPath: 'id' });
                 }
             };
             request.onsuccess = async (e) => {
                 db = e.target.result;
-                await migrateFromLocalStorage(); // 기존 데이터 이사
+                await migrateFromLocalStorage();
                 await loadData();
                 resolve();
             };
-            request.onerror = (e) => reject(e.target.error);
         });
     }
 
-    // 💡 localStorage 자료를 IndexedDB로 안전하게 이동
     async function migrateFromLocalStorage() {
         const oldData = localStorage.getItem('sentence_archive_v4');
         if (oldData) {
             const parsed = JSON.parse(oldData);
             const tx = db.transaction(STORE_NAME, 'readwrite');
             const store = tx.objectStore(STORE_NAME);
-            for (const item of parsed) {
-                store.put(item);
-            }
-            localStorage.removeItem('sentence_archive_v4'); // 이사 완료 후 삭제
-            console.log("Migration complete!");
+            for (const item of parsed) { store.put(item); }
+            localStorage.removeItem('sentence_archive_v4');
         }
     }
 
@@ -118,19 +128,39 @@
 
         tx.oncomplete = () => {
             document.getElementById('new-quote').value = "";
+            document.getElementById('new-source').value = "";
             currentEditId = null;
             document.querySelector('.write-board h2').innerText = 'ADD RECORD';
             loadData();
         };
     };
 
+    function handleSearch() {
+        searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+        renderList();
+    }
+
+    function highlightText(text, query) {
+        if (!query) return text;
+        const re = new RegExp(`(${query})`, "gi");
+        return text.replace(re, `<span class="highlight">$1</span>`);
+    }
+
     function renderList() {
         const list = document.getElementById('archiveList');
         list.innerHTML = '';
-        const filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
+        let filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
+
+        if (searchQuery) {
+            filtered = filtered.filter(a => 
+                a.source.toLowerCase().includes(searchQuery) || 
+                a.chunks.some(chunk => chunk.toLowerCase().includes(searchQuery))
+            );
+        }
 
         filtered.forEach(a => {
             chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
+            const displaySource = highlightText(a.source, searchQuery);
             const firstChunk = a.chunks[0];
             const tweetText = encodeURIComponent(`"${firstChunk}"\n- ${a.source}\n#SentenceArchive`);
             
@@ -138,14 +168,14 @@
                 <div class="card">
                     <div class="card-header">
                         <span style="color:#888;">${a.category}</span>
-                        <div>
+                        <div style="display:flex; gap:10px;">
                             <button onclick="editArchive(${a.id})" style="background:none; border:none; cursor:pointer;">✏️</button>
                             <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
                         </div>
                     </div>
-                    <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${a.source}</div>
+                    <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${displaySource}</div>
                     <div id="counter-${a.id}" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">[ 1 / ${a.chunks.length} ]</div>
-                    <div class="lyric-text" id="lyric-${a.id}">${firstChunk}</div>
+                    <div class="lyric-text" id="lyric-${a.id}">${highlightText(firstChunk, searchQuery)}</div>
                     <div class="btn-box">
                         <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
                         <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
@@ -159,7 +189,7 @@
         if(!state || state.max <= 1) return;
         state.index = (state.index + 1) % state.max;
         const currentText = state.chunks[state.index];
-        document.getElementById(`lyric-${id}`).innerText = currentText;
+        document.getElementById(`lyric-${id}`).innerHTML = highlightText(currentText, searchQuery);
         document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
         document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText + "\n- " + state.source)}`;
     };

@@ -1,227 +1,212 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Archive - Full Version</title>
+    <title>AURA-GOL: Museum Infinity Extend</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400;700&display=swap');
-        :root { --bg: #0b0b0b; --card-bg: #141414; --text: #e0e0e0; --accent: #d4af37; --border: #333; }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; margin: 0; min-height: 100vh; }
-        header { padding: 40px 20px 10px; text-align: center; }
-        h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; letter-spacing: 5px; color: var(--accent); margin: 0; }
-        
-        .category-menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 15px; }
-        .tag-btn { background: transparent; border: 1px solid var(--border); color: #888; padding: 8px 16px; border-radius: 20px; font-family: 'Cinzel', serif; font-size: 0.8rem; cursor: pointer; }
-        .tag-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+KR:wght@300;400&display=swap');
+        * { box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 
-        .search-container { max-width: 800px; margin: 0 auto 20px; padding: 0 20px; }
-        .search-wrapper { border: 1px solid var(--accent); background: #0a0a0a; display: flex; align-items: center; padding: 2px 15px; }
-        .search-input { background: transparent; border: none; color: #fff; width: 100%; padding: 12px; font-family: 'Noto Serif KR', serif; outline: none; }
-        .highlight { background-color: var(--accent); color: #000; font-weight: bold; padding: 0 2px; }
+        body {
+            margin: 0; padding: 0; min-height: 100vh;
+            font-family: 'Cinzel', serif;
+            background: #000 fixed center/cover no-repeat;
+            background-image: url('https://images.unsplash.com/photo-1516478950587-8d076cd771ad?q=80&w=2070');
+            overflow-x: hidden; display: flex; flex-direction: column; align-items: center;
+        }
 
-        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
-        .write-board { background: var(--card-bg); border: 2px solid var(--accent); padding: 25px; margin-bottom: 40px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); background: #0a0a0a; color: #fff; font-family: 'Noto Serif KR', serif; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        .btn-submit { background: var(--accent); color: #000; border: none; width: 100%; padding: 15px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; }
+        .ghost-btn {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4); padding: 4px 10px; border-radius: 12px; font-size: 7px;
+            cursor: pointer; backdrop-filter: blur(5px); text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;
+        }
+        .ghost-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        .ghost-btn.active { border-color: rgba(255, 255, 255, 0.8); color: #fff; background: rgba(255, 255, 255, 0.15); }
+
+        .top-nav { position: fixed; top: 30px; display: flex; gap: 8px; z-index: 2000; }
+
+        .sliding-panel {
+            position: fixed; bottom: 0; width: 100%; height: 90vh;
+            background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(45px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1); border-radius: 40px 40px 0 0;
+            z-index: 500; display: flex; flex-direction: column; align-items: center;
+            transform: translateY(calc(100% - 70px)); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .sliding-panel.is-open { transform: translateY(0); }
+
+        .panel-handle { width: 100%; height: 70px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .handle-bar { width: 40px; height: 1px; background: rgba(255, 255, 255, 0.2); margin-bottom: 8px; }
+
+        /* [핵심] 미술관 앱 스타일: 카드 간격 넓힘 및 하단 완전 개방 */
+        .board-area { width: min(95vw, 550px); flex: 1; overflow-y: auto; padding: 40px 0 250px; display: flex; flex-direction: column; gap: 80px; }
         
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; margin-bottom: 25px; }
-        .card-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #444; padding-bottom: 10px; margin-bottom: 20px; font-size: 0.8rem; }
-        .lyric-text { font-size: 1.1rem; line-height: 2; text-align: center; font-style: italic; white-space: pre-wrap; color: #eee; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        
-        .btn-box { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
-        .btn-yellow { border: none; background: var(--accent); color: #000; padding: 15px; font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; }
-        .tw-btn { border: 1px solid #444; background: #000; color: #fff; padding: 15px; text-decoration: none; font-size: 0.85rem; text-align: center; font-family: 'Cinzel', serif; }
+        .shutter-card {
+            position: relative; width: 100%; min-height: 500px; height: auto;
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+
+        /* [핵심] 덮개: 미술관 앱처럼 넉넉한 여백(Padding) 적용 */
+        .shutter-cover {
+            position: relative; width: 100%; height: auto; min-height: 500px;
+            background: rgba(30, 30, 30, 0.98); backdrop-filter: blur(25px); z-index: 20;
+            padding: 45px 40px; display: flex; flex-direction: column; justify-content: flex-start;
+            border-right: 1px solid rgba(255, 255, 255, 0.1); transition: transform 0.8s ease;
+        }
+        .shutter-card.open .shutter-cover { transform: translateX(100%); position: relative; }
+
+        .desc-container { position: relative; margin-top: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .desc-text { 
+            color: rgba(255, 255, 255, 0.5); font-size: 12px; line-height: 2; 
+            font-family: 'Noto Serif KR'; outline: none; 
+            max-height: none !important; overflow: visible !important;
+            text-align: left;
+        }
+
+        /* 안쪽 미디어 관리창 */
+        .media-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; display: flex; flex-direction: column; }
+        .media-display { width: 100%; height: 350px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .media-display video, .media-display img { width: 100%; height: 100%; object-fit: cover; }
+        .media-inner-nav { width: 100%; flex-grow: 1; min-height: 100px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        .faint-white { color: rgba(255, 255, 255, 0.3); font-size: 8px; letter-spacing: 3px; text-transform: uppercase; font-weight: bold; }
+        input[type="file"] { display: none; }
+
+        /* 상단 음악 및 제어 바 */
+        .top-control-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
 
-<header><h1>SENTENCE ARCHIVE</h1></header>
-
-<div class="category-menu">
-    <button class="tag-btn active" onclick="showMainCategory('ALL', this)">ALL</button>
-    <button class="tag-btn" onclick="showMainCategory('MUSIC', this)">MUSIC</button>
-    <button class="tag-btn" onclick="showMainCategory('LITERATURE', this)">LITERATURE</button>
-    <button class="tag-btn" onclick="showMainCategory('BIBLE', this)">BIBLE</button>
-</div>
-
-<div class="search-container">
-    <div class="search-wrapper">
-        <span style="color:var(--accent); font-family:'Cinzel'; font-size:0.7rem; margin-right:10px;">SEARCH</span>
-        <input type="text" id="search-input" class="search-input" placeholder="키워드를 입력하세요..." oninput="handleSearch()">
+    <div class="top-nav">
+        <label class="ghost-btn">EDIT BG<input type="file" id="bgIn" accept="image/*"></label>
+        <button class="ghost-btn" onclick="deleteBG()">DEL BG</button>
+        <button class="ghost-btn" id="bgFixBtn" onclick="toggleBGFix()">FIX BG: ON</button>
     </div>
-</div>
 
-<div class="main-container">
-    <div class="write-board" id="writeBoard">
-        <h2 style="text-align:center; color:var(--accent); font-family:'Cinzel'; font-size:1.1rem;">ADD RECORD</h2>
-        <select id="new-category"><option value="MUSIC">MUSIC</option><option value="LITERATURE">LITERATURE</option><option value="BIBLE">BIBLE</option></select>
-        <input type="text" id="new-source" placeholder="출처 (가수/제목)">
-        <textarea id="new-quote" placeholder="문장을 입력하세요. (엔터 두 번으로 구분)"></textarea>
-        <button class="btn-submit" onclick="handleSaveNew()">SAVE TO ARCHIVE</button>
+    <div class="sliding-panel" id="mainPanel">
+        <div class="panel-handle" onclick="togglePanel()">
+            <div class="handle-bar"></div>
+            <span class="faint-white">ARCHIVE</span>
+        </div>
+        <div class="board-area" id="boardList"></div>
+        <div style="width: 100%; height: 120px; display: flex; align-items: center; justify-content: center;">
+            <button class="ghost-btn" style="padding: 12px 50px; font-size: 10px;" onclick="addNewCard()">+ NEW ARCHIVE</button>
+        </div>
     </div>
-    <div id="archiveList"></div>
-</div>
 
-<script>
-    const DB_NAME = 'SentenceDB';
-    const STORE_NAME = 'sentences';
-    let db;
-    let archives = [];
-    let chunkState = {};
-    let currentFilter = 'ALL';
-    let searchQuery = '';
-    let currentEditId = null;
+    <script>
+        let db, cardIDs = [], currentAudio = null;
+        const dbName = "AuraGolMuseumInfinityFinalDB";
+        const request = indexedDB.open(dbName, 1);
 
-    async function initDB() {
-        return new Promise((resolve) => {
-            const request = indexedDB.open(DB_NAME, 1);
-            request.onupgradeneeded = (e) => {
-                const database = e.target.result;
-                if (!database.objectStoreNames.contains(STORE_NAME)) {
-                    database.createObjectStore(STORE_NAME, { keyPath: 'id' });
-                }
-            };
-            request.onsuccess = async (e) => {
-                db = e.target.result;
-                await migrateFromLocalStorage();
-                await loadData();
-                resolve();
-            };
-        });
-    }
-
-    async function migrateFromLocalStorage() {
-        const oldData = localStorage.getItem('sentence_archive_v4');
-        if (oldData) {
-            const parsed = JSON.parse(oldData);
-            const tx = db.transaction(STORE_NAME, 'readwrite');
-            const store = tx.objectStore(STORE_NAME);
-            for (const item of parsed) { store.put(item); }
-            localStorage.removeItem('sentence_archive_v4');
-        }
-    }
-
-    async function loadData() {
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const request = store.getAll();
-        request.onsuccess = () => {
-            archives = request.result.sort((a, b) => b.id - a.id);
-            renderList();
+        request.onupgradeneeded = e => {
+            db = e.target.result;
+            db.createObjectStore("slots", { keyPath: "id" });
+            db.createObjectStore("settings", { keyPath: "id" });
         };
-    }
+        request.onsuccess = e => { db = e.target.result; loadData(); };
 
-    window.handleSaveNew = async function() {
-        const source = document.getElementById('new-source').value;
-        const quote = document.getElementById('new-quote').value;
-        const category = document.getElementById('new-category').value;
-        if (!quote.trim()) return alert("내용을 입력해주세요.");
+        async function saveData(store, data) { const tx = db.transaction(store, "readwrite"); tx.objectStore(store).put(data); }
+        async function getData(store, id) { return new Promise(res => { const tx = db.transaction(store, "readonly"); const req = tx.objectStore(store).get(id); req.onsuccess = () => res(req.result); }); }
 
-        const chunkArray = quote.split(/\n\s*\n/).filter(c => c.trim() !== '');
-        const newData = { id: currentEditId || Date.now(), category, source, chunks: chunkArray };
-
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        const store = tx.objectStore(STORE_NAME);
-        store.put(newData);
-
-        tx.oncomplete = () => {
-            document.getElementById('new-quote').value = "";
-            document.getElementById('new-source').value = "";
-            currentEditId = null;
-            document.querySelector('.write-board h2').innerText = 'ADD RECORD';
-            loadData();
-        };
-    };
-
-    function handleSearch() {
-        searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
-        renderList();
-    }
-
-    function highlightText(text, query) {
-        if (!query) return text;
-        const re = new RegExp(`(${query})`, "gi");
-        return text.replace(re, `<span class="highlight">$1</span>`);
-    }
-
-    function renderList() {
-        const list = document.getElementById('archiveList');
-        list.innerHTML = '';
-        let filtered = currentFilter === 'ALL' ? archives : archives.filter(a => a.category === currentFilter);
-
-        if (searchQuery) {
-            filtered = filtered.filter(a => 
-                a.source.toLowerCase().includes(searchQuery) || 
-                a.chunks.some(chunk => chunk.toLowerCase().includes(searchQuery))
-            );
+        async function loadData() {
+            const bg = await getData("settings", "bg");
+            if(bg && bg.file) document.body.style.backgroundImage = `url(${URL.createObjectURL(bg.file)})`;
+            const tx = db.transaction("slots", "readonly");
+            tx.objectStore("slots").openCursor().onsuccess = e => {
+                const cursor = e.target.result;
+                if(cursor) { renderCard(cursor.value); cardIDs.push(cursor.value.id); cursor.continue(); }
+                else if (cardCount === 0) addNewCard();
+            };
         }
 
-        filtered.forEach(a => {
-            chunkState[a.id] = { index: 0, max: a.chunks.length, source: a.source, chunks: a.chunks };
-            const displaySource = highlightText(a.source, searchQuery);
-            const firstChunk = a.chunks[0];
-            const tweetText = encodeURIComponent(`"${firstChunk}"\n- ${a.source}\n#SentenceArchive`);
-            
-            list.innerHTML += `
-                <div class="card">
-                    <div class="card-header">
-                        <span style="color:#888;">${a.category}</span>
-                        <div style="display:flex; gap:10px;">
-                            <button onclick="editArchive(${a.id})" style="background:none; border:none; cursor:pointer;">✏️</button>
-                            <button onclick="deleteItem(${a.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
+        function renderCard(data) {
+            const list = document.getElementById('boardList');
+            const card = document.createElement('div');
+            card.className = 'shutter-card';
+            card.id = `card-${data.id}`;
+            const mediaUrl = data.media ? URL.createObjectURL(data.media) : null;
+            const audioUrl = data.audio ? URL.createObjectURL(data.audio) : null;
+
+            card.innerHTML = `
+                <div class="media-back">
+                    <div class="media-display" onclick="triggerUp(${data.id}, 'media')">
+                        ${data.media ? (data.media.type.startsWith('video') ? `<video src="${mediaUrl}" autoplay loop muted></video>` : `<img src="${mediaUrl}">`) : `<p style="color:rgba(255,255,255,0.1); font-size:7px;">ADD MEDIA</p>`}
+                    </div>
+                    <div class="media-inner-nav">
+                        <button class="ghost-btn" onclick="toggleShutter(${data.id})">CLOSE</button>
+                        <button class="ghost-btn" onclick="triggerUp(${data.id}, 'media')">EDIT</button>
+                        <button class="ghost-btn fix-media ${data.fixed.media ? 'active' : ''}" onclick="fixElement(${data.id}, 'media')">FIX MEDIA</button>
+                        <button class="ghost-btn" style="color:rgba(255,100,100,0.3);" onclick="deleteCard(${data.id})">DEL SLOT</button>
+                    </div>
+                </div>
+                <div class="shutter-cover">
+                    <div class="top-control-bar">
+                        <button class="ghost-btn" style="font-size:6px;" onclick="triggerUp(${data.id}, 'audio')">SET MUSIC</button>
+                        <button class="ghost-btn" style="font-size:6px;" id="play-${data.id}" onclick="togglePlay(${data.id})">PLAY</button>
+                        <button class="ghost-btn fix-audio ${data.fixed.audio ? 'active' : ''}" style="font-size:6px;" onclick="fixElement(${data.id}, 'audio')">FIX MUSIC</button>
+                        <button class="ghost-btn" style="color:rgba(255,100,100,0.3); font-size:6px;" onclick="deleteAudio(${data.id})">DEL MUSIC</button>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="faint-white">#${String(data.id).padStart(2, '0')} ARCHIVE</span>
+                        <div style="display: flex; gap: 5px;">
+                            <button class="ghost-btn" style="font-size: 5px;" onclick="document.getElementById('text-${data.id}').focus()">EDIT TEXT</button>
+                            <button class="ghost-btn" style="font-size: 5px;" onclick="clearText(${data.id})">CLEAR</button>
+                            <button class="ghost-btn fix-text ${data.fixed.text ? 'active' : ''}" style="font-size: 5px;" onclick="fixElement(${data.id}, 'text')">FIX TEXT</button>
+                            <button class="ghost-btn" style="font-size: 5px;" onclick="toggleShutter(${data.id})">OPEN VIEW</button>
                         </div>
                     </div>
-                    <div style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:10px;">${displaySource}</div>
-                    <div id="counter-${a.id}" style="text-align:center; font-size:0.8rem; color:#666; margin-bottom:15px;">[ 1 / ${a.chunks.length} ]</div>
-                    <div class="lyric-text" id="lyric-${a.id}">${highlightText(firstChunk, searchQuery)}</div>
-                    <div class="btn-box">
-                        <button class="btn-yellow" onclick="nextChunk(${a.id})">NEXT SENTENCE</button>
-                        <a id="tw-${a.id}" href="https://twitter.com/intent/tweet?text=${tweetText}" target="_blank" class="tw-btn">𝕏 POST TO TWITTER</a>
+
+                    <div class="desc-container">
+                        <div class="desc-text" id="text-${data.id}" contenteditable="true">${data.text}</div>
                     </div>
-                </div>`;
-        });
-    }
+                </div>
+            `;
+            list.appendChild(card);
 
-    window.nextChunk = function(id) {
-        let state = chunkState[id];
-        if(!state || state.max <= 1) return;
-        state.index = (state.index + 1) % state.max;
-        const currentText = state.chunks[state.index];
-        document.getElementById(`lyric-${id}`).innerHTML = highlightText(currentText, searchQuery);
-        document.getElementById(`counter-${id}`).innerText = `[ ${state.index + 1} / ${state.max} ]`;
-        document.getElementById(`tw-${id}`).href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(currentText + "\n- " + state.source)}`;
-    };
-
-    window.editArchive = function(id) {
-        const item = archives.find(a => a.id == id);
-        if(!item) return;
-        currentEditId = item.id;
-        document.getElementById('new-category').value = item.category;
-        document.getElementById('new-source').value = item.source;
-        document.getElementById('new-quote').value = item.chunks.join('\n\n');
-        document.querySelector('.write-board h2').innerText = 'EDIT RECORD';
-        document.getElementById('writeBoard').scrollIntoView({ behavior: 'smooth' });
-    };
-
-    window.deleteItem = function(id) {
-        if(confirm("삭제하시겠습니까?")) {
-            const tx = db.transaction(STORE_NAME, 'readwrite');
-            const store = tx.objectStore(STORE_NAME);
-            store.delete(id);
-            tx.oncomplete = () => loadData();
+            const txt = document.getElementById(`text-${data.id}`);
+            txt.oninput = async () => {
+                const dataObj = await getData("slots", data.id);
+                dataObj.text = txt.innerText;
+                await saveData("slots", dataObj);
+            };
         }
-    };
 
-    window.showMainCategory = function(cat, btn) {
-        document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = cat;
-        renderList();
-    };
+        async function triggerUp(id, type) {
+            const input = document.createElement('input'); input.type = 'file'; input.accept = type === 'media' ? 'image/*,video/*' : 'audio/*';
+            input.onchange = async e => {
+                const f = e.target.files[0]; if(!f) return;
+                const data = await getData("slots", id); data[type] = f; await saveData("slots", data);
+                const url = URL.createObjectURL(f);
+                if(type === 'media') { document.querySelector(`#card-${id} .media-display`).innerHTML = f.type.startsWith('video') ? `<video src="${url}" autoplay loop muted></video>` : `<img src="${url}">`; }
+                else { document.getElementById(`player-${id}`).src = url; }
+            };
+            input.click();
+        }
 
-    window.onload = initDB;
-</script>
+        function togglePlay(id) {
+            const p = document.getElementById(`player-${id}`); const b = document.getElementById(`play-${id}`);
+            if(!p.src || p.src.includes('undefined')) return alert("Set music first.");
+            if(currentAudio && currentAudio !== p) { currentAudio.pause(); const oldBtn = document.getElementById(currentAudio.id.replace('player-', 'play-')); if(oldBtn) oldBtn.innerText = "PLAY"; }
+            if(p.paused) { p.play(); currentAudio = p; b.innerText = "PAUSE"; } else { p.pause(); b.innerText = "PLAY"; currentAudio = null; }
+        }
+
+        async function fixElement(id, type) { const data = await getData("slots", id); const btn = document.querySelector(`#card-${id} .fix-${type}`); btn.classList.toggle('active'); data.fixed[type] = btn.classList.contains('active'); if(type==='text') data.text = document.getElementById('text-'+id).innerText; await saveData("slots", data); }
+        async function deleteAudio(id) { if(confirm("Delete music?")) { const d = await getData("slots", id); d.audio = null; d.fixed.audio = false; await saveData("slots", d); document.getElementById(`player-${id}`).src = ""; document.querySelector(`#card-${id} .fix-audio`).classList.remove('active'); } }
+        async function deleteCard(id) { if(confirm("Delete slot?")) { const tx = db.transaction("slots", "readwrite"); tx.objectStore("slots").delete(id); document.getElementById(`card-${id}`).remove(); cardIDs = cardIDs.filter(x => x !== id); } }
+        function addNewCard() { const newId = cardIDs.length > 0 ? Math.max(...cardIDs) + 1 : 1; cardIDs.push(newId); const data = { id: newId, text: "Write your insight...", fixed: {} }; saveData("slots", data); renderCard(data); }
+        function togglePanel() { document.getElementById('mainPanel').classList.toggle('is-open'); }
+        function toggleShutter(id) { document.getElementById(`card-${id}`).classList.toggle('open'); }
+        document.getElementById('bgIn').onchange = async e => { const f = e.target.files[0]; if(f) { await saveData("settings", { id: "bg", file: f }); location.reload(); } };
+        async function deleteBG() { if(confirm("Clear BG?")) { const tx = db.transaction("settings", "readwrite"); tx.objectStore("settings").delete("bg"); location.reload(); } }
+        function toggleBGFix() { isBGFixed = !isBGFixed; document.body.style.backgroundAttachment = isBGFixed ? "fixed" : "scroll"; document.getElementById('bgFixBtn').innerText = isBGFixed ? "FIX BG: ON" : "FIX BG: OFF"; }
+        async function clearText(id) { if(confirm("Clear text?")) { document.getElementById(`text-${id}`).innerText = ""; const d = await getData("slots", id); d.text = ""; await saveData("slots", d); } }
+    </script>
 </body>
 </html>
